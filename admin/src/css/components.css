@@ -2,3 +2,15 @@ a {
   color: #0da9ef;
   text-decoration: none !important;
 }
+.avatar {
+  height: 10em;
+  background: red;
+  background-size: cover;
+  background-position: center;
+  width: 10em;
+  border-radius: 50%;
+}
+.tableOfData table tr {
+  border-bottom: 1px solid grey !important;
+  /* margin: 0.4em; */
+}
