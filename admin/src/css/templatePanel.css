@@ -81,6 +81,7 @@
 }
 .cardTemplate .title-cardTemplate {
   width: 100%;
+  position: relative;
   height: 50px;
   border-bottom: 1px solid #5454544f;
 }
