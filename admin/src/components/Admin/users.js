@@ -43,12 +43,19 @@ const Users = () => {
       console.log(password);
     } else {
       await api
-        .get("/verififcationPassword")
+        .get("/verififcationPassword", { password: password })
         .then((response) => {
           if (response.status === 200) {
             api
-              .post("/deleteUser/127")
-              .then((response) => {})
+              .post("/deleteUser/" + idDelete)
+              .then((response) => {
+                PasswordValidClose();
+                const newusersList = users.filter((user) => {
+                  return user.id !== idDelete;
+                });
+
+                setUsers(newusersList);
+              })
               .catch((err) => {
                 seterrorValidationPassword("Incorrect Password");
                 console.log(err);
@@ -67,14 +74,6 @@ const Users = () => {
     seterrorValidationPassword("");
     setPassword(val.target.value);
   }
-  const deleteUser = async (id) => {
-    await api.delete(`/contacts/${id}`);
-    const newusersList = users.filter((user) => {
-      return user.id !== id;
-    });
-
-    setUsers(newusersList);
-  };
 
   const [show, setModifyShow] = useState(false);
   const ConsultClose = () => setModifyShow(false);
@@ -86,7 +85,11 @@ const Users = () => {
 
   const [showDelete, setDeleteShow] = useState(false);
   const DeleteClose = () => setDeleteShow(false);
-  const DeleteShow = () => setDeleteShow(true);
+  const [idDelete, setIdDelete] = useState(0);
+  const DeleteShow = (id) => {
+    setDeleteShow(true);
+    setIdDelete(id);
+  };
   return (
     <div>
       <nav aria-label="breadcrumb">
@@ -153,7 +156,12 @@ const Users = () => {
                         >
                           <BiPlayCircle />
                         </div>
-                        <div className="action" onClick={DeleteShow}>
+                        <div
+                          className="action"
+                          onClick={() => {
+                            DeleteShow(item.id);
+                          }}
+                        >
                           <BiTrashAlt />
                         </div>
                       </div>
