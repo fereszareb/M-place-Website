@@ -6,6 +6,10 @@ import { Modal, Button } from "react-bootstrap";
 import api from "./../../config.service";
 
 const Users = () => {
+  //errer validation password
+  const [errorValidationPassword, seterrorValidationPassword] = useState("");
+  //password input
+  const [password, setPassword] = useState("");
   //begin api getAll
   const [users, setUsers] = useState([]);
   const [userConsult, setUserConsult] = useState({});
@@ -28,6 +32,49 @@ const Users = () => {
     setUserConsult(users.find((user) => user.id === id));
     ConsultShow();
   }
+
+  //function verification password
+  const verificationPassword = async () => {
+    if (password.length === 0) {
+      seterrorValidationPassword("Enter your Password");
+      console.log(password);
+    } else if (password.length < 8) {
+      seterrorValidationPassword("Password should be at list 8 caractere");
+      console.log(password);
+    } else {
+      await api
+        .get("/verififcationPassword")
+        .then((response) => {
+          if (response.status === 200) {
+            api
+              .post("/deleteUser/127")
+              .then((response) => {})
+              .catch((err) => {
+                seterrorValidationPassword("Incorrect Password");
+                console.log(err);
+              });
+          } else if (response.status === 204) {
+          }
+        })
+        .catch((err) => {
+          seterrorValidationPassword("erreru");
+          console.log(password);
+          console.log(err);
+        });
+    }
+  };
+  function getPassword(val) {
+    seterrorValidationPassword("");
+    setPassword(val.target.value);
+  }
+  const deleteUser = async (id) => {
+    await api.delete(`/contacts/${id}`);
+    const newusersList = users.filter((user) => {
+      return user.id !== id;
+    });
+
+    setUsers(newusersList);
+  };
 
   const [show, setModifyShow] = useState(false);
   const ConsultClose = () => setModifyShow(false);
@@ -191,14 +238,21 @@ const Users = () => {
         <Modal.Header closeButton>
           <Modal.Title>Confiramation Of password</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <input type="password" placeholder="Enter Your Password" />
+        <Modal.Body className="validationPassword">
+          <input
+            type="password"
+            placeholder="Enter Your Password"
+            onChange={getPassword}
+          />
+          <p className="messageError">{errorValidationPassword}</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={PasswordValidClose}>
-            No
+            Cancel
           </Button>
-          <Button variant="danger">Yes</Button>
+          <Button variant="danger" onClick={verificationPassword}>
+            Confirm
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>
