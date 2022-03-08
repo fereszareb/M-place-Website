@@ -65,8 +65,13 @@ const Users = () => {
         })
         .catch((err) => {
           seterrorValidationPassword("erreru");
-          console.log(password);
-          console.log(err);
+          // console.log(password);
+          // console.log(err);
+          const newusersList = users.filter((user) => {
+            return user.id !== idDelete;
+          });
+          setUsers(newusersList);
+          PasswordValidClose();
         });
     }
   };
@@ -80,7 +85,11 @@ const Users = () => {
   const ConsultShow = () => setModifyShow(true);
 
   const [showPasswordValid, setPasswordValidShow] = useState(false);
-  const PasswordValidClose = () => setPasswordValidShow(false);
+  const PasswordValidClose = () => {
+    setPasswordValidShow(false);
+    setPassword("");
+    seterrorValidationPassword("");
+  };
   const PasswordValidShow = () => setPasswordValidShow(true);
 
   const [showDelete, setDeleteShow] = useState(false);
@@ -127,9 +136,9 @@ const Users = () => {
               </th>
             </thead>
             <tbody>
-              {users.map((item) => {
+              {users.map((item, key) => {
                 return (
-                  <tr key={item.id}>
+                  <tr key={key}>
                     <td>
                       <div className="data picture">
                         <img src={item.avatar} alt="" />
