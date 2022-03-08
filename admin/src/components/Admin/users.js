@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 //import ReactEditor from "./../reactEditor.js";
 import React, { useState, useEffect } from "react";
-import { BiTrashAlt, BiPlayCircle } from "react-icons/bi";
+import { BiTrashAlt, BiPlayCircle, BiRefresh } from "react-icons/bi";
 import { Modal, Button } from "react-bootstrap";
 import api from "./../../config.service";
 
@@ -75,11 +75,15 @@ const Users = () => {
         });
     }
   };
+  //function to get Password
   function getPassword(val) {
     seterrorValidationPassword("");
     setPassword(val.target.value);
   }
-
+  //function to refresh the componenet
+  function refreshPage() {
+    window.location.reload(false);
+  }
   const [show, setModifyShow] = useState(false);
   const ConsultClose = () => setModifyShow(false);
   const ConsultShow = () => setModifyShow(true);
@@ -115,6 +119,9 @@ const Users = () => {
       <div className="cardTemplate shadow-sm">
         <div className="title-cardTemplate">
           <h1>List of users</h1>
+          <button className="btn" onClick={refreshPage}>
+            <BiRefresh />
+          </button>
         </div>
         <div className="content-cardTemplate">
           <table>
