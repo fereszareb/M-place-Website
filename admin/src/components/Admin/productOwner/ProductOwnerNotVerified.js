@@ -25,7 +25,7 @@ const ProductOwnerNotVerified = () => {
   const [POToDetails, setPOToDetails] = useState(0);
 
   //data of modal detils
-  const [dataDetails, setDataDetails] = useState({
+  const [POConsult, setPOConsult] = useState({
     id: 2121212,
     name: "lenovo",
     logo: "https://logo.clearbit.com/lenovo.com",
@@ -33,16 +33,9 @@ const ProductOwnerNotVerified = () => {
     date: "12-05-2021 17:33:15",
     email: "contact@lenovo.com",
   });
-  function ChargeDataDetails(id) {
-    //import data with api
-    setDataDetails({
-      id: id,
-      name: "chanel",
-      logo: "https://logo.clearbit.com/chanel.com",
-      pack: 2,
-      date: "06-01-2022 17:33:15",
-      email: "marketing@chanel.com",
-    });
+  // function find user
+  function findUPO(id) {
+    setPOConsult(POs.find((user) => user.id === id));
     DetailsShow();
   }
   function RefusePO() {
@@ -91,7 +84,6 @@ const ProductOwnerNotVerified = () => {
 
   //begin api getAll
   const [POs, setPOs] = useState([]);
-  const [POConsult, setPOConsult] = useState({});
   const retrievePO = async () => {
     const response = await api.get("/random_user?size=20");
     return response.data;
@@ -177,7 +169,7 @@ const ProductOwnerNotVerified = () => {
                         <div
                           className="action"
                           onClick={() => {
-                            ChargeDataDetails(PO.id);
+                            findUPO(PO.id);
                           }}
                         >
                           <BiPlayCircle />
@@ -222,26 +214,26 @@ const ProductOwnerNotVerified = () => {
           <table className="w-100">
             <tr>
               <td>ID</td>
-              <td>{dataDetails.id}</td>
+              <td>{POConsult.id}</td>
             </tr>
             <tr>
               <td>Logo</td>
               <td>
                 <img
-                  src={dataDetails.logo}
-                  alt={dataDetails.name}
+                  src={POConsult.logo}
+                  alt={POConsult.name}
                   draggable="false"
                 />
               </td>
             </tr>
             <tr>
               <td>Name</td>
-              <td>{dataDetails.name}</td>
+              <td>{POConsult.name}</td>
             </tr>
             <tr>
               <td>Email</td>
-              <td>{dataDetails.email}</td>
-            </tr>{" "}
+              <td>{POConsult.email}</td>
+            </tr>
           </table>
         </Modal.Body>
         <Modal.Footer>
