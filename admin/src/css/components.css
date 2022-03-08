@@ -14,3 +14,14 @@ a {
   border-bottom: 1px solid grey !important;
   /* margin: 0.4em; */
 }
+.validationPassword input[type="password"] {
+  width: 100%;
+  border: 1px solid #8b8b8b61;
+  border-radius: 3px;
+  padding: 0.5em;
+}
+.messageError {
+  color: red;
+  text-transform: capitalize;
+  margin: 0.5em 0.3em;
+}
