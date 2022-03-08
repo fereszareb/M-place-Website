@@ -3,7 +3,7 @@ import { useState } from "react";
 import { BiTrashAlt, BiPlayCircle, BiEdit } from "react-icons/bi";
 import { Modal, Button } from "react-bootstrap";
 import pic from "./../../../meeting.jpg";
-const ProductOwnerDeleted = () => {
+const ProductOwnerBlocked = () => {
   const [show, setModifyShow] = useState(false);
   const [showDelete, setDeleteShow] = useState(false);
   const ModifyClose = () => setModifyShow(false);
@@ -20,7 +20,7 @@ const ProductOwnerDeleted = () => {
           </li>
           <li className="breadcrumb-item">Product Owner</li>
           <li className="breadcrumb-item active" aria-current="page">
-            Product Owner Deleted
+            Product Owner Blocked
           </li>
         </ol>
       </nav>
@@ -100,4 +100,4 @@ const ProductOwnerDeleted = () => {
   );
 };
 
-export default ProductOwnerDeleted;
+export default ProductOwnerBlocked;
