@@ -7,7 +7,7 @@ import Products from "./components/Admin/product";
 import Events from "./components/Admin/events";
 import DashboardAdmin from "./components/Admin/dashboard";
 import ProductOwnerNotVerified from "./components/Admin/productOwner/ProductOwnerNotVerified";
-import ProductOwnerDeleted from "./components/Admin/productOwner/ProductOwnerDeleted";
+import ProductOwnerBlocked from "./components/Admin/productOwner/ProductOwnerBlocked";
 import Messages from "./components/Admin/message";
 import Category from "./components/Admin/category";
 import Reports from "./components/Admin/report";
@@ -93,7 +93,7 @@ export default class Responsive extends Component {
                     [
                       "productOwner",
                       "productOwnerNotVerified",
-                      "productOwnerDeleted",
+                      "productOwnerBlocked",
                     ].includes(window.location.pathname.split("/")[1])
                       ? "item active"
                       : "item"
@@ -119,9 +119,9 @@ export default class Responsive extends Component {
                         </Link>
                       </li>
                       <li>
-                        <Link to="/admin/productOwnerDeleted">
+                        <Link to="/productOwnerBlocked">
                           <p>
-                            <BiSubdirectoryRight /> PO deleted
+                            <BiSubdirectoryRight /> PO blocked
                           </p>
                         </Link>
                       </li>
@@ -204,8 +204,8 @@ export default class Responsive extends Component {
                 <Route exact path="/productOwnerNotVerified">
                   <ProductOwnerNotVerified />
                 </Route>
-                <Route exact path="/productOwnerDeleted">
-                  <ProductOwnerDeleted />
+                <Route exact path="/productOwnerBlocked">
+                  <ProductOwnerBlocked />
                 </Route>
                 <Route exact path="/messages">
                   <Messages />
