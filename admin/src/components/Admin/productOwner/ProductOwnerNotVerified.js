@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BiXCircle, BiPlayCircle, BiCheckCircle } from "react-icons/bi";
 import { Modal, Button } from "react-bootstrap";
-import pic from "./../../../meeting.jpg";
+import api from "./../../../config.service";
 const ProductOwnerNotVerified = () => {
   //modal details
   const [showDetails, setDetailsShow] = useState(false);
@@ -88,32 +88,24 @@ const ProductOwnerNotVerified = () => {
       </td>
     );
   }
-  const [POs, setPOs] = useState([
-    {
-      id: 66666,
-      name: "lenovo",
-      logo: "https://logo.clearbit.com/lenovo.com",
-      pack: 2,
-      date: "12-05-2021 17:33:15",
-      email: "contact@lenovo.com",
-    },
-    {
-      id: 77777,
-      name: "apple",
-      logo: "https://logo.clearbit.com/apple.com",
-      pack: 1,
-      date: "03-08-2022 17:33:15",
-      email: "Admin@apple.com",
-    },
-    {
-      id: 88888,
-      name: "chanel",
-      logo: "https://logo.clearbit.com/chanel.com",
-      pack: 2,
-      date: "06-01-2022 17:33:15",
-      email: "marketing@chanel.com",
-    },
-  ]);
+
+  //begin api getAll
+  const [POs, setPOs] = useState([]);
+  const [POConsult, setPOConsult] = useState({});
+  const retrievePO = async () => {
+    const response = await api.get("/random_user?size=20");
+    return response.data;
+  };
+
+  useEffect(() => {
+    const getAllPO = async () => {
+      const allUsers = await retrievePO();
+      if (allUsers) setPOs(allUsers);
+    };
+    getAllPO();
+  }, []);
+  //end api getAll
+
   return (
     <div>
       <nav aria-label="breadcrumb">
@@ -161,11 +153,17 @@ const ProductOwnerNotVerified = () => {
                   <tr key={PO.id}>
                     <td>
                       <div className="data picture">
-                        <img src={PO.logo} alt={PO.name} draggable="false" />
+                        <img
+                          src={PO.avatar}
+                          alt={PO.first_name}
+                          draggable="false"
+                        />
                       </div>
                     </td>
                     <td>
-                      <div className="data">{PO.name}</div>
+                      <div className="data">
+                        {PO.first_name} {PO.last_name}
+                      </div>
                     </td>
                     <td>
                       <div className="data">{PO.email}</div>
