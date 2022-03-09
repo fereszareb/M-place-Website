@@ -29,14 +29,13 @@ const Register = () => {
       ...registerInfo,
       [e.target.name]: e.target.value,
     });
-    console.log(registerInfo);
   };
 
   const register = (e) => {
     e.preventDefault();
     axios
       .post(
-        "http://172.16.134.111:3000/api/v1/auth/Client/register",
+        "http://172.16.134.105:3000/api/v1/auth/Client/register",
         registerInfo,
         {
           withCredentials: true,
