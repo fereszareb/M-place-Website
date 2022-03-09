@@ -17,7 +17,6 @@ const Users = () => {
     const response = await api.get("/random_user?size=20");
     return response.data;
   };
-
   useEffect(() => {
     const getAllUsers = async () => {
       const allUsers = await retrieveUsers();
