@@ -33,7 +33,7 @@ const ProductOwnerNotVerified = () => {
   //data of modal detils
   const [POConsult, setPOConsult] = useState({});
   // function find PO
-  function findUPO(id) {
+  function findPO(id) {
     setPOConsult(POs.find((user) => user.id === id));
     DetailsShow();
   }
@@ -138,7 +138,7 @@ const ProductOwnerNotVerified = () => {
   //begin api getAll
   const [POs, setPOs] = useState([]);
   const retrievePO = async () => {
-    const response = await api.get("/random_user?size=20");
+    const response = await api.get("/POs");
     return response.data;
   };
 
@@ -222,7 +222,7 @@ const ProductOwnerNotVerified = () => {
                         <div
                           className="action"
                           onClick={() => {
-                            findUPO(PO.id);
+                            findPO(PO.id);
                           }}
                         >
                           <BiPlayCircle />
