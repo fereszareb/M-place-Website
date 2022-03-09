@@ -20,7 +20,6 @@ const Login = () => {
       ...loginInfo,
       [e.target.name]: e.target.value,
     });
-    console.log(loginInfo);
   };
   const [ErreurDisplay, setErreurDisplay] = useState("");
   const login = (e) => {
