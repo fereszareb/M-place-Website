@@ -31,3 +31,9 @@ a {
   right: 2%;
   font-size: 1.25em;
 }
+.item-Category {
+  background: grey;
+  width: 100%;
+  max-width: 250px;
+  padding: 0.1em;
+}
