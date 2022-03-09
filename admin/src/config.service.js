@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "https://random-data-api.com/api/users/",
+  baseURL: "http://172.16.134.105:3000/",
 });
