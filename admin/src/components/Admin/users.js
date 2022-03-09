@@ -14,7 +14,7 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [userConsult, setUserConsult] = useState({});
   const retrieveUsers = async () => {
-    const response = await api.get("/random_user?size=20");
+    const response = await api.get("/Client/Verified");
     return response.data;
   };
   useEffect(() => {
@@ -28,7 +28,7 @@ const Users = () => {
 
   // function find user
   function findUser(id) {
-    setUserConsult(users.find((user) => user.id === id));
+    setUserConsult(users.find((user) => user._id === id));
     ConsultShow();
   }
 
@@ -44,23 +44,20 @@ const Users = () => {
       await api
         .get("/verififcationPassword", { password: password })
         .then((response) => {
-          if (response.status === 200) {
-            api
-              .post("/deleteUser/" + idDelete)
-              .then((response) => {
-                PasswordValidClose();
-                const newusersList = users.filter((user) => {
-                  return user.id !== idDelete;
-                });
-
-                setUsers(newusersList);
-              })
-              .catch((err) => {
-                seterrorValidationPassword("Incorrect Password");
-                console.log(err);
+          api
+            .post("/deleteUser/" + idDelete)
+            .then((response) => {
+              PasswordValidClose();
+              const newusersList = users.filter((user) => {
+                return user.id !== idDelete;
               });
-          } else if (response.status === 204) {
-          }
+
+              setUsers(newusersList);
+            })
+            .catch((err) => {
+              seterrorValidationPassword("Incorrect Password");
+              console.log(err);
+            });
         })
         .catch((err) => {
           seterrorValidationPassword("erreru");
@@ -152,11 +149,11 @@ const Users = () => {
                     </td>
                     <td>
                       <div className="data">
-                        {item.first_name} {item.last_name}
+                        {item.name} {item.lastName}
                       </div>
                     </td>
                     <td>
-                      <div className="data">{item.phone_number}</div>
+                      <div className="data">{item.numTel}</div>
                     </td>
                     <td>
                       <div className="data">12-05-2021 17:33:15</div>
@@ -166,7 +163,7 @@ const Users = () => {
                         <div
                           className="action"
                           onClick={() => {
-                            findUser(item.id);
+                            findUser(item._id);
                           }}
                         >
                           <BiPlayCircle />
@@ -174,7 +171,7 @@ const Users = () => {
                         <div
                           className="action"
                           onClick={() => {
-                            DeleteShow(item.id);
+                            DeleteShow(item._id);
                           }}
                         >
                           <BiTrashAlt />
@@ -201,22 +198,30 @@ const Users = () => {
           <div className="w-100 text-center">
             <div
               className="avatar m-auto"
-              style={{ backgroundImage: "url(" + userConsult.avatar + ")" }}
+              /* style={{ backgroundImage: "url(" + userConsult.avatar + ")" }}*/
             ></div>
           </div>
           <div className="tableOfData mt-3">
             <table className="w-100">
               <tr>
                 <th>First Name :</th>
-                <td>{userConsult.first_name}</td>
+                <td>{userConsult.name}</td>
               </tr>
               <tr>
                 <th>Last Name :</th>
-                <td>{userConsult.last_name}</td>
+                <td>{userConsult.lastName}</td>
               </tr>
               <tr>
                 <th>Email :</th>
                 <td>{userConsult.email}</td>
+              </tr>
+              <tr>
+                <th>Phone Number :</th>
+                <td>{userConsult.numTel}</td>
+              </tr>
+              <tr>
+                <th>Adress :</th>
+                <td>{userConsult.location}</td>
               </tr>
             </table>
           </div>
