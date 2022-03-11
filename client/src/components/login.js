@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useHistory } from "react-router-dom";
 import "./../css/login.css";
 import logoDark from "./../logoDark.svg";
+import api from "./../config.service";
 import { Link } from "react-router-dom";
 
 const Login = () => {
@@ -24,7 +24,7 @@ const Login = () => {
   const [ErreurDisplay, setErreurDisplay] = useState("");
   const login = (e) => {
     e.preventDefault();
-    axios
+    api
       .post("http://172.16.134.104:3000/api/v1/auth/Client/login", loginInfo, {
         withCredentials: true,
       })
