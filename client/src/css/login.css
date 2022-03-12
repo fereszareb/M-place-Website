@@ -65,3 +65,14 @@
   opacity: 1;
   text-decoration: none;
 }
+.login .submitted {
+  max-width: 450px;
+  width: 90%;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 4px;
+  color: #505e6c;
+  text-align: center;
+  box-shadow: 1px 1px 5px rgb(0 0 0 / 10%);
+}
