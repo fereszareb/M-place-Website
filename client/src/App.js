@@ -11,7 +11,7 @@ import Erreur404 from "./components/404";
 import Product from "./components/product";
 import Category from "./components/category";
 import RegisterPO from "./components/registerPO/registerPO";
-import Template from "./components/Panel/components/template";
+import ForgetPassword from "./components/forgetPassword";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App() {
@@ -21,46 +21,15 @@ function App() {
         <Route exact path="/test">
           <RegisterPO />
         </Route>
-        <Route exact path="/admin/product">
-          <Template data={"product"} />
-        </Route>
-        <Route exact path="/admin/dashboard">
-          <Template data={"dashboard"} />
-        </Route>
-        <Route exact path="/admin/users">
-          <Template data={"users"} />
-        </Route>
-        <Route exact path="/admin/category">
-          <Template data={"category"} />
-        </Route>
-        <Route exact path="/admin/productOwner">
-          <Template data={"productOwner"} />
-        </Route>
-        <Route exact path="/admin/productOwnerNotVerified">
-          <Template data={"productOwnerNotVerified"} />
-        </Route>
-        <Route exact path="/admin/productOwnerDeleted">
-          <Template data={"productOwnerDeleted"} />
-        </Route>
-        <Route exact path="/admin/messages">
-          <Template data={"messages"} />
-        </Route>
-        <Route exact path="/admin/reports">
-          <Template data={"reports"} />
-        </Route>
-        <Route exact path="/admin/events">
-          <Template data={"events"} />
-        </Route>
-        <Route exact path="/admin/blogs">
-          <Template data={"blogs"} />
-        </Route>
         <Route exact path="/login">
           <Login />
         </Route>
         <Route exact path="/register">
           <Register />
         </Route>
-
+        <Route exact path="/forgetPassword">
+          <ForgetPassword />
+        </Route>
         <Route exact path="/">
           <Navbar />
           <Presentation />
