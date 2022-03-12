@@ -15,6 +15,7 @@ const Users = () => {
   const [userConsult, setUserConsult] = useState({});
   const retrieveUsers = async () => {
     const response = await api.get("/Client/Verified");
+    console.log(response.data);
     return response.data;
   };
   useEffect(() => {
@@ -30,6 +31,34 @@ const Users = () => {
   function findUser(id) {
     setUserConsult(users.find((user) => user._id === id));
     ConsultShow();
+  }
+  //Convert isoDate to normal date
+  function convertDate(isoDate) {
+    const date = new Date(isoDate);
+    const year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    var hour = date.getHours();
+    var minute = date.getMinutes();
+    var secandes = date.getSeconds();
+    if (day < 10) day = "0" + day;
+    if (month < 10) month = "0" + month;
+    if (hour < 10) hour = "0" + hour;
+    if (minute < 10) minute = "0" + minute;
+    if (secandes < 10) secandes = "0" + secandes;
+    return (
+      day +
+      "-" +
+      month +
+      "-" +
+      year +
+      " " +
+      hour +
+      ":" +
+      minute +
+      ":" +
+      secandes
+    );
   }
 
   //function verification password
@@ -123,7 +152,7 @@ const Users = () => {
           <table>
             <thead>
               <th>
-                <div className="data picture"></div>
+                <div className="data"></div>
               </th>
               <th>
                 <div className="data">Full name</div>
@@ -143,8 +172,13 @@ const Users = () => {
                 return (
                   <tr key={key}>
                     <td>
-                      <div className="data picture">
-                        <img src={item.avatar} alt="" />
+                      <div className="data">
+                        <div
+                          className="picture"
+                          style={{
+                            backgroundImage: "url(" + item.profile_img + ")",
+                          }}
+                        ></div>
                       </div>
                     </td>
                     <td>
@@ -156,7 +190,7 @@ const Users = () => {
                       <div className="data">{item.numTel}</div>
                     </td>
                     <td>
-                      <div className="data">12-05-2021 17:33:15</div>
+                      <div className="data">{convertDate(item.createdAt)}</div>
                     </td>
                     <td>
                       <div className="actions">
