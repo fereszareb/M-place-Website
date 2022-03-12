@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./../css/navbar.css";
@@ -220,7 +220,14 @@ function closeSideBar() {
   const sb = document.querySelector(".side-bar-categorie");
   sb.className = "side-bar-categorie shadow-lg";
 }
-
+function IsLoggin() {
+  if (localStorage.getItem("token") !== null) {
+    return true;
+    console.log(localStorage.getItem("token"));
+  } else {
+    return false;
+  }
+}
 const Navbar = () => {
   return (
     <div className="header">
@@ -352,12 +359,20 @@ const Navbar = () => {
                 </form>
               </div>
             </div>
-            <div className="col-200 userDetailsNavbar">
-              <FaUserAlt className="iconUser" />
-              <Link to="/login">Sign In</Link>/
-              <Link to="/register">Sign Up</Link>
-              <FaShoppingCart className="iconCart" />
-            </div>
+            {IsLoggin() ? (
+              <div className="col-200 userDetailsNavbar">
+                <FaUserAlt className="iconUser" />
+                <Link to="/profil">{localStorage.getItem("user")}</Link> |
+                <FaShoppingCart className="iconCart mx-2" />
+              </div>
+            ) : (
+              <div className="col-200 userDetailsNavbar">
+                <FaUserAlt className="iconUser" />
+                <Link to="/login">Sign In</Link>/
+                <Link to="/register">Sign Up</Link>
+                <FaShoppingCart className="iconCart" />
+              </div>
+            )}
           </div>
         </div>
       </nav>
