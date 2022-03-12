@@ -113,7 +113,11 @@
   margin: 0;
 }
 .picture {
-  width: 7em;
+  width: 4em;
+  height: 4em;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
 }
 .picture img {
   width: 100%;
