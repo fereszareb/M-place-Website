@@ -4,7 +4,6 @@ a {
 }
 .avatar {
   height: 10em;
-  background: red;
   background-size: cover;
   background-position: center;
   width: 10em;
@@ -32,8 +31,59 @@ a {
   font-size: 1.25em;
 }
 .item-Category {
-  background: grey;
+  position: relative;
+  font-weight: bold !important;
+}
+.item-CategoryPLus:after {
+  content: "\2212";
+  width: 35px;
+  font-size: 25px;
+  text-align: center;
+  left: 10px;
+  top: 9px;
+  position: absolute;
+}
+.item-CategoryPLus.collapsed:after {
+  content: "\002B";
+}
+.titleCtagory {
+  text-align: center;
+  padding: 1em 3em;
+  margin: 0;
+  width: calc(100% - 80px);
+}
+.icon {
+  margin: 5px 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.blue {
+  background: #023047;
+  color: #fff;
+}
+.orange {
+  background: #f68511;
+  color: #000;
+}
+.btn-add {
+  border: none;
+  padding: 0.4em 2em;
+  transition: 0.1s;
+  font-weight: 500;
+}
+.btn-add:hover {
+  background: #f68511;
+  color: #000;
+  font-weight: 500;
+}
+.w-category {
   width: 100%;
-  max-width: 250px;
-  padding: 0.1em;
+  max-width: 600px;
+}
+.loadingIcon {
+  height: 1rem;
+  width: 1rem;
+}
+.w-100px {
+  width: 100px !important;
 }
