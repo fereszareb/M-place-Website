@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 //import ReactEditor from "./../reactEditor.js";
 import React, { useState, useEffect } from "react";
 import { BiTrashAlt, BiPlayCircle, BiRefresh } from "react-icons/bi";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Spinner } from "react-bootstrap";
 import api from "./../../config.service";
-
+import convertDate from "./../../function";
 const Users = () => {
+  // loading icon activation
+  const [loading, setLoading] = useState(false);
   //errer validation password
   const [errorValidationPassword, seterrorValidationPassword] = useState("");
   //password input
@@ -14,8 +16,7 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [userConsult, setUserConsult] = useState({});
   const retrieveUsers = async () => {
-    const response = await api.get("/Client/Verified");
-    console.log(response.data);
+    const response = await api.get("/Clients");
     return response.data;
   };
   useEffect(() => {
@@ -32,73 +33,40 @@ const Users = () => {
     setUserConsult(users.find((user) => user._id === id));
     ConsultShow();
   }
-  //Convert isoDate to normal date
-  function convertDate(isoDate) {
-    const date = new Date(isoDate);
-    const year = date.getFullYear();
-    var month = date.getMonth() + 1;
-    var day = date.getDate();
-    var hour = date.getHours();
-    var minute = date.getMinutes();
-    var secandes = date.getSeconds();
-    if (day < 10) day = "0" + day;
-    if (month < 10) month = "0" + month;
-    if (hour < 10) hour = "0" + hour;
-    if (minute < 10) minute = "0" + minute;
-    if (secandes < 10) secandes = "0" + secandes;
-    return (
-      day +
-      "-" +
-      month +
-      "-" +
-      year +
-      " " +
-      hour +
-      ":" +
-      minute +
-      ":" +
-      secandes
-    );
-  }
 
   //function verification password
   const verificationPassword = async () => {
+    setLoading(true);
     if (password.length === 0) {
       seterrorValidationPassword("Enter your Password");
-      console.log(password);
     } else if (password.length < 8) {
       seterrorValidationPassword("Password should be at list 8 caractere");
-      console.log(password);
     } else {
       await api
-        .get("/verififcationPassword", { password: password })
+        .post("/api/v1/auth/Admin/verifyPassword", { password: password })
         .then((response) => {
-          api
-            .post("/deleteUser/" + idDelete)
-            .then((response) => {
-              PasswordValidClose();
-              const newusersList = users.filter((user) => {
-                return user.id !== idDelete;
+          if (response.data.message) {
+            api
+              .delete("/Client/" + idDelete)
+              .then((response) => {
+                PasswordValidClose();
+                const newusersList = users.filter((user) => {
+                  return user._id !== idDelete;
+                });
+                setUsers(newusersList);
+              })
+              .catch((err) => {
+                seterrorValidationPassword("Incorrect Password");
               });
-
-              setUsers(newusersList);
-            })
-            .catch((err) => {
-              seterrorValidationPassword("Incorrect Password");
-              console.log(err);
-            });
+          } else {
+            seterrorValidationPassword("Password incorrect!");
+          }
         })
         .catch((err) => {
-          seterrorValidationPassword("erreru");
-          // console.log(password);
-          // console.log(err);
-          const newusersList = users.filter((user) => {
-            return user.id !== idDelete;
-          });
-          setUsers(newusersList);
-          PasswordValidClose();
+          seterrorValidationPassword("Something Wrong!");
         });
     }
+    setLoading(false);
   };
   //function to get Password
   function getPassword(val) {
@@ -109,6 +77,7 @@ const Users = () => {
   function refreshPage() {
     window.location.reload(false);
   }
+  //varaiable de modal
   const [show, setModifyShow] = useState(false);
   const ConsultClose = () => setModifyShow(false);
   const ConsultShow = () => setModifyShow(true);
@@ -151,21 +120,23 @@ const Users = () => {
         <div className="content-cardTemplate">
           <table>
             <thead>
-              <th>
-                <div className="data"></div>
-              </th>
-              <th>
-                <div className="data">Full name</div>
-              </th>
-              <th>
-                <div className="data">Phone</div>
-              </th>
-              <th>
-                <div className="data">Creation date</div>
-              </th>
-              <th>
-                <div className="data">Actions</div>
-              </th>
+              <tr>
+                <th>
+                  <div className="data"></div>
+                </th>
+                <th>
+                  <div className="data">Full name</div>
+                </th>
+                <th>
+                  <div className="data">Phone</div>
+                </th>
+                <th>
+                  <div className="data">Creation date</div>
+                </th>
+                <th>
+                  <div className="data">Actions</div>
+                </th>
+              </tr>
             </thead>
             <tbody>
               {users.map((item, key) => {
@@ -232,33 +203,48 @@ const Users = () => {
           <div className="w-100 text-center">
             <div
               className="avatar m-auto"
-              /* style={{ backgroundImage: "url(" + userConsult.avatar + ")" }}*/
+              style={{
+                backgroundImage: "url(" + userConsult.profile_img + ")",
+              }}
             ></div>
           </div>
-          <div className="tableOfData mt-3">
-            <table className="w-100">
+
+          <table className="table mt-3">
+            <tbody>
               <tr>
-                <th>First Name :</th>
+                <td>First Name </td>
                 <td>{userConsult.name}</td>
               </tr>
               <tr>
-                <th>Last Name :</th>
+                <td>Last Name </td>
                 <td>{userConsult.lastName}</td>
               </tr>
               <tr>
-                <th>Email :</th>
+                <td>Email </td>
                 <td>{userConsult.email}</td>
               </tr>
               <tr>
-                <th>Phone Number :</th>
+                <td>Phone Number </td>
                 <td>{userConsult.numTel}</td>
               </tr>
               <tr>
-                <th>Adress :</th>
+                <td>Adress </td>
                 <td>{userConsult.location}</td>
               </tr>
-            </table>
-          </div>
+              <tr>
+                <td>Created At </td>
+                <td>{convertDate(userConsult.createdAt)}</td>
+              </tr>
+              <tr>
+                <td>Last Update </td>
+                <td>{convertDate(userConsult.updatedAt)}</td>
+              </tr>
+              <tr>
+                <td>verified </td>
+                <td>{userConsult.verified ? "true" : "false"}</td>
+              </tr>
+            </tbody>
+          </table>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={ConsultClose}>
@@ -312,8 +298,16 @@ const Users = () => {
           <Button variant="secondary" onClick={PasswordValidClose}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={verificationPassword}>
-            Confirm
+          <Button
+            variant="danger w-100px"
+            disabled={loading}
+            onClick={verificationPassword}
+          >
+            {loading ? (
+              <Spinner animation="border" className="loadingIcon" />
+            ) : (
+              "Confirm"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>
