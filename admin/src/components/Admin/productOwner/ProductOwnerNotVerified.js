@@ -2,8 +2,10 @@ import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { BiXCircle, BiPlayCircle, BiCheckCircle } from "react-icons/bi";
 import { AiOutlineClockCircle } from "react-icons/ai";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Spinner } from "react-bootstrap";
 import api from "./../../../config.service";
+import convertDate from "./../../../function";
+
 const ProductOwnerNotVerified = () => {
   //modal details
   const [showDetails, setDetailsShow] = useState(false);
@@ -34,9 +36,11 @@ const ProductOwnerNotVerified = () => {
   const [POConsult, setPOConsult] = useState({});
   // function find PO
   function findPO(id) {
-    setPOConsult(POs.find((user) => user.id === id));
+    setPOConsult(POs.find((user) => user._id === id));
     DetailsShow();
   }
+  // loading icon activation
+  const [loading, setLoading] = useState(false);
   // action (accept or refuse)
   const [Action, setAction] = useState(true);
   //errer validation password
@@ -54,30 +58,57 @@ const ProductOwnerNotVerified = () => {
 
   function SendRDV() {
     if (RDVID !== 0) {
-      //api refuse with id of POToRefuse
-      console.log(RDVID);
-      //this next 2 line inside the fetch 'its the success of function '
-      setRDVID(0);
-      RefuseClose();
+      api
+        .patch("/sendRDV/" + RDVID)
+        .then((response) => {
+          PasswordValidClose();
+          setRDVID(0);
+        })
+        .catch((err) => {
+          seterrorValidationPassword("Something Wrong!");
+        });
     }
   }
 
   function RefusePO() {
     if (POToRefuse !== 0) {
-      //api refuse with id of POToRefuse
-      console.log(POToRefuse);
-      //this next 2 line inside the fetch 'its the success of function '
-      setPOToRefuse(0);
-      RefuseClose();
+      api
+        .patch("/POs/Delete/" + POToRefuse)
+        .then((response) => {
+          PasswordValidClose();
+          const newPOList = POs.filter((user) => {
+            return user._id !== POToRefuse;
+          });
+          setPOs(newPOList);
+          setPOToRefuse(0);
+          AcceptClose();
+        })
+        .catch((err) => {
+          seterrorValidationPassword("Something Wrong!");
+        });
     }
   }
   function AcceptPO() {
     if (POToAccept !== 0) {
       //api refuse with id of POToRefuse
-      console.log(POToAccept);
-      //this next 2 line inside the fetch 'its the success of function '
-      setPOToAccept(0);
-      AcceptClose();
+
+      api
+        .patch("/POs/approve/" + POToAccept)
+        .then((response) => {
+          PasswordValidClose();
+          const newPOList = POs.filter((user) => {
+            return user._id !== POToAccept;
+          });
+          setPOs(newPOList);
+          setPOToAccept(0);
+          AcceptClose();
+        })
+        .catch((err) => {
+          console.log(err);
+          seterrorValidationPassword("Something Wrong!");
+        });
+
+      console.log("Accept" + POToAccept);
     }
   }
   function findPack(pack) {
@@ -108,26 +139,30 @@ const ProductOwnerNotVerified = () => {
 
   //function verification password
   const verificationPassword = async () => {
+    setLoading(true);
     if (password.length === 0) {
       seterrorValidationPassword("Enter your Password");
-      console.log(password);
     } else if (password.length < 8) {
       seterrorValidationPassword("Password should be at list 8 caractere");
-      console.log(password);
     } else {
       await api
-        .get("/verififcationPassword", { password: password })
+        .post("/api/v1/auth/Admin/verifyPassword", { password: password })
         .then((response) => {
-          if (Action) {
-            AcceptPO();
+          if (response.data.message) {
+            if (Action) {
+              AcceptPO();
+            } else {
+              RefusePO();
+            }
           } else {
-            RefusePO();
+            seterrorValidationPassword("Password incorrect!");
           }
         })
         .catch((err) => {
-          seterrorValidationPassword("erreru");
+          seterrorValidationPassword("Something Wrong!");
         });
     }
+    setLoading(false);
   };
   //function to get Password
   function getPassword(val) {
@@ -138,7 +173,8 @@ const ProductOwnerNotVerified = () => {
   //begin api getAll
   const [POs, setPOs] = useState([]);
   const retrievePO = async () => {
-    const response = await api.get("/POs");
+    const response = await api.get("/getNotVerifiedPOs");
+    console.log(response.data);
     return response.data;
   };
 
@@ -176,7 +212,7 @@ const ProductOwnerNotVerified = () => {
                   <div className="data picture">logo</div>
                 </th>
                 <th>
-                  <div className="data">Name</div>
+                  <div className="data">Company Name</div>
                 </th>
                 <th>
                   <div className="data">Email</div>
@@ -195,51 +231,50 @@ const ProductOwnerNotVerified = () => {
             <tbody>
               {POs.map((PO) => {
                 return (
-                  <tr key={PO.id}>
-                    <td>
-                      <div className="data picture">
-                        <img
-                          src={PO.avatar}
-                          alt={PO.first_name}
-                          draggable="false"
-                        />
-                      </div>
-                    </td>
+                  <tr key={PO._id}>
                     <td>
                       <div className="data">
-                        {PO.first_name} {PO.last_name}
+                        <div
+                          className="picture"
+                          style={{
+                            backgroundImage: "url(" + PO.logo_url + ")",
+                          }}
+                        ></div>
                       </div>
                     </td>
                     <td>
-                      <div className="data">{PO.email}</div>
+                      <div className="data">{PO.company_name}</div>
+                    </td>
+                    <td>
+                      <div className="data">{PO.company_email}</div>
                     </td>
                     {findPack(PO.pack)}
                     <td>
-                      <div className="data">{PO.date}</div>
+                      <div className="data">{convertDate(PO.createdAt)}</div>
                     </td>
                     <td>
                       <div className="actions">
                         <div
-                          className="action"
+                          className="action p-1"
                           onClick={() => {
-                            findPO(PO.id);
+                            findPO(PO._id);
                           }}
                         >
                           <BiPlayCircle />
                         </div>
                         <div
-                          className="action"
+                          className="action p-1"
                           onClick={() => {
-                            setRDVID(PO.id);
+                            setRDVID(PO._id);
                             RDVShow();
                           }}
                         >
                           <AiOutlineClockCircle />
                         </div>
                         <div
-                          className="action"
+                          className="action p-1"
                           onClick={() => {
-                            setPOToRefuse(PO.id);
+                            setPOToRefuse(PO._id);
                             RefuseShow();
                           }}
                         >
@@ -247,9 +282,9 @@ const ProductOwnerNotVerified = () => {
                         </div>
 
                         <div
-                          className="action"
+                          className="action p-1"
                           onClick={() => {
-                            setPOToAccept(PO.id);
+                            setPOToAccept(PO._id);
                             AcceptShow();
                           }}
                         >
@@ -277,23 +312,50 @@ const ProductOwnerNotVerified = () => {
           <div className="w-100 text-center">
             <div
               className="avatar m-auto"
-              style={{ backgroundImage: "url(" + POConsult.avatar + ")" }}
+              style={{ backgroundImage: "url(" + POConsult.logo_url + ")" }}
             ></div>
           </div>
           <div className="tableOfData mt-3">
-            <table className="w-100">
-              <tr>
-                <th>First Name :</th>
-                <td>{POConsult.first_name}</td>
-              </tr>
-              <tr>
-                <th>Last Name :</th>
-                <td>{POConsult.last_name}</td>
-              </tr>
-              <tr>
-                <th>Email :</th>
-                <td>{POConsult.email}</td>
-              </tr>
+            <table className="table mt-3">
+              <tbody>
+                <tr>
+                  <th>Company Name :</th>
+                  <td>{POConsult.company_name}</td>
+                </tr>
+                <tr>
+                  <th>Company Email :</th>
+                  <td>{POConsult.company_email}</td>
+                </tr>
+                <tr>
+                  <th>Country :</th>
+                  <td>{POConsult.country}</td>
+                </tr>
+                <tr>
+                  <th>City :</th>
+                  <td>{POConsult.city}</td>
+                </tr>
+                <tr>
+                  <th>State :</th>
+                  <td>{POConsult.state}</td>
+                </tr>
+
+                <tr>
+                  <th>Zip Code :</th>
+                  <td>{POConsult.zip_code}</td>
+                </tr>
+                <tr>
+                  <th>Address :</th>
+                  <td>{POConsult.address}</td>
+                </tr>
+                <tr>
+                  <th>Professional Phone Number :</th>
+                  <td>{POConsult.professional_phone_number}</td>
+                </tr>
+                <tr>
+                  <th>Creation Date :</th>
+                  <td>{POConsult.creation_date}</td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </Modal.Body>
@@ -388,7 +450,7 @@ const ProductOwnerNotVerified = () => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Confiramation Of password</Modal.Title>
+          <Modal.Title>Confirmation Of password</Modal.Title>
         </Modal.Header>
         <Modal.Body className="validationPassword">
           <input
@@ -402,8 +464,12 @@ const ProductOwnerNotVerified = () => {
           <Button variant="secondary" onClick={PasswordValidClose}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={verificationPassword}>
-            Confirm
+          <Button variant="danger w-100px" onClick={verificationPassword}>
+            {loading ? (
+              <Spinner animation="border" className="loadingIcon" />
+            ) : (
+              "Confirm"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>
