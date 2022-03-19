@@ -13,7 +13,8 @@ a {
   border-bottom: 1px solid grey !important;
   /* margin: 0.4em; */
 }
-.validationPassword input[type="password"] {
+.validationPassword input[type="password"],
+.DataCategory input[type="text"] {
   width: 100%;
   border: 1px solid #8b8b8b61;
   border-radius: 3px;
@@ -86,4 +87,14 @@ a {
 }
 .w-100px {
   width: 100px !important;
+}
+.empty {
+  text-align: center;
+  padding: 10%;
+}
+.btnNextTitle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
 }
