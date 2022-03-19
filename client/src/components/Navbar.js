@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./../css/navbar.css";
@@ -6,229 +6,249 @@ import logo from "./../logo.svg";
 import { Link } from "react-router-dom";
 import { AiOutlineMenu, AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
 import { FaShoppingCart, FaUserAlt } from "react-icons/fa";
+import api from "./../config.service";
 
-var json =
-  '[{"id":1,"categorie":"Vétements","sous-categorie":[{"id":120,"titre":"mode Homme","sous-sous-categ":[{"name":"pull"},{"name":"veste"},{"name":"T-shirt"},{"name":"chaussure"}]},{"id":120,"titre":"Mode Femme","sous-sous-categ":[{"name":"pull"},{"name":"veste"},{"name":"T-shirt"},{"name":"chaussure"}]},{"id":120,"titre":"sous-categ1","sous-sous-categ":[{"name":"nn1"},{"name":"nn2"},{"name":"nn3"},{"name":"nn4"}]},{"id":121,"titre":"sous-categ2","sous-sous-categ":[{"name":"kn5"},{"name":"nkndhdgd45"}]}]},{"id":2,"categorie":"categ2","sous-categorie":[{"id":122,"titre":"sous-categ3","sous-sous-categ":[{"name":"sjsh"},{"name":"uhded"},{"name":"szohudige"}]},{"id":123,"titre":"sous-categ4","sous-sous-categ":[{"name":"sqszsz"},{"name":"efrf"},{"name":"rfrtgrt"},{"name":"eferfe"}]}]}]';
-json = JSON.parse(json);
+const Navbar = () => {
+  //begin api getAll
+  const [Categories, setCategories] = useState([]);
+  const retrieveCategories = async () => {
+    const response = await api.get("/categories");
+    console.log(response.data);
+    return response.data;
+  };
 
-function loadNavbarByCateg(idCateg) {
-  var categ;
-  for (var i = 0; i < json.length; i++) {
-    if (json[i].id == idCateg) {
-      categ = json[i];
-      break;
-    }
-  }
+  useEffect(() => {
+    const getAllCategories = async () => {
+      const allCategories = await retrieveCategories();
+      if (allCategories) setCategories(allCategories);
+    };
+    getAllCategories();
+  }, []);
+  //end api getAll
 
-  if (categ != null) {
-    return categ["sous-categorie"].map((item, id) => {
-      console.log("its inside");
-      return (
-        <div className="sous-categorie-bloc" key={id}>
-          <Link
-            to={"/" + categ.categorie + "/" + item.titre}
-            className="title-sous-categ"
-          >
-            {item.titre}
-          </Link>
-          {item["sous-sous-categ"].map((sous_categ, idCateg) => {
-            <Link
-              to={
-                "/" + categ.categorie + "/" + item.titre + "/" + sous_categ.name
-              }
-              key={idCateg}
-            >
-              {sous_categ.name}
-            </Link>;
-          })}
-        </div>
-      );
-    });
-  } else {
-    return <div>Not found</div>;
-  }
-}
-
-function hoverCateg(e) {
-  const categs = document.querySelectorAll(".item-categ");
-  for (const c of categs) {
-    c.className = "item-categ";
-  }
-  e.target.className = "item-categ active";
-  var sous_categ = "";
-  const id = e.target.getAttribute("data-id");
-  //console.log("id: " +id);
-  /*  
-  if(id != null){
-    var x = loadNavbarByCateg(id)
-    console.log(typeof x);
-    ReactDOM.render(loadNavbarByCateg(id),document.querySelector(".sous-categ"));
-  }
- */
-  for (var i = 0; i < json.length; i++) {
-    if (json[i]["id"] == id) {
-      for (var j = 0; j < json[i]["sous-categorie"].length; j++) {
-        sous_categ +=
-          '<div class="sous-categorie-bloc"> <a href="/' +
-          json[i]["categorie"].replaceAll(" ", "_") +
-          "/" +
-          json[i]["sous-categorie"][j]["titre"].replaceAll(" ", "_") +
-          '" class="title-sous-categ">' +
-          json[i]["sous-categorie"][j]["titre"] +
-          "</a>";
-        for (
-          var k = 0;
-          k < json[i]["sous-categorie"][j]["sous-sous-categ"].length;
-          k++
-        ) {
-          sous_categ +=
-            '<a href="/' +
-            json[i]["categorie"].replaceAll(" ", "_") +
-            "/" +
-            json[i]["sous-categorie"][j]["titre"].replaceAll(" ", "_") +
-            "/" +
-            json[i]["sous-categorie"][j]["sous-sous-categ"][k][
-              "name"
-            ].replaceAll(" ", "_") +
-            '">' +
-            json[i]["sous-categorie"][j]["sous-sous-categ"][k]["name"] +
-            "</a>";
-        }
-        sous_categ += "</div>";
+  function loadNavbarByCateg(idCateg) {
+    var categ;
+    for (var i = 0; i < Categories.length; i++) {
+      if (Categories[i].id == idCateg) {
+        categ = Categories[i];
+        break;
       }
-      document.querySelector(".sous-categ").innerHTML = sous_categ;
-      break;
+    }
+
+    if (categ != null) {
+      return categ["child"].map((item, id) => {
+        console.log("its inside");
+        return (
+          <div className="sous-categorie-bloc" key={id}>
+            <Link
+              to={"/" + categ.category + "/" + item.category}
+              className="title-sous-categ"
+            >
+              {item.category}
+            </Link>
+            {item["child"].map((sous_categ, idCateg) => {
+              <Link
+                to={
+                  "/" +
+                  categ.category +
+                  "/" +
+                  item.category +
+                  "/" +
+                  sous_categ.category
+                }
+                key={idCateg}
+              >
+                {sous_categ.category}
+              </Link>;
+            })}
+          </div>
+        );
+      });
+    } else {
+      return <div>Not found</div>;
     }
   }
-}
 
-function loadNavbar() {
-  if (window.innerWidth > 991) {
-    return (
-      <div className="col-200">
-        <div className="categorie">Categories</div>
-        <div className="dropdown-categorie position-absolute shadow">
-          <div className="row margin-left-0">
-            <div className="col-200 height-450">
-              <ul className="liste-categorie">
-                {json.map((item, key) => {
-                  return (
-                    <li
-                      className="item-categ"
-                      key={item.id}
-                      data-id={item.id}
-                      onMouseOver={hoverCateg}
-                    >
-                      <Link to={"/" + item.categorie.replaceAll(" ", "_")}>
-                        {item.categorie}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-            <div className="col-700">
-              <div className="sous-categ"></div>
+  function hoverCateg(e) {
+    const categs = document.querySelectorAll(".item-categ");
+    for (const c of categs) {
+      c.className = "item-categ";
+    }
+    e.target.className = "item-categ active";
+    var sous_categ = "";
+    const id = e.target.getAttribute("data-id");
+    console.log("id: " + id);
+    /*  
+    if(id != null){
+      var x = loadNavbarByCateg(id)
+      console.log(typeof x);
+      ReactDOM.render(loadNavbarByCateg(id),document.querySelector(".sous-categ"));
+    }
+   */
+    for (var i = 0; i < Categories.length; i++) {
+      if (Categories[i]["id"] == id) {
+        for (var j = 0; j < Categories[i]["child"].length; j++) {
+          sous_categ +=
+            '<div class="sous-categorie-bloc"> <a href="/' +
+            Categories[i]["category"].replaceAll(" ", "_") +
+            "/" +
+            Categories[i]["child"][j]["category"].replaceAll(" ", "_") +
+            '" class="title-sous-categ">' +
+            Categories[i]["child"][j]["category"] +
+            "</a>";
+          for (var k = 0; k < Categories[i]["child"][j]["child"].length; k++) {
+            sous_categ +=
+              '<a href="/' +
+              Categories[i]["category"].replaceAll(" ", "_") +
+              "/" +
+              Categories[i]["child"][j]["category"].replaceAll(" ", "_") +
+              "/" +
+              Categories[i]["child"][j]["child"][k]["category"].replaceAll(
+                " ",
+                "_"
+              ) +
+              '">' +
+              Categories[i]["child"][j]["child"][k]["category"] +
+              "</a>";
+          }
+          sous_categ += "</div>";
+        }
+        document.querySelector(".sous-categ").innerHTML = sous_categ;
+        break;
+      }
+    }
+  }
+
+  function loadNavbar() {
+    if (window.innerWidth > 991) {
+      return (
+        <div className="col-200">
+          <div className="categorie">Categories</div>
+          <div className="dropdown-categorie position-absolute shadow">
+            <div className="row margin-left-0">
+              <div className="col-200 height-450">
+                <ul className="liste-categorie">
+                  {Categories.map((item, key) => {
+                    return (
+                      <li
+                        className="item-categ"
+                        key={item.id}
+                        data-id={item.id}
+                        onMouseOver={hoverCateg}
+                      >
+                        <Link to={"/" + item.category.replaceAll(" ", "_")}>
+                          {item.category}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+              <div className="col-700">
+                <div className="sous-categ"></div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    );
-  } else {
-    return (
-      <div className="col-200">
-        <div className="categorie" onClick={openSideBar}>
-          <AiOutlineMenu className="menuCatgorie" />
-          <p>Categories</p>
-        </div>
-        <div className="side-bar-categorie">
-          <AiOutlineClose onClick={closeSideBar} className="closeBtn" />
-          <ul className="liste-categorie">
-            {json.map((item, i) => {
-              return (
-                <li key={i} data-id={item.id}>
-                  <Link
-                    onClick={closeSideBar}
-                    to={"/" + item.categorie.replaceAll(" ", "_")}
-                  >
-                    <div className="bg-orange-categ">{item.categorie}</div>
-                  </Link>
+      );
+    } else {
+      return (
+        <div className="col-200">
+          <div className="categorie" onClick={openSideBar}>
+            <AiOutlineMenu className="menuCatgorie" />
+            <p>Categories</p>
+          </div>
+          <div className="side-bar-categorie">
+            <AiOutlineClose onClick={closeSideBar} className="closeBtn" />
+            <ul className="liste-categorie">
+              {Categories.map((item, i) => {
+                return (
+                  <li key={i} data-id={item.id}>
+                    <Link
+                      onClick={closeSideBar}
+                      to={"/" + item.category.replaceAll(" ", "_")}
+                    >
+                      <div className="bg-orange-categ">{item.category}</div>
+                    </Link>
 
-                  <ul>
-                    {item["sous-categorie"].map((sous_item, key) => {
-                      return (
-                        <li key={sous_item.id} data-id={sous_item.id}>
-                          <Link
-                            onClick={closeSideBar}
-                            to={
-                              "/" +
-                              item.categorie.replaceAll(" ", "_") +
-                              "/" +
-                              sous_item.titre.replaceAll(" ", "_")
-                            }
-                          >
-                            <div className="bg-orange-categ">
-                              {sous_item.titre}
-                            </div>
-                          </Link>
-
-                          <ul>
-                            {sous_item["sous-sous-categ"].map(
-                              (sous_sous_categ, key) => {
-                                return (
-                                  <li key={key}>
-                                    <Link
-                                      onClick={closeSideBar}
-                                      to={
-                                        "/" +
-                                        item.categorie.replaceAll(" ", "_") +
-                                        "/" +
-                                        sous_item.titre.replaceAll(" ", "_") +
-                                        "/" +
-                                        sous_sous_categ.name.replaceAll(
-                                          " ",
-                                          "_"
-                                        )
-                                      }
-                                    >
-                                      {sous_sous_categ.name}
-                                    </Link>
-                                  </li>
-                                );
+                    <ul>
+                      {item["child"].map((sous_item, key) => {
+                        return (
+                          <li key={sous_item.id} data-id={sous_item.id}>
+                            <Link
+                              onClick={closeSideBar}
+                              to={
+                                "/" +
+                                item.category.replaceAll(" ", "_") +
+                                "/" +
+                                sous_item.category.replaceAll(" ", "_")
                               }
-                            )}
-                          </ul>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </div>
-    );
-  }
-}
+                            >
+                              <div className="bg-orange-categ">
+                                {sous_item.category}
+                              </div>
+                            </Link>
 
-function openSideBar() {
-  const sb = document.querySelector(".side-bar-categorie");
-  sb.className = "side-bar-categorie shadow-lg open";
-}
-function closeSideBar() {
-  const sb = document.querySelector(".side-bar-categorie");
-  sb.className = "side-bar-categorie shadow-lg";
-}
-function IsLoggin() {
-  if (localStorage.getItem("token") !== null) {
-    return true;
-    console.log(localStorage.getItem("token"));
-  } else {
-    return false;
+                            <ul>
+                              {sous_item["child"].map(
+                                (sous_sous_categ, key) => {
+                                  return (
+                                    <li key={key}>
+                                      <Link
+                                        onClick={closeSideBar}
+                                        to={
+                                          "/" +
+                                          item.category.replaceAll(" ", "_") +
+                                          "/" +
+                                          sous_item.category.replaceAll(
+                                            " ",
+                                            "_"
+                                          ) +
+                                          "/" +
+                                          sous_sous_categ.category.replaceAll(
+                                            " ",
+                                            "_"
+                                          )
+                                        }
+                                      >
+                                        {sous_sous_categ.category}
+                                      </Link>
+                                    </li>
+                                  );
+                                }
+                              )}
+                            </ul>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+      );
+    }
   }
-}
-const Navbar = () => {
+
+  function openSideBar() {
+    const sb = document.querySelector(".side-bar-categorie");
+    sb.className = "side-bar-categorie shadow-lg open";
+  }
+  function closeSideBar() {
+    const sb = document.querySelector(".side-bar-categorie");
+    sb.className = "side-bar-categorie shadow-lg";
+  }
+  function IsLoggin() {
+    if (localStorage.getItem("token") !== null) {
+      return true;
+      console.log(localStorage.getItem("token"));
+    } else {
+      return false;
+    }
+  }
+
   return (
     <div className="header">
       <div className="ContactHeader"></div>
