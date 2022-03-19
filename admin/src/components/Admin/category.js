@@ -1,84 +1,39 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaTrash, FaEdit } from "react-icons/fa";
-import { Offcanvas } from "react-bootstrap";
-
+import { Modal, Button, Spinner } from "react-bootstrap";
+import api from "./../../config.service";
 const Category = () => {
-  const [dataToAdd, setDataToAdd] = useState({});
-  const [show, setShow] = useState(false);
-  const [data, setData] = useState([
-    {
-      id: 1,
-      Category: "Clothes",
-      child: [
-        {
-          id: 18,
-          Category: "Man Clothes",
-          child: [],
-          new: false,
-        },
-        {
-          id: 19,
-          Category: "Women Clothes",
-          child: [
-            {
-              id: 52,
-              Category: "Tshirt",
-              child: [],
-              new: false,
-            },
-            {
-              id: 53,
-              Category: "pants",
-              child: [],
-              new: false,
-            },
-            {
-              id: 54,
-              Category: "shoes",
-              child: [],
-              new: false,
-            },
-          ],
-          new: false,
-        },
-        {
-          id: 20,
-          Category: "Kids Clothes",
-          child: [],
-          new: false,
-        },
-      ],
-      new: false,
-    },
-    {
-      id: 2,
-      Category: "Technology",
-      child: [],
-      new: false,
-    },
-    {
-      id: 3,
-      Category: "Dogs & Cats",
-      child: [],
-      new: false,
-    },
-    {
-      id: 4,
-      Category: "House & Garden",
-      child: [],
-      new: false,
-    },
-    {
-      id: 5,
-      Category: "Event",
-      child: [],
-      new: false,
-    },
-  ]);
+  //begin api getAll
+  const [data, setData] = useState([]);
+  const retrieveCategories = async () => {
+    const response = await api.get("/categories");
+    return response.data;
+  };
+  useEffect(() => {
+    const getAllCategories = async () => {
+      const allCategories = await retrieveCategories();
+      if (allCategories) setData(allCategories);
+      console.log(allCategories);
+    };
+    getAllCategories();
+  }, []);
+  //end api getAll
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // loading icon activation
+  const [loading, setLoading] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const [postion, setPosition] = useState([null, null]);
+  const [DataToAdd, setDataToAdd] = useState({
+    id: 0,
+    category: "",
+    child: [],
+    new: true,
+  });
+  const [showCategToAdd, setCategToAddShow] = useState(false);
+  const categToAddClose = () => setCategToAddShow(false);
+  const showcategToAdd = () => setCategToAddShow(true);
   function deleteCategory(idCategory, idSousCategory, idSousSousCategory) {
     var newdata = data;
     setData([]);
@@ -95,23 +50,19 @@ const Category = () => {
             return child.id !== idSousSousCategory;
           });
           newdata[posCateg].child[posSousCateg].child = newCategory;
-          console.log(newdata);
         } else {
           const newCategory = newdata[posCateg].child.filter((child) => {
             return child.id !== idSousCategory;
           });
           newdata[posCateg].child = newCategory;
-          console.log(newdata);
         }
       } else {
         newdata = newdata.filter((child) => {
           return child.id !== idCategory;
         });
-        console.log(newdata);
       }
     }
-
-    setData(newdata);
+    setData((data) => [...newdata]);
   }
   function editCategory(idCategory, idSousCategory, idSousSousCategory) {
     var idToDelete;
@@ -131,12 +82,54 @@ const Category = () => {
         }
       }
     }
-    console.log(idToDelete);
   }
-  function addCategory() {}
-  function btnAddCateg(id) {
-    setDataToAdd({ id: id });
-    handleShow();
+  function onchangeCtegoryName(e) {
+    var newObject = DataToAdd;
+    newObject.category = e.target.value;
+    setDataToAdd(newObject);
+  }
+  function RandomID() {
+    var newObject = DataToAdd;
+    console.log("data", data);
+    newObject.id = Math.floor(Math.random() * 1000);
+    setDataToAdd(newObject);
+    console.log("data2", data);
+  }
+  function addCategory() {
+    let newCateg = data;
+    RandomID();
+    if (!postion[0]) {
+      newCateg.push(DataToAdd);
+      setData((data) => [...newCateg]);
+    } else if (!postion[1]) {
+      const posCateg = data.findIndex((categ) => categ.id === postion[0]);
+      newCateg[posCateg].child.push(DataToAdd);
+      setData((data) => [...newCateg]);
+    } else {
+      const posCateg = data.findIndex((categ) => categ.id === postion[0]);
+      const posSousCateg = data[posCateg].child.findIndex(
+        (categ) => categ.id === postion[1]
+      );
+      newCateg[posCateg].child[posSousCateg].child.push(DataToAdd);
+      setData((data) => [...newCateg]);
+    }
+  }
+
+  function SaveUpdate() {
+    setLoading(true);
+    console.log(data);
+    const dataToSend = { categories: data };
+    console.log(dataToSend);
+    api
+      .post("/categories/updateAll", dataToSend)
+      .then((response) => {
+        alert("Category added successfully!");
+      })
+      .catch((err) => {
+        alert("Sowmething Wrong!");
+      });
+
+    setLoading(false);
   }
   return (
     <div>
@@ -150,30 +143,37 @@ const Category = () => {
           </li>
         </ol>
       </nav>
-      <button className="btn btn-primary" onClick={handleShow}>
-        Launch
-      </button>
       <div className="cardTemplate shadow-sm">
         <div className="title-cardTemplate">
           <h1>Category</h1>
-          <button className="btn">refresh</button>
+          <button
+            className="btnNextTitle btn-add blue"
+            disabled={loading}
+            onClick={SaveUpdate}
+          >
+            {loading ? (
+              <Spinner animation="border" className="loadingIcon" />
+            ) : (
+              "Save"
+            )}
+          </button>
         </div>
         <div className="content-cardTemplate">
           <div className="w-category m-auto">
             {data.map((item, key) => {
               return (
                 <div className="shadow rounded mb-3" key={key}>
-                  <div
-                    className={
-                      item.child.length === 0
-                        ? "item-Category blue"
-                        : "item-Category blue item-CategoryPLus collapsed"
-                    }
-                    data-bs-toggle="collapse"
-                    data-bs-target={"#target" + item.id}
-                  >
-                    <p className="titleCtagory d-inline-block">
-                      {item.Category}
+                  <div className="item-Category blue">
+                    <p
+                      className={
+                        item.child.length === 0
+                          ? "titleCtagory d-inline-block"
+                          : "titleCtagory d-inline-block item-CategoryPLus collapsed"
+                      }
+                      data-bs-toggle="collapse"
+                      data-bs-target={"#target" + item.id}
+                    >
+                      {item.category}
                     </p>
                     <div className="icons d-inline">
                       <FaTrash
@@ -195,17 +195,17 @@ const Category = () => {
                       {item.child.map((sousitem, key) => {
                         return (
                           <div className="shadow rounded mb-3" key={key}>
-                            <div
-                              className={
-                                sousitem.child.length === 0
-                                  ? "item-Category orange"
-                                  : "item-Category orange item-CategoryPLus collapsed"
-                              }
-                              data-bs-toggle="collapse"
-                              data-bs-target={"#target" + sousitem.id}
-                            >
-                              <p className="titleCtagory d-inline-block">
-                                {sousitem.Category}
+                            <div className="item-Category orange">
+                              <p
+                                className={
+                                  sousitem.child.length === 0
+                                    ? "titleCtagory d-inline-block"
+                                    : "titleCtagory d-inline-block item-CategoryPLus collapsed"
+                                }
+                                data-bs-toggle="collapse"
+                                data-bs-target={"#target" + sousitem.id}
+                              >
+                                {sousitem.category}
                               </p>
                               <div className="icons d-inline">
                                 <FaTrash
@@ -235,7 +235,7 @@ const Category = () => {
                                     >
                                       <div className="item-Category collapsed">
                                         <p className="titleCtagory d-inline-block">
-                                          {sousitem2.Category}
+                                          {sousitem2.category}
                                         </p>
                                         <div className="icons d-inline">
                                           <FaTrash
@@ -263,8 +263,15 @@ const Category = () => {
                                     </div>
                                   );
                                 })}
-                                <div class="text-end">
-                                  <button className="btn-add blue shadow">
+                                <div className="text-end">
+                                  <button
+                                    className="btn-add blue shadow"
+                                    onClick={() => {
+                                      showcategToAdd();
+                                      setPosition([item.id, sousitem.id]);
+                                      //btnAddCateg();
+                                    }}
+                                  >
                                     Add
                                   </button>
                                 </div>
@@ -273,11 +280,13 @@ const Category = () => {
                           </div>
                         );
                       })}
-                      <div class="text-end">
+                      <div className="text-end">
                         <button
                           className="btn-add blue shadow"
                           onClick={() => {
-                            btnAddCateg(item.id);
+                            setPosition([item.id, null]);
+                            showcategToAdd();
+                            //btnAddCateg();
                           }}
                         >
                           Add
@@ -288,23 +297,46 @@ const Category = () => {
                 </div>
               );
             })}
-            <div class="text-end">
-              <button className="btn-add blue shadow">Add</button>
+            <div className="text-end">
+              <button
+                className="btn-add blue shadow"
+                onClick={() => {
+                  setPosition([null, null]);
+                  showcategToAdd();
+                  //btnAddCateg();
+                }}
+              >
+                Add
+              </button>
             </div>
           </div>
         </div>
       </div>
-      <Offcanvas show={show} onHide={handleClose} placement={"end"}>
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Add a Category</Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          <form onSubmit={addCategory}>
-            <input type="text" name="name" placeholder="Name of category" />
-            id of parent : {dataToAdd.id}
-          </form>
-        </Offcanvas.Body>
-      </Offcanvas>
+      <Modal
+        show={showCategToAdd}
+        onHide={categToAddClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Add a Category</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="DataCategory">
+          <input
+            type="text"
+            placeholder="Enter the name of category"
+            onChange={onchangeCtegoryName}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={categToAddClose}>
+            Cancel
+          </Button>
+          <Button variant="danger w-100px" onClick={addCategory}>
+            Add
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
