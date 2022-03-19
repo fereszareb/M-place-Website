@@ -173,7 +173,7 @@ const ProductOwnerNotVerified = () => {
   //begin api getAll
   const [POs, setPOs] = useState([]);
   const retrievePO = async () => {
-    const response = await api.get("/getNotVerifiedPOs");
+    const response = await api.get("/noneApprovedPOs");
     console.log(response.data);
     return response.data;
   };
@@ -297,6 +297,13 @@ const ProductOwnerNotVerified = () => {
               })}
             </tbody>
           </table>
+          {POs.length === 0 ? (
+            <div className="empty">
+              <p>This table is empty</p>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <Modal
