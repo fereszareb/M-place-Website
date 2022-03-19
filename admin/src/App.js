@@ -8,6 +8,7 @@ import Events from "./components/Admin/events";
 import DashboardAdmin from "./components/Admin/dashboard";
 import ProductOwnerNotVerified from "./components/Admin/productOwner/ProductOwnerNotVerified";
 import ProductOwnerBlocked from "./components/Admin/productOwner/ProductOwnerBlocked";
+import ProductOwnerDeleted from "./components/Admin/productOwner/ProductOwnerDeleted";
 import Messages from "./components/Admin/message";
 import Category from "./components/Admin/category";
 import Reports from "./components/Admin/report";
@@ -125,6 +126,13 @@ export default class Responsive extends Component {
                           </p>
                         </Link>
                       </li>
+                      <li>
+                        <Link to="/productOwnerDeleted">
+                          <p>
+                            <BiSubdirectoryRight /> PO Deleted
+                          </p>
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                 </li>
@@ -206,6 +214,9 @@ export default class Responsive extends Component {
                 </Route>
                 <Route exact path="/productOwnerBlocked">
                   <ProductOwnerBlocked />
+                </Route>
+                <Route exact path="/productOwnerDeleted">
+                  <ProductOwnerDeleted />
                 </Route>
                 <Route exact path="/messages">
                   <Messages />
