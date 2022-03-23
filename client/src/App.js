@@ -59,6 +59,11 @@ function App() {
           <Contact />
           <Footer />
         </Route>
+        <Route exact path="/Product/:product">
+          <Navbar />
+          <Product />
+          <Footer />
+        </Route>
         <Route exact path="/:categ">
           <Navbar />
           <Category />
@@ -66,17 +71,12 @@ function App() {
         </Route>
         <Route exact path="/:categ/:sousCateg">
           <Navbar />
-          <div>en cours</div>
+          <Category />
           <Footer />
         </Route>
         <Route exact path="/:categ/:sousCateg/:sousSousCateg">
           <Navbar />
-          <div>en cours</div>
-          <Footer />
-        </Route>
-        <Route exact path="/:categ/:sousCateg/:sousSousCateg/:product">
-          <Navbar />
-          <Product />
+          <Category />
           <Footer />
         </Route>
 
