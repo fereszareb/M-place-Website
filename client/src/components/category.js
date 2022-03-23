@@ -167,13 +167,19 @@ var data = {
       link: "/electronique/smartphone/smartphone/Iphone",
     },
   ],
+  nbrOfProduct: 127,
 };
 
 const Category = () => {
-  const { categ } = useParams();
+  const { categ, sousCateg, sousSousCateg } = useParams();
   return (
     <div className="container-lg">
-      <div>jgj</div>
+      <div className="navigation">
+        {"MarketPlace > "}
+        {categ ? categ : ""}
+        {sousCateg ? " > " + sousCateg : ""}
+        {sousSousCateg ? " > " + sousSousCateg : ""}
+      </div>
       <div className="row">
         <div className="d-none d-md-block col-3">
           <div className="Filter  bg-white rounded p-3">
