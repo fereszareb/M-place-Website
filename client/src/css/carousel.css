@@ -133,11 +133,11 @@
 .itemCarousel .wish-icon .fa-heart {
   color: #ff6161;
 }
-.itemCarousel .star-rating li {
+.star-rating li {
   padding: 0;
 }
 
-.itemCarousel .star-rating li svg {
+.star-rating li svg {
   fill: #f9c800;
 }
 .slick-prev:before,
