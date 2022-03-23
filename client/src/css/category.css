@@ -1,0 +1,83 @@
+.titleVariable {
+  padding: 0.2em;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 300;
+  background: #fb8500;
+  color: white;
+  margin-top: 0.4em;
+  border-bottom: 0.5px solid #8080803d;
+}
+.Filter,
+.Products {
+  border: 0.5px solid #fb8500;
+}
+.Filter label {
+  margin-left: 0.5em;
+}
+.Filter label span {
+  background: #b8b8b8;
+  margin-left: 1em;
+}
+.Filter .titleFilter {
+  color: #023047;
+  font-weight: 700;
+  text-align: center;
+  font-size: 1.25em;
+  margin-bottom: 0.5em;
+}
+.titleProducts {
+  padding: 0.7em;
+  text-transform: capitalize;
+  font-weight: 400;
+  border-bottom: 0.5px solid #8080804a;
+  margin-bottom: 0.5em;
+  position: relative;
+}
+.titleProducts .trie {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.titleProducts .trie select {
+  height: 2.9em;
+  text-align: center;
+  min-width: 8em;
+  padding: 0 1em;
+  border: 0.5px solid #fb8500;
+  background: #fb8500;
+  color: white;
+  font-weight: 600;
+}
+.itemProduct {
+  text-align: center;
+  padding: 0.2em;
+  transition: 0.2s;
+  color: #023047;
+  overflow: hidden;
+  transition: 0.3s;
+  border: 1px solid transparent;
+}
+.imgProduct {
+  height: 100%;
+  width: 100%;
+  background-image: url(https://picsum.photos/id/249/500/2000);
+  background-size: cover;
+  background-position: center;
+  transition: 0.3s;
+}
+.itemProduct .item-price {
+  font-size: 13px;
+  padding: 2px 0;
+}
+.itemProduct:hover {
+  border: 1px solid #fb8500;
+}
+.itemProduct:hover .imgProduct {
+  transform: scale(1.2);
+}
+.img-box {
+  width: 100%;
+  height: 10em;
+  overflow: hidden;
+}
