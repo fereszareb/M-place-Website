@@ -170,7 +170,7 @@ var data = {
       link: "/electronique/smartphone/smartphone/Iphone",
     },
   ],
-  nbrOfProduct: 127,
+  nbrOfProduct: 527,
 };
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -179,7 +179,10 @@ const urlParams = new URLSearchParams(window.location.search);
 
 const Category = () => {
   const history = useHistory();
-
+  let numberItems = parseInt(data.nbrOfProduct / 48);
+  if (data.nbrOfProduct > numberItems) {
+    numberItems++;
+  }
   function changepagination(e) {
     history.push(
       window.location.pathname + "?page=" + e.target.getAttribute("page")
@@ -187,14 +190,10 @@ const Category = () => {
     setActive(parseInt(e.target.getAttribute("page")));
   }
   const [active, setActive] = useState(parseInt(urlParams.get("page")));
-  // let items = [];
-  const [items, setItems] = useState([
-    { nbr: 1 },
-    { nbr: 2 },
-    { nbr: 3 },
-    { nbr: 4 },
-    { nbr: 5 },
-  ]);
+  let items = [];
+  for (var i = 0; i < numberItems; i++) {
+    items.push({ nbr: i + 1 });
+  }
 
   const { categ, sousCateg, sousSousCateg } = useParams();
   return (
