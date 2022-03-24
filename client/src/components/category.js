@@ -2,7 +2,19 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 import "./../css/category.css";
+import { Pagination } from "react-bootstrap";
 
+const urlParams = new URLSearchParams(window.location.search);
+let active = parseInt(urlParams.get("page"));
+console.log(active);
+let items = [];
+for (let number = 1; number <= 5; number++) {
+  items.push(
+    <Pagination.Item key={number} active={number === active}>
+      <Link to={window.location + "?active=" + number}>{number}</Link>
+    </Pagination.Item>
+  );
+}
 function showStars(stars) {
   const nbr = Math.trunc(stars);
   var rows = [];
@@ -169,7 +181,6 @@ var data = {
   ],
   nbrOfProduct: 127,
 };
-
 const Category = () => {
   const { categ, sousCateg, sousSousCateg } = useParams();
   return (
@@ -266,6 +277,7 @@ const Category = () => {
               })}
             </div>
           </div>
+          <Pagination>{items}</Pagination>
         </div>
       </div>
     </div>
