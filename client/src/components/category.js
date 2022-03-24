@@ -187,15 +187,35 @@ const Category = () => {
     );
     setActive(parseInt(e.target.getAttribute("page")));
   }
+  const [SearchData, setSearchData] = useState([]);
   function FilterChange(e) {
-    var searchParams = new URLSearchParams(window.location.search);
+    // var searchParams = new URLSearchParams(window.location.search);
     console.log(e.target.getAttribute("variable"));
-    searchParams.set(
-      e.target.getAttribute("variable"),
-      e.target.getAttribute("name")
-    );
-    history.push(window.location.pathname + "?" + searchParams.toString());
-    // window.location.search = searchParams.toString();
+
+    const newSearch = SearchData.filter((variable) => {
+      return (
+        variable.variable !== e.target.getAttribute("variable") ||
+        variable.value !== e.target.getAttribute("name")
+      );
+    });
+    console.log(newSearch.length === SearchData.length);
+    if (newSearch.length === SearchData.length) {
+      setSearchData((data) => [
+        ...data,
+        ...[
+          {
+            variable: e.target.getAttribute("variable"),
+            value: e.target.getAttribute("name"),
+          },
+        ],
+      ]);
+    } else {
+      setSearchData((data) => [...newSearch]);
+    }
+
+    console.log(SearchData);
+    // searchParams.set(e.target.getAttribute("variable"),e.target.getAttribute("name"));
+    // history.push(window.location.pathname + "?" + searchParams.toString());
   }
   const [active, setActive] = useState(parseInt(urlParams.get("page")));
   let items = [];
