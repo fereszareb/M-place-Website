@@ -174,8 +174,6 @@ var data = {
 };
 
 const urlParams = new URLSearchParams(window.location.search);
-//const [active, setActive] = useState(1);
-//setActive(parseInt(urlParams.get("page")));
 
 const Category = () => {
   const history = useHistory();
@@ -188,6 +186,16 @@ const Category = () => {
       window.location.pathname + "?page=" + e.target.getAttribute("page")
     );
     setActive(parseInt(e.target.getAttribute("page")));
+  }
+  function FilterChange(e) {
+    var searchParams = new URLSearchParams(window.location.search);
+    console.log(e.target.getAttribute("variable"));
+    searchParams.set(
+      e.target.getAttribute("variable"),
+      e.target.getAttribute("name")
+    );
+    history.push(window.location.pathname + "?" + searchParams.toString());
+    // window.location.search = searchParams.toString();
   }
   const [active, setActive] = useState(parseInt(urlParams.get("page")));
   let items = [];
@@ -220,6 +228,8 @@ const Category = () => {
                             type="checkbox"
                             id={opt.name}
                             name={opt.name}
+                            variable={variable.name}
+                            onChange={FilterChange}
                           />
                           <label for={opt.name}>
                             {opt.name}
