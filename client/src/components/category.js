@@ -2,19 +2,10 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 import "./../css/category.css";
+import { useHistory } from "react-router-dom";
 import { Pagination } from "react-bootstrap";
+import { useState } from "react";
 
-const urlParams = new URLSearchParams(window.location.search);
-let active = parseInt(urlParams.get("page"));
-console.log(active);
-let items = [];
-for (let number = 1; number <= 5; number++) {
-  items.push(
-    <Pagination.Item key={number} active={number === active}>
-      <Link to={window.location + "?active=" + number}>{number}</Link>
-    </Pagination.Item>
-  );
-}
 function showStars(stars) {
   const nbr = Math.trunc(stars);
   var rows = [];
@@ -181,7 +172,30 @@ var data = {
   ],
   nbrOfProduct: 127,
 };
+
+const urlParams = new URLSearchParams(window.location.search);
+//const [active, setActive] = useState(1);
+//setActive(parseInt(urlParams.get("page")));
+
 const Category = () => {
+  const history = useHistory();
+
+  function changepagination(e) {
+    history.push(
+      window.location.pathname + "?page=" + e.target.getAttribute("page")
+    );
+    setActive(parseInt(e.target.getAttribute("page")));
+  }
+  const [active, setActive] = useState(parseInt(urlParams.get("page")));
+  // let items = [];
+  const [items, setItems] = useState([
+    { nbr: 1 },
+    { nbr: 2 },
+    { nbr: 3 },
+    { nbr: 4 },
+    { nbr: 5 },
+  ]);
+
   const { categ, sousCateg, sousSousCateg } = useParams();
   return (
     <div className="container-lg">
@@ -277,7 +291,20 @@ const Category = () => {
               })}
             </div>
           </div>
-          <Pagination>{items}</Pagination>
+          <Pagination>
+            {items.map((item, key) => {
+              return (
+                <Pagination.Item
+                  key={key}
+                  active={item.nbr === active}
+                  onClick={changepagination}
+                  page={item.nbr}
+                >
+                  {item.nbr}
+                </Pagination.Item>
+              );
+            })}
+          </Pagination>
         </div>
       </div>
     </div>
