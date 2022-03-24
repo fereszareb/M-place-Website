@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import { Pagination } from "react-bootstrap";
 import { useState } from "react";
 
+// function return the stars of every product
 function showStars(stars) {
   const nbr = Math.trunc(stars);
   var rows = [];
@@ -40,6 +41,7 @@ function showStars(stars) {
   }
   return rows;
 }
+//data of this page ( its just a test)
 var data = {
   filter: [
     {
@@ -172,24 +174,26 @@ var data = {
   ],
   nbrOfProduct: 527,
 };
-
+// urlParams return the searchParams from the URL
 const urlParams = new URLSearchParams(window.location.search);
 
 const Category = () => {
   const history = useHistory();
+  //nombre of pagination
   let numberItems = parseInt(data.nbrOfProduct / 48);
   if (data.nbrOfProduct > numberItems) {
     numberItems++;
   }
+  //function new pagination
   function changepagination(e) {
     history.push(
       window.location.pathname + "?page=" + e.target.getAttribute("page")
     );
     setActive(parseInt(e.target.getAttribute("page")));
   }
+  // change filter of search
   const [SearchData, setSearchData] = useState([]);
   function FilterChange(e) {
-    // var searchParams = new URLSearchParams(window.location.search);
     console.log(e.target.getAttribute("variable"));
 
     const newSearch = SearchData.filter((variable) => {
@@ -212,17 +216,15 @@ const Category = () => {
     } else {
       setSearchData((data) => [...newSearch]);
     }
-
-    console.log(SearchData);
-    // searchParams.set(e.target.getAttribute("variable"),e.target.getAttribute("name"));
-    // history.push(window.location.pathname + "?" + searchParams.toString());
   }
+  // pagination active
   const [active, setActive] = useState(parseInt(urlParams.get("page")));
   let items = [];
+  // table of pagination
   for (var i = 0; i < numberItems; i++) {
     items.push({ nbr: i + 1 });
   }
-
+  // useParam
   const { categ, sousCateg, sousSousCateg } = useParams();
   return (
     <div className="container-lg">
