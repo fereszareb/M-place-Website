@@ -218,7 +218,7 @@ const Category = () => {
     }
   }
   // pagination active
-  const [active, setActive] = useState(parseInt(urlParams.get("page")));
+  const [active, setActive] = useState(parseInt(urlParams.get("page")) || 1);
   let items = [];
   // table of pagination
   for (var i = 0; i < numberItems; i++) {
@@ -284,7 +284,7 @@ const Category = () => {
               {data.products.map((item, key) => {
                 return (
                   <div className="col-6 col-sm-4 col-md-4 col-lg-3 mb-3">
-                    <Link to={"/"}>
+                    <Link to={"/Product/" + item.name}>
                       <div className="itemProduct m-1" key={key}>
                         <div className="thumb-wrapper">
                           <div className="position-relative img-box">
