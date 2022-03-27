@@ -250,6 +250,11 @@ const Navbar = () => {
     }
   }
 
+  function logout() {
+    localStorage.clear();
+    window.location.reload();
+  }
+
   return (
     <div className="header">
       <div className="ContactHeader"></div>
@@ -409,7 +414,11 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li>
-                      <button class="dropdown-item" type="button">
+                      <button
+                        class="dropdown-item"
+                        type="button"
+                        onClick={logout}
+                      >
                         Logout
                       </button>
                     </li>
