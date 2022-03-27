@@ -1,15 +1,25 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-
-.text-right{
+.text-right {
   text-align: right !important;
 }
 
-
+.formulaire input[type="password"],
+.formulaire input[type="text"],
+.formulaire input[type="email"] {
+  width: 100%;
+  border: 1px solid #8b8b8b61;
+  border-radius: 3px;
+  padding: 0.5em;
+}
+.form-control:focus {
+  border-color: #ffc000 !important;
+  box-shadow: none !important;
+}
