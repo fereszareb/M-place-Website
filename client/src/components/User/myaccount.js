@@ -8,7 +8,7 @@ const Myaccount = () => {
     password: "",
     newPassword: "",
     birthday: "",
-    adress: "",
+    address: "",
     codePostal: "",
     ville: "",
     country: "",
@@ -21,12 +21,19 @@ const Myaccount = () => {
     password: "",
     newPassword: "",
     birthday: "",
-    adress: "",
+    address: "",
     codePostal: "",
     ville: "",
     country: "",
     phone: "",
   });
+  const myaccountChangeHandler = (e) => {
+    setUpdateInfo({
+      ...UpdateInfo,
+      [e.target.name]: e.target.value,
+    });
+    console.log(UpdateInfo);
+  };
   return (
     <div className="row justify-content-center mb-5 w-100 mx-0">
       <div className="col-12 col-md-10 col-lg-9 col-xl-8 col-xxl-6">
@@ -43,6 +50,7 @@ const Myaccount = () => {
                   class="form-control"
                   name="firstname"
                   placeholder="First name"
+                  onChange={myaccountChangeHandler}
                 />
               </div>
               <div class="col-12 col-md-6">
@@ -51,6 +59,7 @@ const Myaccount = () => {
                   class="form-control"
                   name="lastname"
                   placeholder="Last name"
+                  onChange={myaccountChangeHandler}
                 />
               </div>
             </div>
@@ -68,6 +77,7 @@ const Myaccount = () => {
               id="email"
               name="email"
               placeholder="Enter your Email"
+              onChange={myaccountChangeHandler}
             />
             <div className="form-text">
               We'll never share your email with anyone else.
@@ -82,6 +92,7 @@ const Myaccount = () => {
               className="form-control"
               id="birthday"
               name="birthday"
+              onChange={myaccountChangeHandler}
             />
             <div className="form-text">
               We'll never share your email with anyone else.
@@ -97,6 +108,7 @@ const Myaccount = () => {
               id="address"
               name="address"
               placeholder="Enter your adress"
+              onChange={myaccountChangeHandler}
             />
             <div className="form-text">
               We'll never share your email with anyone else.
@@ -110,6 +122,7 @@ const Myaccount = () => {
                   class="form-control"
                   name="country"
                   placeholder="country"
+                  onChange={myaccountChangeHandler}
                 />
               </div>
               <div class="col-12 col-md-4">
@@ -118,6 +131,7 @@ const Myaccount = () => {
                   class="form-control"
                   name="ville"
                   placeholder="Town"
+                  onChange={myaccountChangeHandler}
                 />
               </div>
               <div class="col-12 col-md-4">
@@ -126,6 +140,7 @@ const Myaccount = () => {
                   class="form-control"
                   name="codePostal"
                   placeholder="Postal code"
+                  onChange={myaccountChangeHandler}
                 />
               </div>
             </div>
@@ -143,6 +158,7 @@ const Myaccount = () => {
               id="password"
               name="password"
               placeholder="Enter your Password"
+              onChange={myaccountChangeHandler}
             />
             <div className="form-text">
               We'll never share your email with anyone else.
@@ -157,7 +173,8 @@ const Myaccount = () => {
               className="form-control"
               id="newPassword"
               name="newPassword"
-              placeholder="Enter your New Paswword"
+              placeholder="Enter your New Password"
+              onChange={myaccountChangeHandler}
             />
             <div className="form-text">
               We'll never share your email with anyone else.
