@@ -165,6 +165,22 @@ const Myaccount = () => {
             </div>
           </div>
           <div className="mb-3">
+            <label for="phone" className="form-label">
+              Phone number
+            </label>
+            <input
+              type="tel"
+              className="form-control"
+              id="phone"
+              name="phone"
+              placeholder="Enter your Phone number"
+              onChange={myaccountChangeHandler}
+            />
+            <div className="form-text">
+              We'll never share your email with anyone else.
+            </div>
+          </div>
+          <div className="mb-3">
             <label for="newPassword" className="form-label">
               Password
             </label>
