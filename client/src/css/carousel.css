@@ -14,7 +14,7 @@
   margin: 0 auto;
   height: 4px;
   border-radius: 1px;
-  background: #ffc000;
+  background: #fb8500;
   left: 0;
   right: 0;
   bottom: -20px;
@@ -74,14 +74,14 @@
 -control-next {
   height: 44px;
   width: 40px;
-  background: #ffc000;
+  background: #fb8500;
   margin: auto 0;
   border-radius: 4px;
   opacity: 0.8;
 }
 .itemCarousel -control-prev:hover,
 -control-next:hover {
-  background: #ffc000;
+  background: #fb8500;
   opacity: 1;
 }
 .itemCarousel -control-prev i,
@@ -138,11 +138,11 @@
 }
 
 .star-rating li svg {
-  fill: #f9c800;
+  fill: #fb8500;
 }
 .slick-prev:before,
 .slick-next:before {
-  color: #f9c800;
+  color: #fb8500;
 }
 .review {
   padding: 4px;
