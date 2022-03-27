@@ -273,19 +273,28 @@ button:focus {
 
 /*******************User detals ***************/
 
-.userDetailsNavbar {
-  height: 50px;
-  padding-top: 0.6em;
-}
-.userDetailsNavbar a {
+.userDetailsNavbar .username {
   color: white;
   transition: 0.3s;
   margin: 8px;
 }
-.userDetailsNavbar a:hover {
-  color: #fb8500;
-}
+
 .iconUser,
 .iconCart {
   font-size: 20px;
+}
+.userNav {
+  display: inline-block;
+  height: 100%;
+}
+.SpanUserNav {
+  padding: 0.6em;
+  height: 100%;
+}
+.SpanUserNav:hover {
+  background: #fb8500;
+}
+.userNav .dropdown-menu {
+  border-radius: 1px;
+  border-bottom: 4px solid #fb8500;
 }
