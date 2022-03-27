@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap";
 import "./../css/navbar.css";
 import logo from "./../logo.svg";
 import { Link } from "react-router-dom";
@@ -355,7 +356,7 @@ const Navbar = () => {
           <div className="row position-relative margin-10p">
             {loadNavbar()}
 
-            <div className="col pl-0">
+            <div className="col p-0">
               <div className="h-100">
                 <button
                   className="navbar-toggler d-lg-none"
@@ -381,8 +382,40 @@ const Navbar = () => {
             </div>
             {IsLoggin() ? (
               <div className="col-200 userDetailsNavbar">
-                <FaUserAlt className="iconUser" />
-                <Link to="/profil">{localStorage.getItem("user")}</Link> |
+                <div className="userNav">
+                  <span
+                    type="button"
+                    className="SpanUserNav"
+                    id="dropdownClient"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <FaUserAlt className="iconUser" />
+                    <span className="username">
+                      {localStorage.getItem("user")}
+                    </span>
+                  </span>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="dropdownClient"
+                  >
+                    <li>
+                      <Link
+                        to={"/myaccount"}
+                        class="dropdown-item "
+                        type="button"
+                      >
+                        My account
+                      </Link>
+                    </li>
+                    <li>
+                      <button class="dropdown-item" type="button">
+                        Logout
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+                |
                 <FaShoppingCart className="iconCart mx-2" />
               </div>
             ) : (
