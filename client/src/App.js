@@ -14,6 +14,7 @@ import RegisterPO from "./components/registerPO/registerPO";
 import ForgetPassword from "./components/forgetPassword";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ResetPassword from "./components/resetPassword";
+import Myaccount from "./components/User/myaccount";
 
 function App() {
   return (
@@ -33,6 +34,9 @@ function App() {
         </Route>
         <Route exact path="/resetPassword/:token">
           <ResetPassword />
+        </Route>
+        <Route exact path="/myaccount">
+          <Myaccount />
         </Route>
         <Route exact path="/">
           <Navbar />
