@@ -5,7 +5,9 @@ const Contact = () => {
     <div className="container info-container">
       <div className="row">
         <div className="col-md-12">
-          <h2 className="text-center text-info">Contact Us</h2>
+          <div className="text-center titleCarousel">
+            Contact <b>Us</b>
+          </div>
         </div>
         <div className="col-12 col-md-6 contact-box">
           <p className="contact-text">
@@ -15,15 +17,15 @@ const Contact = () => {
             deserunt nobis.
           </p>
           <div className="info-box">
-            <span className="text-uppercase text-info">Address: </span>
+            <span className="text-uppercase text-orange">Address: </span>
             <span>Technopole Ghazela, Ariana, Tunisie</span>
           </div>
           <div className="info-box">
-            <span className="text-uppercase text-info">Email: </span>
+            <span className="text-uppercase text-orange">Email: </span>
             <span>contact@m-carketplace.tn </span>
           </div>
           <div className="info-box">
-            <span className="text-uppercase text-info">Phone: </span>
+            <span className="text-uppercase text-orange">Phone: </span>
             <span>+216 20 202 020 </span>
           </div>
         </div>
@@ -92,10 +94,7 @@ const Contact = () => {
                 rows="8"
               ></textarea>
             </div>
-            <button
-              className="btn btn-primary"
-              type="submit"
-            >
+            <button className="btn btn-primary" type="submit">
               SEND
             </button>
           </form>
