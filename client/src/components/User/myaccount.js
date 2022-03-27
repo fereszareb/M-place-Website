@@ -28,7 +28,7 @@ const Myaccount = () => {
     phone: "",
   });
   return (
-    <div className="row justify-content-center">
+    <div className="row justify-content-center mb-3">
       <div className="col-12 col-md-10 col-lg-9 col-xl-8 col-xxl-6">
         <div className="text-center titleCarousel">
           My <b>account</b>
@@ -162,6 +162,9 @@ const Myaccount = () => {
             <div className="form-text">
               We'll never share your email with anyone else.
             </div>
+          </div>
+          <div className="mb-3 text-end">
+            <button class="btn btn-orange m-auto">Save</button>
           </div>
         </div>
       </div>
