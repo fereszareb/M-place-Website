@@ -36,7 +36,9 @@ function App() {
           <ResetPassword />
         </Route>
         <Route exact path="/myaccount">
+          <Navbar />
           <Myaccount />
+          <Footer />
         </Route>
         <Route exact path="/">
           <Navbar />
