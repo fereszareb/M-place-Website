@@ -13,16 +13,20 @@ body {
 
 .formulaire input[type="password"],
 .formulaire input[type="text"],
-.formulaire input[type="email"] {
+.formulaire input[type="email"],
+.formulaire input[type="date"] {
   width: 100%;
   border: 1px solid #8b8b8b61;
-  border-radius: 3px;
+  border-radius: 2px !important;
   padding: 0.5em;
 }
 .form-control:focus {
-  border-color: #ffc000 !important;
+  border-color: #fb8500 !important;
   box-shadow: none !important;
 }
 .btn:focus {
   box-shadow: none !important;
+}
+.text-orange {
+  color: #fb8500 !important;
 }
