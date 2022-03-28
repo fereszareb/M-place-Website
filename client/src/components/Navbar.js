@@ -251,6 +251,7 @@ const Navbar = () => {
   }
 
   function logout() {
+    api.post("Client/logout", { token: localStorage.getItem("token") });
     localStorage.clear();
     window.location.reload();
   }
