@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import api from "./../../config.service";
 
 const Myaccount = () => {
   const [erreur, setErreur] = useState({
@@ -34,6 +35,34 @@ const Myaccount = () => {
     });
     console.log(UpdateInfo);
   };
+
+  //begin api getMyData
+  const retrieveMyData = async () => {
+    const response = await api.get("/Client/MyData");
+    return response.data;
+  };
+  useEffect(() => {
+    const getMyData = async () => {
+      const myData = await retrieveMyData();
+      if (myData)
+        setUpdateInfo({
+          firstname: myData.firstname,
+          lastname: myData.lastname,
+          email: myData.email,
+          password: "",
+          newPassword: "",
+          birthday: myData.birthday,
+          address: myData.address,
+          codePostal: myData.codePostal,
+          ville: myData.ville,
+          country: myData.country,
+          phone: myData.phone,
+        });
+    };
+    getMyData();
+  }, []);
+  //end api getMyData
+
   return (
     <div className="row justify-content-center mb-5 w-100 mx-0">
       <div className="col-12 col-md-10 col-lg-9 col-xl-8 col-xxl-6">
@@ -43,21 +72,21 @@ const Myaccount = () => {
         <div className="card formulaire p-3 mt-5">
           <div className="mb-3">
             <label className="form-label">Full name</label>
-            <div class="row g-3 align-items-center">
-              <div class="col-12 col-md-6">
+            <div className="row g-3 align-items-center">
+              <div className="col-12 col-md-6">
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   name="firstname"
                   placeholder="First name"
                   onChange={myaccountChangeHandler}
                   value={UpdateInfo.firstname}
                 />
               </div>
-              <div class="col-12 col-md-6">
+              <div className="col-12 col-md-6">
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   name="lastname"
                   placeholder="Last name"
                   onChange={myaccountChangeHandler}
@@ -120,31 +149,31 @@ const Myaccount = () => {
             </div>
           </div>
           <div className="mb-3">
-            <div class="row g-3 align-items-center">
-              <div class="col-12 col-md-4">
+            <div className="row g-3 align-items-center">
+              <div className="col-12 col-md-4">
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   name="country"
                   placeholder="country"
                   onChange={myaccountChangeHandler}
                   value={UpdateInfo.country}
                 />
               </div>
-              <div class="col-12 col-md-4">
+              <div className="col-12 col-md-4">
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   name="ville"
                   placeholder="Town"
                   onChange={myaccountChangeHandler}
                   value={UpdateInfo.ville}
                 />
               </div>
-              <div class="col-12 col-md-4">
+              <div className="col-12 col-md-4">
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   name="codePostal"
                   placeholder="Postal code"
                   onChange={myaccountChangeHandler}
@@ -206,7 +235,7 @@ const Myaccount = () => {
             </div>
           </div>
           <div className="text-end">
-            <button class="btn btn-orange m-auto">Save</button>
+            <button className="btn btn-orange m-auto">Save</button>
           </div>
         </div>
       </div>
