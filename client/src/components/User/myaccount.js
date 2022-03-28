@@ -94,9 +94,6 @@ const Myaccount = () => {
                 />
               </div>
             </div>
-            <div className="form-text">
-              We'll never share your email with anyone else.
-            </div>
           </div>
           <div className="mb-3">
             <label for="email" className="form-label">
@@ -111,9 +108,7 @@ const Myaccount = () => {
               onChange={myaccountChangeHandler}
               value={UpdateInfo.email}
             />
-            <div className="form-text">
-              We'll never share your email with anyone else.
-            </div>
+            <div className="form-text">{erreur.email}</div>
           </div>
           <div className="mb-3">
             <label for="birthday" className="form-label">
@@ -127,9 +122,6 @@ const Myaccount = () => {
               onChange={myaccountChangeHandler}
               value={UpdateInfo.birthday}
             />
-            <div className="form-text">
-              We'll never share your email with anyone else.
-            </div>
           </div>
           <div className="mb-3">
             <label for="address" className="form-label">
@@ -144,9 +136,6 @@ const Myaccount = () => {
               onChange={myaccountChangeHandler}
               value={UpdateInfo.address}
             />
-            <div className="form-text">
-              We'll never share your email with anyone else.
-            </div>
           </div>
           <div className="mb-3">
             <div className="row g-3 align-items-center">
@@ -181,9 +170,6 @@ const Myaccount = () => {
                 />
               </div>
             </div>
-            <div className="form-text">
-              We'll never share your email with anyone else.
-            </div>
           </div>
           <div className="mb-3">
             <label for="phone" className="form-label">
@@ -198,9 +184,7 @@ const Myaccount = () => {
               onChange={myaccountChangeHandler}
               value={UpdateInfo.phone}
             />
-            <div className="form-text">
-              We'll never share your email with anyone else.
-            </div>
+            <div className="form-text">{erreur.phone}</div>
           </div>
           <div className="mb-3">
             <label for="password" className="form-label">
@@ -214,9 +198,7 @@ const Myaccount = () => {
               placeholder="Enter your Password"
               onChange={myaccountChangeHandler}
             />
-            <div className="form-text">
-              We'll never share your email with anyone else.
-            </div>
+            <div className="form-text">{erreur.password}</div>
           </div>
           <div className="mb-3">
             <label for="newPassword" className="form-label">
@@ -230,9 +212,7 @@ const Myaccount = () => {
               placeholder="Enter your New Password"
               onChange={myaccountChangeHandler}
             />
-            <div className="form-text">
-              We'll never share your email with anyone else.
-            </div>
+            <div className="form-text">{erreur.newPassword}</div>
           </div>
           <div className="text-end">
             <button className="btn btn-orange m-auto">Save</button>
