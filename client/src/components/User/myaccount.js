@@ -51,6 +51,7 @@ const Myaccount = () => {
                   name="firstname"
                   placeholder="First name"
                   onChange={myaccountChangeHandler}
+                  value={UpdateInfo.firstname}
                 />
               </div>
               <div class="col-12 col-md-6">
@@ -60,6 +61,7 @@ const Myaccount = () => {
                   name="lastname"
                   placeholder="Last name"
                   onChange={myaccountChangeHandler}
+                  value={UpdateInfo.lastname}
                 />
               </div>
             </div>
@@ -78,6 +80,7 @@ const Myaccount = () => {
               name="email"
               placeholder="Enter your Email"
               onChange={myaccountChangeHandler}
+              value={UpdateInfo.email}
             />
             <div className="form-text">
               We'll never share your email with anyone else.
@@ -93,6 +96,7 @@ const Myaccount = () => {
               id="birthday"
               name="birthday"
               onChange={myaccountChangeHandler}
+              value={UpdateInfo.birthday}
             />
             <div className="form-text">
               We'll never share your email with anyone else.
@@ -109,6 +113,7 @@ const Myaccount = () => {
               name="address"
               placeholder="Enter your adress"
               onChange={myaccountChangeHandler}
+              value={UpdateInfo.address}
             />
             <div className="form-text">
               We'll never share your email with anyone else.
@@ -123,6 +128,7 @@ const Myaccount = () => {
                   name="country"
                   placeholder="country"
                   onChange={myaccountChangeHandler}
+                  value={UpdateInfo.country}
                 />
               </div>
               <div class="col-12 col-md-4">
@@ -132,6 +138,7 @@ const Myaccount = () => {
                   name="ville"
                   placeholder="Town"
                   onChange={myaccountChangeHandler}
+                  value={UpdateInfo.ville}
                 />
               </div>
               <div class="col-12 col-md-4">
@@ -141,9 +148,27 @@ const Myaccount = () => {
                   name="codePostal"
                   placeholder="Postal code"
                   onChange={myaccountChangeHandler}
+                  value={UpdateInfo.codePostal}
                 />
               </div>
             </div>
+            <div className="form-text">
+              We'll never share your email with anyone else.
+            </div>
+          </div>
+          <div className="mb-3">
+            <label for="phone" className="form-label">
+              Phone number
+            </label>
+            <input
+              type="tel"
+              className="form-control"
+              id="phone"
+              name="phone"
+              placeholder="Enter your Phone number"
+              onChange={myaccountChangeHandler}
+              value={UpdateInfo.phone}
+            />
             <div className="form-text">
               We'll never share your email with anyone else.
             </div>
@@ -165,24 +190,8 @@ const Myaccount = () => {
             </div>
           </div>
           <div className="mb-3">
-            <label for="phone" className="form-label">
-              Phone number
-            </label>
-            <input
-              type="tel"
-              className="form-control"
-              id="phone"
-              name="phone"
-              placeholder="Enter your Phone number"
-              onChange={myaccountChangeHandler}
-            />
-            <div className="form-text">
-              We'll never share your email with anyone else.
-            </div>
-          </div>
-          <div className="mb-3">
             <label for="newPassword" className="form-label">
-              Password
+              New Password
             </label>
             <input
               type="password"
