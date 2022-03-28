@@ -3,8 +3,7 @@ import api from "./../../config.service";
 
 const Myaccount = () => {
   const [erreur, setErreur] = useState({
-    firstname: "",
-    lastname: "",
+    name: "",
     email: "",
     password: "",
     newPassword: "",
@@ -62,7 +61,43 @@ const Myaccount = () => {
     getMyData();
   }, []);
   //end api getMyData
-
+  // begin function save
+  function Save() {
+    var newErreur = erreur;
+    if (!(UpdateInfo.firstname && UpdateInfo.lastname)) {
+      newErreur.name = "Full name data is required!";
+    } else {
+      newErreur.name = "";
+    }
+    if (!UpdateInfo.email) {
+      newErreur.email = "Email address is required!";
+    } else {
+      newErreur.email = "";
+    }
+    if (!UpdateInfo.phone) {
+      newErreur.phone = "Phone number is required!";
+    } else {
+      newErreur.phone = "";
+    }
+    if (!UpdateInfo.password) {
+      newErreur.password = "Password is required!";
+    } else {
+      newErreur.password = "";
+    }
+    setErreur({ ...newErreur });
+    if (
+      !(
+        newErreur.name ||
+        newErreur.email ||
+        newErreur.phone ||
+        newErreur.password
+      )
+    ) {
+      //api update user
+      console.log("update");
+    }
+  }
+  //end function save
   return (
     <div className="row justify-content-center mb-5 w-100 mx-0">
       <div className="col-12 col-md-10 col-lg-9 col-xl-8 col-xxl-6">
@@ -71,7 +106,9 @@ const Myaccount = () => {
         </div>
         <div className="card formulaire p-3 mt-5">
           <div className="mb-3">
-            <label className="form-label">Full name</label>
+            <label className="form-label">
+              Full name <small className="text-danger">*</small>
+            </label>
             <div className="row g-3 align-items-center">
               <div className="col-12 col-md-6">
                 <input
@@ -94,10 +131,11 @@ const Myaccount = () => {
                 />
               </div>
             </div>
+            <div className="form-text">{erreur.name}</div>
           </div>
           <div className="mb-3">
             <label for="email" className="form-label">
-              Email address
+              Email address <small className="text-danger">*</small>
             </label>
             <input
               type="email"
@@ -173,7 +211,7 @@ const Myaccount = () => {
           </div>
           <div className="mb-3">
             <label for="phone" className="form-label">
-              Phone number
+              Phone number <small className="text-danger">*</small>
             </label>
             <input
               type="tel"
@@ -188,7 +226,7 @@ const Myaccount = () => {
           </div>
           <div className="mb-3">
             <label for="password" className="form-label">
-              Password
+              Password <small className="text-danger">*</small>
             </label>
             <input
               type="password"
@@ -215,7 +253,9 @@ const Myaccount = () => {
             <div className="form-text">{erreur.newPassword}</div>
           </div>
           <div className="text-end">
-            <button className="btn btn-orange m-auto">Save</button>
+            <button className="btn btn-orange m-auto" onClick={Save}>
+              Save
+            </button>
           </div>
         </div>
       </div>
