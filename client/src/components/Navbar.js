@@ -428,10 +428,15 @@ const Navbar = () => {
                 <FaShoppingCart className="iconCart mx-2" />
               </div>
             ) : (
-              <div className="col-200 userDetailsNavbar">
+              <div className="col-250 userDetailsNavbar">
                 <FaUserAlt className="iconUser" />
-                <Link to="/login">Sign In</Link>/
-                <Link to="/register">Sign Up</Link>
+                <Link to="/login" className="navFromNavbar">
+                  Sign In
+                </Link>
+                /
+                <Link to="/register" className="navFromNavbar">
+                  Sign Up
+                </Link>
                 <FaShoppingCart className="iconCart" />
               </div>
             )}
