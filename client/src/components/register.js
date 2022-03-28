@@ -11,7 +11,8 @@ const Register = () => {
   const [Submited, setSubmited] = useState(false);
   const [MssageErreur, setMessageErreur] = useState("");
   const [registerInfo, setRegisterInfo] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     numTel: 0,
@@ -20,7 +21,8 @@ const Register = () => {
   });
 
   const [errors, setErrors] = useState({
-    name: false,
+    firstName: false,
+    lastName: false,
     email: false,
     password: false,
     numTel: false,
@@ -49,7 +51,12 @@ const Register = () => {
   };
 
   function validateData() {
-    !registerInfo.name ? (errors.name = true) : (errors.name = false);
+    !registerInfo.firstName
+      ? (errors.firstName = true)
+      : (errors.firstName = false);
+    !registerInfo.lastName
+      ? (errors.lastName = true)
+      : (errors.lastName = false);
     !registerInfo.numTel || registerInfo.numTel.length !== 8
       ? (errors.numTel = true)
       : (errors.numTel = false);
@@ -72,7 +79,8 @@ const Register = () => {
     validateData();
     if (
       errors.email === true ||
-      errors.name === true ||
+      errors.firstName === true ||
+      errors.lastName === true ||
       errors.numTel === true ||
       errors.password === true ||
       errors.password_repeat === true /*||
@@ -113,11 +121,20 @@ const Register = () => {
             </h2>
             <div className="mb-3">
               <input
-                className={"form-control " + (errors.name ? "erreur" : "")}
+                className={"form-control " + (errors.firstName ? "erreur" : "")}
                 type="text"
-                name="name"
+                name="firstName"
                 onChange={regChangeHandler}
-                placeholder="Username"
+                placeholder="First name"
+              />
+            </div>
+            <div className="mb-3">
+              <input
+                className={"form-control " + (errors.lastName ? "erreur" : "")}
+                type="text"
+                name="lastname"
+                onChange={regChangeHandler}
+                placeholder="Last name"
               />
             </div>
             <div className="mb-3">
