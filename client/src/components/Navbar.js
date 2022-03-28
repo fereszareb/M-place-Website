@@ -386,7 +386,7 @@ const Navbar = () => {
               </div>
             </div>
             {IsLoggin() ? (
-              <div className="col-200 userDetailsNavbar">
+              <div className="col-200">
                 <div className="userNav">
                   <span
                     type="button"
