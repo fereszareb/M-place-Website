@@ -14,6 +14,7 @@ import RegisterPO from "./components/registerPO/registerPO";
 import ForgetPassword from "./components/forgetPassword";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ResetPassword from "./components/resetPassword";
+import Search from "./components/search";
 import Myaccount from "./components/User/myaccount";
 
 function App() {
@@ -38,6 +39,11 @@ function App() {
         <Route exact path="/myaccount">
           <Navbar />
           <Myaccount />
+          <Footer />
+        </Route>
+        <Route exact path="/search">
+          <Navbar />
+          <Search />
           <Footer />
         </Route>
         <Route exact path="/">
