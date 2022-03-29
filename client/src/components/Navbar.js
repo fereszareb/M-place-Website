@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
+import { useHistory } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap";
 import "./../css/navbar.css";
@@ -255,7 +255,15 @@ const Navbar = () => {
     localStorage.clear();
     window.location.reload();
   }
-
+  const [InputSearch, setInputSearch] = useState("");
+  const SearchChangeHandler = (e) => {
+    setInputSearch(e.target.value);
+  };
+  const history = useHistory();
+  function searchNavbar(e) {
+    e.preventDefault();
+    history.push("/search?q=" + InputSearch);
+  }
   return (
     <div className="header">
       <div className="ContactHeader"></div>
@@ -371,13 +379,17 @@ const Navbar = () => {
                 >
                   <span className="navbar-toggler-icon"></span>
                 </button>
-                <form className="form-group d-none d-lg-flex">
+                <form
+                  className="form-group d-none d-lg-flex"
+                  onSubmit={searchNavbar}
+                >
                   <div className="search">
                     <input
                       className="search"
                       type="search"
                       placeholder="Cherchez un produit, une marque ou une catégorie"
                       aria-label="Search"
+                      onChange={SearchChangeHandler}
                     />
                   </div>
                   <button className="search-button" type="submit">
