@@ -1,138 +1,181 @@
-import React, { useState } from "react";
-import { Form, Card, Button } from "react-bootstrap";
-import validator from "validator";
+import React from "react";
 
 // creating functional component ans getting props from app.js and destucturing them
-const StepTwo = ({ nextStep, handleFormData, prevStep, values }) => {
-  //creating error state for validation
-  const [error, setError] = useState(false);
-
-  // after form submit validating the form data using validator
+const StepTwo = ({
+  nextStep,
+  prevStep,
+  registerFileChangeHandler,
+  values,
+  registerChangeHandler,
+}) => {
+  // after form submit validating the form
   const submitFormData = (e) => {
     e.preventDefault();
-
-    // checking if value of first name and last name is empty show error else take to next step
-    if (validator.isEmpty(values.age) || validator.isEmpty(values.email)) {
-      setError(true);
-    } else {
-      nextStep();
-    }
+    nextStep();
   };
-  return (
-    <>
-      <Card style={{ marginTop: 100 }}>
-        <h1>details of Boutique</h1>
-        <Card.Body>
-          <Form onSubmit={submitFormData}>
-            <Form.Group className="mb-3">
-              <Form.Label>Name Entreprise</Form.Label>
-              <Form.Control
-                style={{ border: error ? "2px solid red" : "" }}
-                type="text"
-                placeholder="Name Entreprise"
-                onChange={handleFormData("nameEntreprise")}
-              />
-              {error ? (
-                <Form.Text style={{ color: "red" }}>
-                  This is a required field
-                </Form.Text>
-              ) : (
-                ""
-              )}
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Logo</Form.Label>
-              <Form.Control
-                style={{ border: error ? "2px solid red" : "" }}
-                type="file"
-                placeholder="Logo"
-                onChange={handleFormData("logo")}
-              />
-              {error ? (
-                <Form.Text style={{ color: "red" }}>
-                  This is a required field
-                </Form.Text>
-              ) : (
-                ""
-              )}
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Identifiant Fiscale</Form.Label>
-              <Form.Control
-                style={{ border: error ? "2px solid red" : "" }}
-                type="text"
-                placeholder="Identifiant Fiscale"
-                onChange={handleFormData("identifiantFiscale")}
-              />
-              {error ? (
-                <Form.Text style={{ color: "red" }}>
-                  This is a required field
-                </Form.Text>
-              ) : (
-                ""
-              )}
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>File Identifiant Fiscale</Form.Label>
-              <Form.Control
-                style={{ border: error ? "2px solid red" : "" }}
-                type="file"
-                placeholder="Logo"
-                onChange={handleFormData("fileidentifiantFiscale")}
-              />
-              {error ? (
-                <Form.Text style={{ color: "red" }}>
-                  This is a required field
-                </Form.Text>
-              ) : (
-                ""
-              )}
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>RNE Number</Form.Label>
-              <Form.Control
-                style={{ border: error ? "2px solid red" : "" }}
-                type="text"
-                placeholder="RNENumber"
-                onChange={handleFormData("RNENumber")}
-              />
-              {error ? (
-                <Form.Text style={{ color: "red" }}>
-                  This is a required field
-                </Form.Text>
-              ) : (
-                ""
-              )}
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Date of Creation</Form.Label>
-              <Form.Control
-                style={{ border: error ? "2px solid red" : "" }}
-                type="date"
-                placeholder="datofCreation"
-                onChange={handleFormData("datofCreation")}
-              />
-              {error ? (
-                <Form.Text style={{ color: "red" }}>
-                  This is a required field
-                </Form.Text>
-              ) : (
-                ""
-              )}
-            </Form.Group>
-            <div style={{ display: "flex", justifyContent: "space-around" }}>
-              <Button variant="primary" onClick={prevStep}>
-                Previous
-              </Button>
 
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
+  return (
+    <div>
+      <div className="text-center titleCarousel mb-0">
+        Company <b>information</b>
+      </div>
+
+      <form onSubmit={submitFormData}>
+        <div className="card formulaire p-3 mt-5">
+          <div className="mb-3">
+            <label for="nameEntreprise" className="form-label">
+              Company Name <small className="text-danger">*</small>
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="nameEntreprise"
+              name="nameEntreprise"
+              required
+              placeholder="Enter your Company Name"
+              onChange={registerChangeHandler}
+              defaultValue={values.nameEntreprise}
+            />
+          </div>
+          <div className="mb-3">
+            <label for="logo" className="form-label">
+              Logo of Company <small className="text-danger">*</small>
+            </label>
+            <input
+              type="file"
+              className="form-control"
+              id="logo"
+              name="logo"
+              required
+              onChange={registerFileChangeHandler}
+            />
+          </div>
+          <div className="mb-3">
+            <label for="address" className="form-label">
+              Address<small className="text-danger">*</small>
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="address"
+              name="address"
+              required
+              placeholder="Enter your adress"
+              onChange={registerChangeHandler}
+              defaultValue={values.address}
+            />
+          </div>
+          <div className="mb-3">
+            <div className="row g-3 align-items-center">
+              <div className="col-12 col-md-4">
+                <input
+                  type="text"
+                  className="form-control"
+                  name="country"
+                  placeholder="country"
+                  required
+                  onChange={registerChangeHandler}
+                  defaultValue={values.country}
+                />
+              </div>
+              <div className="col-12 col-md-4">
+                <input
+                  type="text"
+                  className="form-control"
+                  name="ville"
+                  placeholder="Town"
+                  required
+                  onChange={registerChangeHandler}
+                  defaultValue={values.ville}
+                />
+              </div>
+              <div className="col-12 col-md-4">
+                <input
+                  type="text"
+                  className="form-control"
+                  name="codePostal"
+                  placeholder="Postal code"
+                  required
+                  onChange={registerChangeHandler}
+                  defaultValue={values.codePostale}
+                />
+              </div>
             </div>
-          </Form>
-        </Card.Body>
-      </Card>
-    </>
+          </div>
+          <div className="mb-3">
+            <label for="datofCreation" className="form-label">
+              Creation date<small className="text-danger">*</small>
+            </label>
+            <input
+              type="date"
+              className="form-control"
+              id="datofCreation"
+              name="datofCreation"
+              required
+              onChange={registerChangeHandler}
+              defaultValue={values.datofCreation}
+            />
+          </div>
+          <div className="mb-3">
+            <label for="identifiantFiscale" className="form-label">
+              TAX ID <small className="text-danger">*</small>
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="identifiantFiscale"
+              required
+              pattern="[0-9]+"
+              name="identifiantFiscale"
+              placeholder="Enter your TAX ID"
+              onChange={registerChangeHandler}
+              defaultValue={values.identifiantFiscale}
+            />
+          </div>
+          <div className="mb-3">
+            <label for="fileidentifiantFiscale" className="form-label">
+              Picture of TAX ID <small className="text-danger">*</small>
+            </label>
+            <input
+              type="file"
+              className="form-control"
+              id="fileidentifiantFiscale"
+              name="fileidentifiantFiscale"
+              required
+              onChange={registerFileChangeHandler}
+            />
+          </div>
+          <div className="mb-3">
+            <label for="RNENumber" className="form-label">
+              RNE Number <small className="text-danger">*</small>
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="RNENumber"
+              required
+              pattern="[0-9]+"
+              name="RNENumber"
+              placeholder="Enter your RNE Number"
+              onChange={registerChangeHandler}
+              defaultValue={values.RNENumber}
+            />
+          </div>
+          <div className="row mt-3">
+            <div className="col-6">
+              <button className="btn btn-orange m-auto" onClick={prevStep}>
+                Previous
+              </button>
+            </div>
+            <div className="col-6 text-end">
+              <button className="btn btn-orange m-auto" type="submit">
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 };
 
