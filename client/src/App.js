@@ -22,7 +22,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/test">
+        <Route exact path="/registerPO">
           <RegisterPO />
         </Route>
         <Route exact path="/login">
