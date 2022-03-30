@@ -3,10 +3,9 @@ import { useParams, useHistory } from "react-router-dom";
 
 const Redirect = () => {
   const history = useHistory();
-  const { token, refreshToken, username } = useParams();
+  const { token, refreshToken } = useParams();
   localStorage.setItem("token", token);
   localStorage.setItem("refreshToken", refreshToken);
-  localStorage.setItem("user", username);
   history.push("/");
   return null;
 };
