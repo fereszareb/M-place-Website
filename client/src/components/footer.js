@@ -36,10 +36,13 @@ const Footer = () => {
             <h3>Important links</h3>
             <ul>
               <li>
-                <Link to="login">Login Product Owner</Link>
+                <Link to="/login">Login Product Owner</Link>
               </li>
               <li>
-                <Link to="login">Start selling in our marketplace</Link>
+                <Link to="/loginAdmin">Login Admin</Link>
+              </li>
+              <li>
+                <Link to="/login">Start selling in our marketplace</Link>
               </li>
             </ul>
           </div>
