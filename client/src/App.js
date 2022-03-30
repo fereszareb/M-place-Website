@@ -16,6 +16,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ResetPassword from "./components/resetPassword";
 import Search from "./components/search";
 import Myaccount from "./components/User/myaccount";
+import LoginAdmin from "./components/loginAdmin";
 
 function App() {
   return (
@@ -26,6 +27,9 @@ function App() {
         </Route>
         <Route exact path="/login">
           <Login />
+        </Route>
+        <Route exact path="/loginAdmin">
+          <LoginAdmin />
         </Route>
         <Route exact path="/register">
           <Register />
