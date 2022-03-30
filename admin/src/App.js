@@ -11,7 +11,7 @@ export default class Responsive extends Component {
     return (
       <Router>
         <Switch>
-          <Route exact path="/Redirect/:token/:refreshToken/:username">
+          <Route exact path="/Redirect/:token/:refreshToken">
             <Redirect />
           </Route>
           <Route exact path="/product">
