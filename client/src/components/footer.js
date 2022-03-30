@@ -42,7 +42,7 @@ const Footer = () => {
                 <Link to="/loginAdmin">Login Admin</Link>
               </li>
               <li>
-                <Link to="/login">Start selling in our marketplace</Link>
+                <Link to="/registerPO">Start selling in our marketplace</Link>
               </li>
             </ul>
           </div>
