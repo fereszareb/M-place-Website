@@ -55,16 +55,16 @@ const Footer = () => {
             </p>
           </div>
           <div className="col item social">
-            <a href="#">
+            <a href="/">
               <RiFacebookFill className="icon" />
             </a>
-            <a href="#">
+            <a href="/">
               <RiTwitterFill className="icon" />
             </a>
-            <a href="#">
+            <a href="/">
               <RiWhatsappFill className="icon" />
             </a>
-            <a href="#">
+            <a href="/">
               <RiInstagramFill className="icon" />
             </a>
           </div>
