@@ -28,6 +28,7 @@ const LoginAdmin = () => {
     if (!loginInfo.email || !loginInfo.password) {
       setErreurDisplay("All data required !");
     } else if (
+      // eslint-disable-next-line no-useless-escape
       !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(loginInfo.email)
     ) {
       setErreurDisplay("You have entered an invalid email address!");
@@ -35,15 +36,16 @@ const LoginAdmin = () => {
       setErreurDisplay("The password should be more than 8 characters");
     } else {
       api
-        .post("api/v1/auth/Client/login", loginInfo, {
+        .post("api/v1/auth/Admin/login", loginInfo, {
           withCredentials: true,
         })
         .then((res) => {
-          console.log("LOGGGIN IN RESPONSE", res);
-
-          localStorage.setItem("token", res.data.access_token);
-          localStorage.setItem("user", res.data.name);
-          history.push("/");
+          console.log(res);
+          window.location.href =
+            "http://localhost:3001/Redirect/" +
+            res.data.access_token +
+            "/" +
+            res.data.refresh_token;
         })
         .catch(function (error) {
           if (error.response) {
@@ -86,12 +88,6 @@ const LoginAdmin = () => {
             Log In
           </button>
         </div>
-        <Link className="forgot" to="/forgetPassword">
-          Forgot your password?
-        </Link>
-        <Link className="forgot mt-2" to="/register">
-          I don't have an account? Register here.
-        </Link>
       </form>
     </section>
   );
