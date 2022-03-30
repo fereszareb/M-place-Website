@@ -1,19 +1,19 @@
-import "./../../../css/Panel/templatePanel.css";
-import logo from "./../../../logo.svg";
+import logo from "./../logo.svg";
 import React, { Component } from "react";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import Users from "../Admin/users";
-import Products from "../Admin/product";
-import Events from "../Admin/events";
-import DashboardAdmin from "../Admin/dashboard";
-import ProductOwnerNotVerified from "../Admin/productOwner/ProductOwnerNotVerified";
-import ProductOwnerDeleted from "../Admin/productOwner/ProductOwnerDeleted";
-import Messages from "../Admin/message";
-import Category from "../Admin/category";
-import Reports from "../Admin/report";
-import Blogs from "../Admin/blogs";
-import ProductOwner from "../Admin/productOwner/ProductOwner";
+import Users from "./Admin/users";
+import Products from "./Admin/product";
+import Events from "./Admin/events";
+import DashboardAdmin from "./Admin/dashboard";
+import ProductOwnerNotVerified from "./Admin/productOwner/ProductOwnerNotVerified";
+import ProductOwnerBlocked from "./Admin/productOwner/ProductOwnerBlocked";
+import ProductOwnerDeleted from "./Admin/productOwner/ProductOwnerDeleted";
+import Messages from "./Admin/message";
+import Category from "./Admin/category";
+import Reports from "./Admin/report";
+import Blogs from "./Admin/blogs";
+import ProductOwner from "./Admin/productOwner/ProductOwner";
 import { BiSubdirectoryRight } from "react-icons/bi";
 import "bootstrap/dist/js/bootstrap.js";
 function menuClick() {
@@ -27,14 +27,14 @@ function menuClick() {
     elementContent.classList.add("contentFull");
   }
 }
-export default class Responsive extends Component {
+export default class Template extends Component {
   render() {
     const content = () => {
       switch (this.props.data) {
-        case "dashboard":
-          return <DashboardAdmin />;
         case "product":
           return <Products />;
+        case "dashboard":
+          return <DashboardAdmin />;
         case "users":
           return <Users />;
         case "category":
@@ -43,6 +43,8 @@ export default class Responsive extends Component {
           return <ProductOwner />;
         case "productOwnerNotVerified":
           return <ProductOwnerNotVerified />;
+        case "productOwnerBlocked":
+          return <ProductOwnerBlocked />;
         case "productOwnerDeleted":
           return <ProductOwnerDeleted />;
         case "messages":
@@ -68,47 +70,48 @@ export default class Responsive extends Component {
             <ul>
               <li
                 className={
-                  window.location.pathname.split("/")[2] === "dashboard"
+                  window.location.pathname.split("/")[1] === "dashboard" ||
+                  window.location.pathname.split("/")[1] === ""
                     ? "item active"
                     : "item"
                 }
               >
-                <Link to="/admin/dashboard">
+                <Link to="/dashboard">
                   <p>Dashboard</p>
                 </Link>
               </li>
               <li
                 className={
-                  window.location.pathname.split("/")[2] === "product"
+                  window.location.pathname.split("/")[1] === "product"
                     ? "item active"
                     : "item"
                 }
               >
-                <Link to="/admin/product">
+                <Link to="/product">
                   <p>Product</p>
                 </Link>
               </li>
 
               <li
                 className={
-                  window.location.pathname.split("/")[2] === "users"
+                  window.location.pathname.split("/")[1] === "users"
                     ? "item active"
                     : "item"
                 }
               >
-                <Link to="/admin/users">
+                <Link to="/users">
                   <p>Users</p>
                 </Link>
               </li>
 
               <li
                 className={
-                  window.location.pathname.split("/")[2] === "category"
+                  window.location.pathname.split("/")[1] === "category"
                     ? "item active"
                     : "item"
                 }
               >
-                <Link to="/admin/category">
+                <Link to="/category">
                   <p>Category</p>
                 </Link>
               </li>
@@ -118,8 +121,8 @@ export default class Responsive extends Component {
                   [
                     "productOwner",
                     "productOwnerNotVerified",
-                    "productOwnerDeleted",
-                  ].includes(window.location.pathname.split("/")[2])
+                    "productOwnerBlocked",
+                  ].includes(window.location.pathname.split("/")[1])
                     ? "item active"
                     : "item"
                 }
@@ -130,23 +133,30 @@ export default class Responsive extends Component {
                 <div className="collapse" id="productOwner">
                   <ul>
                     <li>
-                      <Link to="/admin/productOwner">
+                      <Link to="/productOwner">
                         <p>
                           <BiSubdirectoryRight /> All Product Owner
                         </p>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/admin/productOwnerNotVerified">
+                      <Link to="/productOwnerNotVerified">
                         <p>
                           <BiSubdirectoryRight /> PO not verified
                         </p>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/admin/productOwnerDeleted">
+                      <Link to="/productOwnerBlocked">
                         <p>
-                          <BiSubdirectoryRight /> PO deleted
+                          <BiSubdirectoryRight /> PO blocked
+                        </p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/productOwnerDeleted">
+                        <p>
+                          <BiSubdirectoryRight /> PO Deleted
                         </p>
                       </Link>
                     </li>
@@ -155,48 +165,48 @@ export default class Responsive extends Component {
               </li>
               <li
                 className={
-                  window.location.pathname.split("/")[2] === "messages"
+                  window.location.pathname.split("/")[1] === "messages"
                     ? "item active"
                     : "item"
                 }
               >
-                <Link to="/admin/messages">
+                <Link to="/messages">
                   <p>Messages</p>
                 </Link>
               </li>
 
               <li
                 className={
-                  window.location.pathname.split("/")[2] === "reports"
+                  window.location.pathname.split("/")[1] === "reports"
                     ? "item active"
                     : "item"
                 }
               >
-                <Link to="/admin/reports">
+                <Link to="/reports">
                   <p>Reports</p>
                 </Link>
               </li>
 
               <li
                 className={
-                  window.location.pathname.split("/")[2] === "events"
+                  window.location.pathname.split("/")[1] === "events"
                     ? "item active"
                     : "item"
                 }
               >
-                <Link to="/admin/events">
+                <Link to="/events">
                   <p>Events</p>
                 </Link>
               </li>
 
               <li
                 className={
-                  window.location.pathname.split("/")[2] === "blogs"
+                  window.location.pathname.split("/")[1] === "blogs"
                     ? "item active"
                     : "item"
                 }
               >
-                <Link to="/admin/blogs">
+                <Link to="/blogs">
                   <p>Blogs</p>
                 </Link>
               </li>
