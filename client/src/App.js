@@ -17,6 +17,7 @@ import ResetPassword from "./components/resetPassword";
 import Search from "./components/search";
 import Myaccount from "./components/User/myaccount";
 import LoginAdmin from "./components/loginAdmin";
+import Chat from "./components/User/chat";
 
 function App() {
   return (
@@ -43,6 +44,11 @@ function App() {
         <Route exact path="/myaccount">
           <Navbar />
           <Myaccount />
+          <Footer />
+        </Route>
+        <Route exact path="/chat">
+          <Navbar />
+          <Chat />
           <Footer />
         </Route>
         <Route exact path="/search">
