@@ -1,0 +1,69 @@
+.chatLeft,
+.chatRight {
+  border-right: 2px solid #d4d4d4;
+  margin: 0;
+  padding: 0;
+  min-height: 60vh;
+}
+.chatLeft .chatLeftTitle {
+  padding: 0.8em;
+  text-align: center;
+  background: #fb8500;
+  color: white;
+}
+.chatRight .chatRightTitle {
+  padding: 1em;
+  border-bottom: 1px solid #d4d4d4;
+}
+.chatLeft ul {
+  list-style: none;
+  padding: 0;
+}
+.chatLeft ul li {
+  cursor: pointer;
+  padding: 1em;
+  padding-left: 2em;
+  border-bottom: 1px solid #d4d4d4;
+}
+.chatLeft ul li:hover {
+  background: #d4d4d4;
+}
+.chatLeft .chatLeftPicture,
+.chatRight .chatRightPicture {
+  height: 40px;
+  width: 40px;
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+}
+.width-50 {
+  width: 50%;
+}
+.chatLeft .chatLeftNameUser,
+.chatRight .chatRightNameUser {
+  padding: 0.45em;
+  padding-left: 1em;
+  width: calc(100% - 50px);
+}
+.chatBox {
+  height: 70vh;
+  width: 100%;
+  padding: 1em;
+}
+.chatBox .chatboxPicture {
+  height: 40px;
+  width: 40px;
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.chatBox .MessageDisplay {
+  width: calc(100% - 50px);
+}
+.chatBox .MessageContent {
+  background: blue;
+  border-radius: 30px;
+  padding: 0.5em 1em;
+  color: #fff;
+}
