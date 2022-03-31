@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 import "./../css/category.css";
 import { useHistory } from "react-router-dom";
+import { useEffect } from "react";
 import { Pagination } from "react-bootstrap";
 import { useState } from "react";
+import api from "./../config.service";
 
 // function return the stars of every product
 function showStars(stars) {
@@ -42,142 +44,33 @@ function showStars(stars) {
   return rows;
 }
 //data of this page ( its just a test)
-var data = {
-  filter: [
-    {
-      name: "Size",
-      option: [
-        { name: "S", nombreProduct: 12 },
-        { name: "M", nombreProduct: 8 },
-        { name: "L", nombreProduct: 19 },
-        { name: "XL", nombreProduct: 24 },
-        { name: "XXL", nombreProduct: 6 },
-        { name: "XXXL", nombreProduct: 0 },
-      ],
-    },
-    {
-      name: "Colors",
-      option: [
-        { name: "White", nombreProduct: 12 },
-        { name: "Blue", nombreProduct: 8 },
-        { name: "Red", nombreProduct: 19 },
-        { name: "Green", nombreProduct: 24 },
-        { name: "Pink", nombreProduct: 6 },
-        { name: "Balck", nombreProduct: 0 },
-      ],
-    },
 
-    {
-      name: "Size",
-      option: [
-        { name: "S", nombreProduct: 12 },
-        { name: "M", nombreProduct: 8 },
-        { name: "L", nombreProduct: 19 },
-        { name: "XL", nombreProduct: 24 },
-        { name: "XXL", nombreProduct: 6 },
-        { name: "XXXL", nombreProduct: 0 },
-      ],
-    },
-  ],
-  products: [
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-  ],
-  nbrOfProduct: 527,
-};
 // urlParams return the searchParams from the URL
 const urlParams = new URLSearchParams(window.location.search);
 
 const Category = () => {
+  const { categ, sousCateg, sousSousCateg } = useParams();
+  //begin api getAllByCateg
+  const [data, setdata] = useState({
+    filter: [],
+    products: [],
+    number_of_products: 0,
+  });
+  const retrieveUsers = async () => {
+    const response = await api.get(
+      "/categoriess/" + (sousSousCateg || sousCateg || categ)
+    );
+    return response.data;
+  };
+  useEffect(() => {
+    const getAllUsers = async () => {
+      const allUsers = await retrieveUsers();
+      if (allUsers) setdata(allUsers);
+    };
+    getAllUsers();
+  }, []);
+  //end api getAllByCateg
+
   const history = useHistory();
   //nombre of pagination
   let numberItems = parseInt(data.nbrOfProduct / 48);
@@ -194,15 +87,12 @@ const Category = () => {
   // change filter of search
   const [SearchData, setSearchData] = useState([]);
   function FilterChange(e) {
-    console.log(e.target.getAttribute("variable"));
-
     const newSearch = SearchData.filter((variable) => {
       return (
         variable.variable !== e.target.getAttribute("variable") ||
         variable.value !== e.target.getAttribute("name")
       );
     });
-    console.log(newSearch.length === SearchData.length);
     if (newSearch.length === SearchData.length) {
       setSearchData((data) => [
         ...data,
@@ -213,6 +103,8 @@ const Category = () => {
           },
         ],
       ]);
+      var filter = {};
+      api.get("/categoriess/" + (sousSousCateg || sousCateg || categ));
     } else {
       setSearchData((data) => [...newSearch]);
     }
@@ -225,7 +117,7 @@ const Category = () => {
     items.push({ nbr: i + 1 });
   }
   // useParam
-  const { categ, sousCateg, sousSousCateg } = useParams();
+
   return (
     <div className="container-lg">
       <div className="navigation">
@@ -298,8 +190,21 @@ const Category = () => {
                           <div className="thumb-content">
                             <h4>{item.name}</h4>
                             <p className="item-price">
-                              <strike>{item.lastPrise} TND</strike>{" "}
-                              <b>{item.newPrise} TND</b>
+                              {item.reduction_percentage === 0 ? (
+                                <b>{item.price} TND</b>
+                              ) : (
+                                <>
+                                  <strike className="me-2">
+                                    {item.price} TND
+                                  </strike>
+                                  <b>
+                                    {(item.price *
+                                      (100 - item.reduction_percentage)) /
+                                      100}
+                                    TND
+                                  </b>
+                                </>
+                              )}
                             </p>
                             <div className="star-rating">
                               <ul className="list-inline">
