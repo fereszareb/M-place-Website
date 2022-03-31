@@ -5,6 +5,8 @@ import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 import { Tab, ListGroup } from "react-bootstrap";
 import ImagesProduct from "./productComponents/images";
 import Review from "./productComponents/review";
+import { useState, useEffect } from "react";
+import api from "./../config.service";
 function showStars(stars) {
   const nbr = Math.trunc(stars);
   var rows = [];
@@ -40,8 +42,52 @@ function showStars(stars) {
   return rows;
 }
 
+var jsonRating = [
+  {
+    id: "555",
+    client: "first name and last name",
+    stars: 3.5,
+    date: "2022-12-12",
+    pictture: "https://pic",
+    comment: "here is comment",
+  },
+  {
+    id: "555",
+    client: "first name and last name",
+    stars: 3.5,
+    date: "2022-12-12",
+    pictture: "https://pic",
+    comment: "here is comment",
+  },
+];
+
 const Product = () => {
-  const { categ, sousCateg, sousSousCateg, product } = useParams();
+  const { product } = useParams();
+
+  const [data, setData] = useState({
+    id: "",
+    name: "",
+    SKU: "",
+    stars: 0,
+    description: "",
+    price: 0,
+    reduction_percentage: 0,
+    product_imgs: [],
+    variables: [],
+  });
+  const retrieveUsers = async () => {
+    const response = await api.get("products/SKU/" + product);
+    return response.data;
+  };
+  useEffect(() => {
+    const getData = async () => {
+      const dataOfProduct = await retrieveUsers();
+      if (dataOfProduct) setData(dataOfProduct);
+    };
+    getData();
+  }, []);
+  //end api getAllByCateg
+
   return (
     <div className="container mt-5">
       <div className="cart-product">
@@ -51,53 +97,41 @@ const Product = () => {
           </div>
           <div className="col-12 col-lg-7">
             <div className="container pl-4">
-              <div className="title">Title of product number 1</div>
+              <div className="title">{data.name}</div>
               <div className="contentProduct">
                 <div className="star-rating px-3">
                   <ul className="list-inline">
-                    {showStars(5)}
+                    {showStars(data.stars)}
                     <li className="list-inline-item review">8 Reviews</li>
                   </ul>
                 </div>
-                <div className="description px-3">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vel
-                  ad doloremque eos corrupti doloribus itaque vero, possimus
-                  consectetur repellat suscipit alias! Itaque suscipit error
-                  delectus corrupti. Inventore, accusantium. Numquam, magnam!
-                </div>
+                <div className="description px-3">{data.description}</div>
                 <div className="statusOfProduct">
                   <div className="row">
                     <div className="col">In Stock</div>
                     <div className="col">Marque : ASUS</div>
-                    <div className="col">SKU : ASUS-21254</div>
+                    <div className="col">SKU : {data.SKU}</div>
                   </div>
                 </div>
                 <div className="priceProduct">
-                  700.00 <span className="orange">TND</span>
+                  {data.price} <span className="orange">TND</span>
                 </div>
                 <div className="selection mt-3">
-                  <div className="row itemSelection pb-3">
-                    <div className="col-4 itemTitle">Color</div>
-                    <div className="col-8 itemChoise">
-                      <select name="" id="">
-                        <option value="red">red</option>
-                        <option value="green">green</option>
-                        <option value="blue">blue</option>
-                        <option value="black">black</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="row itemSelection pb-3">
-                    <div className="col-4 itemTitle">RAM</div>
-                    <div className="col-8 itemChoise">
-                      <select name="" id="">
-                        <option value="4gb">4 GB</option>
-                        <option value="8gb">8 GB</option>
-                        <option value="12gb">12 GB</option>
-                        <option value="16gb">16 GB</option>
-                      </select>
-                    </div>
-                  </div>
+                  {data.variables.map((variable, key) => {
+                    return (
+                      <div className="row itemSelection pb-3">
+                        <div className="col-4 itemTitle">Color</div>
+                        <div className="col-8 itemChoise">
+                          <select name="" id="">
+                            <option value="red">red</option>
+                            <option value="green">green</option>
+                            <option value="blue">blue</option>
+                            <option value="black">black</option>
+                          </select>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
