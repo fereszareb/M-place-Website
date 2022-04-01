@@ -18,11 +18,15 @@ import Search from "./components/search";
 import Myaccount from "./components/User/myaccount";
 import LoginAdmin from "./components/loginAdmin";
 import Chat from "./components/User/chat";
+import Test from "./components/User/test";
 
 function App() {
   return (
     <Router>
       <Switch>
+        <Route exact path="/test">
+          <Test />
+        </Route>
         <Route exact path="/registerPO">
           <RegisterPO />
         </Route>
