@@ -22,7 +22,6 @@
 .chatLeft ul li {
   cursor: pointer;
   padding: 1em;
-  padding-left: 2em;
   border-bottom: 1px solid #d4d4d4;
 }
 .chatLeft ul li:hover {
@@ -62,8 +61,43 @@
   width: calc(100% - 50px);
 }
 .chatBox .MessageContent {
-  background: blue;
   border-radius: 30px;
   padding: 0.5em 1em;
+  word-wrap: break-word;
+    max-width: 100%;
+}
+.messageSendColor {
+  background: #fb8500;
   color: #fff;
+}
+.messageReceiveColor {
+  background: #eeeeee;
+  color: #575757;
+}
+.max-width-1000 {
+  max-width: 1000px;
+}
+.sendMessageBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding-bottom: 1em;
+  margin: 0 10px;
+}
+.sendMessageInput {
+  width: calc(100% - 60px);
+  height: 40px;
+  border: none;
+  padding-left: 2em;
+}
+.messageBox {
+  padding: 10px 0;
+  border-top: 1px solid #d4d4d4;
+}
+.dateOfMessahe {
+  font-size: 0.6em;
+  margin-right: 1em;
+  font-weight: 700;
+  color: grey;
+  margin-left: 3.5em;
 }
