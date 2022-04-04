@@ -2,7 +2,7 @@ import io from "socket.io-client";
 import { useState } from "react";
 import "./file.css";
 import Messages from "./messages";
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect("http://localhost:4100");
 
 const Test = () => {
   const [username, setUsername] = useState("");
