@@ -37,7 +37,7 @@ const ResetPassword = () => {
       setErreurDisplay("Confirmation Password Incorrect");
     } else {
       api
-        .post("Client/resetPassword/" + token, data, {
+        .post("api/v1/auth/Client/resetPassword/" + token, data, {
           withCredentials: true,
         })
         .then((res) => {
