@@ -28,6 +28,7 @@ const Login = () => {
     if (!loginInfo.email || !loginInfo.password) {
       setErreurDisplay("All data required !");
     } else if (
+      // eslint-disable-next-line no-useless-escape
       !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(loginInfo.email)
     ) {
       setErreurDisplay("You have entered an invalid email address!");
