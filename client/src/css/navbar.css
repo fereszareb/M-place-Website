@@ -277,11 +277,14 @@ button:focus {
 
 /*******************User detals ***************/
 
-.userDetailsNavbar .username,
+.userNav .SpanUserNav .username,
 .navFromNavbar {
   color: white;
   transition: 0.3s;
   margin: 8px;
+}
+.userNav .SpanUserNav .username {
+  text-transform: capitalize;
 }
 .navFromNavbar:hover {
   color: #fb8500;
