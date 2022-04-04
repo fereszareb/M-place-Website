@@ -25,9 +25,13 @@ const ForgetPassword = () => {
       setErreurDisplay("You have entered an invalid email address!");
     } else {
       api
-        .post("api/v1/auth/Client/forgetPassword", email, {
-          withCredentials: true,
-        })
+        .post(
+          "api/v1/auth/Client/forgetPassword",
+          { email: email },
+          {
+            withCredentials: true,
+          }
+        )
         .then((res) => {
           setSubmited(true);
         })
