@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 // creating functional component ans getting props from app.js and destucturing them
 const StepOne = ({
@@ -6,13 +6,13 @@ const StepOne = ({
   registerFileChangeHandler,
   values,
   registerChangeHandler,
+  loadingCin,
 }) => {
   // after form submit validating the form
   const submitFormData = (e) => {
     e.preventDefault();
     nextStep();
   };
-
   return (
     <div>
       <div className="text-center titleCarousel mb-0">
@@ -107,8 +107,22 @@ const StepOne = ({
               id="cinfile"
               name="cinFile"
               required
+              disabled={loadingCin}
               onChange={registerFileChangeHandler}
             />
+            {loadingCin ? (
+              <small>
+                <div
+                  class="spinner-border text-secondary spinner-small"
+                  role="status"
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                Loading ...
+              </small>
+            ) : (
+              ""
+            )}
           </div>
           <div className="text-end">
             <button className="btn btn-orange m-auto" type="submit">
