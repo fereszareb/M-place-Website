@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import "./../css/login.css";
 import logoDark from "./../logoDark.svg";
 import api from "./../config.service";
-import { Link } from "react-router-dom";
 
 const LoginPO = () => {
   const history = useHistory();
@@ -11,7 +10,7 @@ const LoginPO = () => {
     history.push("/");
   }
   const [loginInfo, setLoginInfo] = useState({
-    email: "",
+    company_email: "",
     password: "",
   });
 
@@ -25,11 +24,13 @@ const LoginPO = () => {
   const login = (e) => {
     e.preventDefault();
     setErreurDisplay("");
-    if (!loginInfo.email || !loginInfo.password) {
+    if (!loginInfo.company_email || !loginInfo.password) {
       setErreurDisplay("All data required !");
     } else if (
       // eslint-disable-next-line no-useless-escape
-      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(loginInfo.email)
+      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+        loginInfo.company_email
+      )
     ) {
       setErreurDisplay("You have entered an invalid email address!");
     } else if (loginInfo.password.length < 8) {
@@ -66,7 +67,7 @@ const LoginPO = () => {
           <input
             className="form-control"
             type="email"
-            name="email"
+            name="company_email"
             onChange={loginChangeHandler}
             placeholder="Email"
           />
