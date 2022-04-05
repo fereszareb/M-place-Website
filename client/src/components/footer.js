@@ -36,7 +36,7 @@ const Footer = () => {
             <h3>Important links</h3>
             <ul>
               <li>
-                <Link to="/login">Login Product Owner</Link>
+                <Link to="/loginPO">Login Product Owner</Link>
               </li>
               <li>
                 <Link to="/loginAdmin">Login Admin</Link>
