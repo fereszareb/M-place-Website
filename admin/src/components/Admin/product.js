@@ -1,10 +1,16 @@
 import { Link } from "react-router-dom";
 import pic from "./../../meeting.jpg";
 import ReactEditor from "./../reactEditor";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BiTrashAlt, BiPlayCircle, BiEdit } from "react-icons/bi";
 import { Modal, Button } from "react-bootstrap";
+import api from "./../../config.service";
 const Products = () => {
+  // add var
+  const [Addshow, setAddShow] = useState(false);
+  const AddClose = () => setAddShow(false);
+  const AddShow = () => setAddShow(true);
+
   const [show, setModifyShow] = useState(false);
   const [showDelete, setDeleteShow] = useState(false);
   const ModifyClose = () => setModifyShow(false);
@@ -12,6 +18,39 @@ const Products = () => {
 
   const DeleteClose = () => setDeleteShow(false);
   const DeleteShow = () => setDeleteShow(true);
+
+  //begin api getAllCategories
+  const [categories, setcategories] = useState([]);
+  const retrieveCategories = async () => {
+    const response = await api.get("/categories");
+    return response.data;
+  };
+  useEffect(() => {
+    const getAllCategories = async () => {
+      const allCategories = await retrieveCategories();
+      if (allCategories) setcategories(allCategories);
+      console.log(allCategories);
+    };
+    getAllCategories();
+  }, []);
+  //end api getAllCategories
+
+  //begin api getAllMyproduct
+  const [products, setproducts] = useState([]);
+  const retrieveproducts = async () => {
+    const response = await api.get("/myProducts");
+    return response.data;
+  };
+  useEffect(() => {
+    const getAllProducts = async () => {
+      const allProducts = await retrieveproducts();
+      if (allProducts) setproducts(allProducts);
+      console.log(allProducts);
+    };
+    getAllProducts();
+  }, []);
+  //end api getAllMyproduct
+
   return (
     <div>
       <nav aria-label="breadcrumb">
@@ -24,10 +63,12 @@ const Products = () => {
           </li>
         </ol>
       </nav>
-
       <div className="cardTemplate shadow-sm">
         <div className="title-cardTemplate">
           <h1>List of products</h1>
+          <button className="btn btn-blue" onClick={AddShow}>
+            Add product
+          </button>
         </div>
         <div className="content-cardTemplate">
           <table>
@@ -271,6 +312,124 @@ const Products = () => {
             No
           </Button>
           <Button variant="danger">Yes</Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal
+        show={Addshow}
+        onHide={AddClose}
+        backdrop="static"
+        keyboard={false}
+        fullscreen={true}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Add Product</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="row">
+            <div className="col-12 col-sm-8">
+              <div className="cardTemplate shadow-sm">
+                <div className="title-cardTemplate">
+                  <h1>Product</h1>
+                </div>
+                <div className="content-cardTemplate">
+                  <input
+                    className="itemInput"
+                    placeholder="Name ( Ex: blue summer shirt.. )"
+                    type="text"
+                  />
+                  <ReactEditor />
+                </div>
+              </div>
+              <div className="cardTemplate shadow-sm">
+                <div className="title-cardTemplate">
+                  <h1>Images</h1>
+                </div>
+                <div className="content-cardTemplate"></div>
+              </div>
+              <div className="cardTemplate shadow-sm">
+                <div className="title-cardTemplate">
+                  <h1>Variants</h1>
+                </div>
+                <div className="content-cardTemplate"></div>
+              </div>
+            </div>
+            <div className="col-12 col-sm-4">
+              <div className="cardTemplate shadow-sm">
+                <div className="title-cardTemplate">
+                  <h1>Visibility</h1>
+                </div>
+                <div className="content-cardTemplate">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault1"
+                    />
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      Visible
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault2"
+                      checked
+                    />
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      Hidden
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div className="cardTemplate shadow-sm">
+                <div className="title-cardTemplate">
+                  <h1>Storage details</h1>
+                </div>
+                <div className="content-cardTemplate">
+                  <input className="itemInput" placeholder="SKU" type="text" />
+                </div>
+              </div>
+              <div className="cardTemplate shadow-sm">
+                <div className="title-cardTemplate">
+                  <h1>Category</h1>
+                </div>
+                <div className="content-cardTemplate">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault1"
+                    />
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      Default radio
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault2"
+                      checked
+                    />
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      Default checked radio
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={ModifyClose}>
+            Close
+          </Button>
+          <Button variant="primary">Save</Button>
         </Modal.Footer>
       </Modal>
     </div>
