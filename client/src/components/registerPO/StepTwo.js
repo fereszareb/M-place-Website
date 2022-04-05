@@ -7,6 +7,8 @@ const StepTwo = ({
   registerFileChangeHandler,
   values,
   registerChangeHandler,
+  loadingfileidentifiantFiscale,
+  loadinglogo,
 }) => {
   // after form submit validating the form
   const submitFormData = (e) => {
@@ -47,8 +49,22 @@ const StepTwo = ({
               id="logo"
               name="logo"
               required
+              disabled={loadinglogo}
               onChange={registerFileChangeHandler}
             />
+            {loadinglogo ? (
+              <small>
+                <div
+                  class="spinner-border text-secondary spinner-small"
+                  role="status"
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                Loading ...
+              </small>
+            ) : (
+              ""
+            )}
           </div>
           <div className="mb-3">
             <label for="address" className="form-label">
@@ -142,8 +158,22 @@ const StepTwo = ({
               id="fileidentifiantFiscale"
               name="fileidentifiantFiscale"
               required
+              disabled={loadingfileidentifiantFiscale}
               onChange={registerFileChangeHandler}
             />
+            {loadingfileidentifiantFiscale ? (
+              <small>
+                <div
+                  class="spinner-border text-secondary spinner-small"
+                  role="status"
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                Loading ...
+              </small>
+            ) : (
+              ""
+            )}
           </div>
           <div className="mb-3">
             <label for="RNENumber" className="form-label">
