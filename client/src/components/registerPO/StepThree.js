@@ -7,6 +7,7 @@ const StepThree = ({
   submitSignUP,
   values,
   registerChangeHandler,
+  loadingSubmit,
 }) => {
   // after form submit validating the form
   const submitFormData = (e) => {
@@ -14,7 +15,6 @@ const StepThree = ({
     if (confirmation) {
       submitSignUP();
     }
-    nextStep();
   };
   const [confirmation, setConfirmation] = useState(false);
   const confirmationChangeHandler = (e) => {
@@ -82,8 +82,21 @@ const StepThree = ({
               </button>
             </div>
             <div className="col-6 text-end">
-              <button className="btn btn-orange m-auto" type="submit">
-                Sign Up
+              <button
+                className="btn btn-orange m-auto"
+                type="submit"
+                disabled={loadingSubmit}
+              >
+                {loadingSubmit ? (
+                  <div
+                    class="spinner-border text-secondary spinner-small m-auto"
+                    role="status"
+                  >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                ) : (
+                  "Sign Up"
+                )}
               </button>
             </div>
           </div>
