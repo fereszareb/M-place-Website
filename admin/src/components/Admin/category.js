@@ -82,6 +82,7 @@ const Category = () => {
         }
       }
     }
+    console.log(idToDelete);
   }
   function onchangeCtegoryName(e) {
     var newObject = DataToAdd;
