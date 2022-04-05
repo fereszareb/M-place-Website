@@ -98,3 +98,21 @@ a {
   right: 0;
   height: 100%;
 }
+.btn-blue {
+  height: 50px;
+  background: #033f5e;
+  width: 140px;
+  border-radius: 0 2px 0 0;
+  color: white;
+  font-size: 1em !important;
+  right: 0 !important;
+  transition: 0.2s;
+  outline: none !important;
+}
+.btn-blue:hover {
+  background: #fb8500;
+  color: white;
+}
+.btn-blue:focus {
+  box-shadow: none;
+}
