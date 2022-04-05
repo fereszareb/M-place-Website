@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { BiXCircle, BiPlayCircle, BiCheckCircle } from "react-icons/bi";
-import { AiOutlineClockCircle } from "react-icons/ai";
+import { BiXCircle, BiPlayCircle } from "react-icons/bi";
+import { BiBlock } from "react-icons/bi";
 import { Modal, Button, Spinner } from "react-bootstrap";
 import api from "./../../../config.service";
 import convertDate from "./../../../function";
@@ -12,24 +12,19 @@ const ProductOwner = () => {
   const DetailsClose = () => setDetailsShow(false);
   const DetailsShow = () => setDetailsShow(true);
 
-  // modal Refuse
-  const [showRefuse, setRefuseShow] = useState(false);
-  const RefuseClose = () => setRefuseShow(false);
-  const RefuseShow = () => setRefuseShow(true);
+  // modal Delete
+  const [showDelete, setDeleteShow] = useState(false);
+  const DeleteClose = () => setDeleteShow(false);
+  const DeleteShow = () => setDeleteShow(true);
 
-  //Modal Accept
-  const [showAccept, setAcceptShow] = useState(false);
-  const AcceptClose = () => setAcceptShow(false);
-  const AcceptShow = () => setAcceptShow(true);
-
-  //Modal RDV
-  const [showRDV, setRDVShow] = useState(false);
-  const RDVClose = () => setRDVShow(false);
-  const RDVShow = () => setRDVShow(true);
+  //Modal Block
+  const [showBlock, setBlockShow] = useState(false);
+  const BlockClose = () => setBlockShow(false);
+  const BlockShow = () => setBlockShow(true);
 
   //id for the fonctionality of Modal
-  const [POToRefuse, setPOToRefuse] = useState(0);
-  const [POToAccept, setPOToAccept] = useState(0);
+  const [POToDelete, setPOToDelete] = useState(0);
+  const [POToBlock, setPOToBlock] = useState(0);
   const [RDVID, setRDVID] = useState(0);
 
   //data of modal detils
@@ -41,7 +36,7 @@ const ProductOwner = () => {
   }
   // loading icon activation
   const [loading, setLoading] = useState(false);
-  // action (accept or refuse)
+  // action (Block or Delete)
   const [Action, setAction] = useState(true);
   //errer validation password
   const [errorValidationPassword, seterrorValidationPassword] = useState("");
@@ -70,45 +65,45 @@ const ProductOwner = () => {
     }
   }
 
-  function RefusePO() {
-    if (POToRefuse !== 0) {
+  function DeletePO() {
+    if (POToDelete !== 0) {
       api
-        .patch("/POs/Delete/" + POToRefuse)
+        .patch("/POs/Delete/" + POToDelete)
         .then((response) => {
           PasswordValidClose();
           const newPOList = POs.filter((user) => {
-            return user._id !== POToRefuse;
+            return user._id !== POToDelete;
           });
           setPOs(newPOList);
-          setPOToRefuse(0);
-          AcceptClose();
+          setPOToDelete(0);
+          BlockClose();
         })
         .catch((err) => {
           seterrorValidationPassword("Something Wrong!");
         });
     }
   }
-  function AcceptPO() {
-    if (POToAccept !== 0) {
-      //api refuse with id of POToRefuse
+  function BlockPO() {
+    if (POToBlock !== 0) {
+      //api Delete with id of POToDelete
 
       api
-        .patch("/POs/approve/" + POToAccept)
+        .patch("/POs/Block/" + POToBlock)
         .then((response) => {
           PasswordValidClose();
           const newPOList = POs.filter((user) => {
-            return user._id !== POToAccept;
+            return user._id !== POToBlock;
           });
           setPOs(newPOList);
-          setPOToAccept(0);
-          AcceptClose();
+          setPOToBlock(0);
+          BlockClose();
         })
         .catch((err) => {
           console.log(err);
           seterrorValidationPassword("Something Wrong!");
         });
 
-      console.log("Accept" + POToAccept);
+      console.log("Block" + POToBlock);
     }
   }
   function findPack(pack) {
@@ -150,9 +145,9 @@ const ProductOwner = () => {
         .then((response) => {
           if (response.data.message) {
             if (Action) {
-              AcceptPO();
+              BlockPO();
             } else {
-              RefusePO();
+              DeletePO();
             }
           } else {
             seterrorValidationPassword("Password incorrect!");
@@ -271,17 +266,8 @@ const ProductOwner = () => {
                         <div
                           className="action p-1"
                           onClick={() => {
-                            setRDVID(PO._id);
-                            RDVShow();
-                          }}
-                        >
-                          <AiOutlineClockCircle />
-                        </div>
-                        <div
-                          className="action p-1"
-                          onClick={() => {
-                            setPOToRefuse(PO._id);
-                            RefuseShow();
+                            setPOToDelete(PO._id);
+                            DeleteShow();
                           }}
                         >
                           <BiXCircle />
@@ -290,11 +276,11 @@ const ProductOwner = () => {
                         <div
                           className="action p-1"
                           onClick={() => {
-                            setPOToAccept(PO._id);
-                            AcceptShow();
+                            setPOToBlock(PO._id);
+                            BlockShow();
                           }}
                         >
-                          <BiCheckCircle />
+                          <BiBlock />
                         </div>
                       </div>
                     </td>
@@ -317,59 +303,107 @@ const ProductOwner = () => {
         onHide={DetailsClose}
         backdrop="static"
         keyboard={false}
+        size={"xl"}
       >
         <Modal.Header closeButton>
           <Modal.Title>Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="w-100 text-center">
-            <div
-              className="avatar m-auto"
-              style={{ backgroundImage: "url(" + POConsult.logo_url + ")" }}
-            ></div>
+          <div className="row">
+            <div className="col-12 col-lg-6">
+              <div className="w-100 text-center">
+                <div
+                  className="avatar m-auto"
+                  style={{ backgroundImage: "url(" + POConsult.logo_url + ")" }}
+                ></div>
+              </div>
+            </div>
+            <div className="col-12 col-lg-6">
+              <h4 className="text-center">ProductOwner details</h4>
+              <table className="table mt-3">
+                <tbody>
+                  <tr>
+                    <th>First Name </th>
+                    <td>{POConsult.firstName}</td>
+                  </tr>
+                  <tr>
+                    <th>Last Name </th>
+                    <td>{POConsult.lastName}</td>
+                  </tr>
+                  <tr>
+                    <th>Email </th>
+                    <td>{POConsult.company_email}</td>
+                  </tr>
+                  <tr>
+                    <th>Phone number </th>
+                    <td>{POConsult.professional_phone_number}</td>
+                  </tr>
+                  <tr>
+                    <th>CIN </th>
+                    <td>{POConsult.owner_ID}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div className="tableOfData mt-3">
-            <table className="table mt-3">
-              <tbody>
-                <tr>
-                  <th>Company Name :</th>
-                  <td>{POConsult.company_name}</td>
-                </tr>
-                <tr>
-                  <th>Company Email :</th>
-                  <td>{POConsult.company_email}</td>
-                </tr>
-                <tr>
-                  <th>Country :</th>
-                  <td>{POConsult.country}</td>
-                </tr>
-                <tr>
-                  <th>City :</th>
-                  <td>{POConsult.city}</td>
-                </tr>
-                <tr>
-                  <th>State :</th>
-                  <td>{POConsult.state}</td>
-                </tr>
-
-                <tr>
-                  <th>Zip Code :</th>
-                  <td>{POConsult.zip_code}</td>
-                </tr>
-                <tr>
-                  <th>Address :</th>
-                  <td>{POConsult.address}</td>
-                </tr>
-                <tr>
-                  <th>Professional Phone Number :</th>
-                  <td>{POConsult.professional_phone_number}</td>
-                </tr>
-                <tr>
-                  <th>Creation Date :</th>
-                  <td>{POConsult.creation_date}</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="row">
+            <div className="col-12 col-lg-6">
+              <table className="table mt-3">
+                <tbody>
+                  <tr>
+                    <th>Company Name </th>
+                    <td>{POConsult.company_name}</td>
+                  </tr>
+                  <tr>
+                    <th>Country </th>
+                    <td>{POConsult.country}</td>
+                  </tr>
+                  <tr>
+                    <th>City </th>
+                    <td>{POConsult.city}</td>
+                  </tr>
+                  <tr>
+                    <th>State </th>
+                    <td>{POConsult.state}</td>
+                  </tr>
+                  <tr>
+                    <th>Zip Code </th>
+                    <td>{POConsult.zip_code}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="col-12 col-lg-6">
+              <table className="table mt-3">
+                <tbody>
+                  <tr>
+                    <th>Address </th>
+                    <td>{POConsult.address}</td>
+                  </tr>
+                  <tr>
+                    <th>Creation Date </th>
+                    <td>{POConsult.creation_date}</td>
+                  </tr>
+                  <tr>
+                    <th>Tax ID number </th>
+                    <td>{POConsult.tax_ID_number}</td>
+                  </tr>
+                  <tr>
+                    <th>Phone number </th>
+                    <td>{POConsult.professional_phone_number}</td>
+                  </tr>
+                  <tr>
+                    <th>RNE number </th>
+                    <td>{POConsult.RNE_number}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="filesDisplay text-center">
+            <h2>Files</h2>
+            <img className="m-auto" src={POConsult.owner_ID_type} alt="" />
+            <img className="m-auto" src={POConsult.tax_ID_card} alt="" />
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -379,24 +413,24 @@ const ProductOwner = () => {
         </Modal.Footer>
       </Modal>
       <Modal
-        show={showRefuse}
-        onHide={RefuseClose}
+        show={showDelete}
+        onHide={DeleteClose}
         backdrop="static"
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Refuse</Modal.Title>
+          <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>You wanna really refuse ?</Modal.Body>
+        <Modal.Body>You wanna really Delete this ProductOwner?</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={RefuseClose}>
+          <Button variant="secondary" onClick={DeleteClose}>
             No
           </Button>
           <Button
             variant="danger"
             onClick={() => {
               setAction(false);
-              RefuseClose();
+              DeleteClose();
               PasswordValidShow();
             }}
           >
@@ -406,49 +440,24 @@ const ProductOwner = () => {
       </Modal>
 
       <Modal
-        show={showRDV}
-        onHide={RDVClose}
+        show={showBlock}
+        onHide={BlockClose}
         backdrop="static"
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Send appointment</Modal.Title>
+          <Modal.Title>Block</Modal.Title>
         </Modal.Header>
-        <Modal.Body>You wanna really send appointment ?</Modal.Body>
+        <Modal.Body>You wanna really block this ProductOwner ?</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={RDVClose}>
-            No
-          </Button>
-          <Button
-            variant="danger"
-            onClick={() => {
-              SendRDV();
-            }}
-          >
-            Yes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      <Modal
-        show={showAccept}
-        onHide={AcceptClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Accept</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>You wanna really accpet ?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={AcceptClose}>
+          <Button variant="secondary" onClick={BlockClose}>
             No
           </Button>
           <Button
             variant="danger"
             onClick={() => {
               setAction(true);
-              AcceptClose();
+              BlockClose();
               PasswordValidShow();
             }}
           >
