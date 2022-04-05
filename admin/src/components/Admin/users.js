@@ -154,7 +154,7 @@ const Users = () => {
                     </td>
                     <td>
                       <div className="data">
-                        {item.name} {item.lastName}
+                        {item.firstname} {item.lastname}
                       </div>
                     </td>
                     <td>
@@ -213,11 +213,11 @@ const Users = () => {
             <tbody>
               <tr>
                 <td>First Name </td>
-                <td>{userConsult.name}</td>
+                <td>{userConsult.firstname}</td>
               </tr>
               <tr>
                 <td>Last Name </td>
-                <td>{userConsult.lastName}</td>
+                <td>{userConsult.lastname}</td>
               </tr>
               <tr>
                 <td>Email </td>
@@ -228,8 +228,8 @@ const Users = () => {
                 <td>{userConsult.numTel}</td>
               </tr>
               <tr>
-                <td>Adress </td>
-                <td>{userConsult.location}</td>
+                <td>Address </td>
+                <td>{userConsult.address}</td>
               </tr>
               <tr>
                 <td>Created At </td>
