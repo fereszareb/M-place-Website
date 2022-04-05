@@ -242,59 +242,107 @@ const ProductOwnerBlocked = () => {
         onHide={DetailsClose}
         backdrop="static"
         keyboard={false}
+        size={"xl"}
       >
         <Modal.Header closeButton>
           <Modal.Title>Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="w-100 text-center">
-            <div
-              className="avatar m-auto"
-              style={{ backgroundImage: "url(" + POConsult.logo_url + ")" }}
-            ></div>
+          <div className="row">
+            <div className="col-12 col-lg-6">
+              <div className="w-100 text-center">
+                <div
+                  className="avatar m-auto"
+                  style={{ backgroundImage: "url(" + POConsult.logo_url + ")" }}
+                ></div>
+              </div>
+            </div>
+            <div className="col-12 col-lg-6">
+              <h4 className="text-center">ProductOwner details</h4>
+              <table className="table mt-3">
+                <tbody>
+                  <tr>
+                    <th>First Name </th>
+                    <td>{POConsult.firstName}</td>
+                  </tr>
+                  <tr>
+                    <th>Last Name </th>
+                    <td>{POConsult.lastName}</td>
+                  </tr>
+                  <tr>
+                    <th>Email </th>
+                    <td>{POConsult.company_email}</td>
+                  </tr>
+                  <tr>
+                    <th>Phone number </th>
+                    <td>{POConsult.professional_phone_number}</td>
+                  </tr>
+                  <tr>
+                    <th>CIN </th>
+                    <td>{POConsult.owner_ID}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div className="tableOfData mt-3">
-            <table className="table mt-3">
-              <tbody>
-                <tr>
-                  <th>Company Name :</th>
-                  <td>{POConsult.company_name}</td>
-                </tr>
-                <tr>
-                  <th>Company Email :</th>
-                  <td>{POConsult.company_email}</td>
-                </tr>
-                <tr>
-                  <th>Country :</th>
-                  <td>{POConsult.country}</td>
-                </tr>
-                <tr>
-                  <th>City :</th>
-                  <td>{POConsult.city}</td>
-                </tr>
-                <tr>
-                  <th>State :</th>
-                  <td>{POConsult.state}</td>
-                </tr>
-
-                <tr>
-                  <th>Zip Code :</th>
-                  <td>{POConsult.zip_code}</td>
-                </tr>
-                <tr>
-                  <th>Address :</th>
-                  <td>{POConsult.address}</td>
-                </tr>
-                <tr>
-                  <th>Professional Phone Number :</th>
-                  <td>{POConsult.professional_phone_number}</td>
-                </tr>
-                <tr>
-                  <th>Creation Date :</th>
-                  <td>{POConsult.creation_date}</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="row">
+            <div className="col-12 col-lg-6">
+              <table className="table mt-3">
+                <tbody>
+                  <tr>
+                    <th>Company Name </th>
+                    <td>{POConsult.company_name}</td>
+                  </tr>
+                  <tr>
+                    <th>Country </th>
+                    <td>{POConsult.country}</td>
+                  </tr>
+                  <tr>
+                    <th>City </th>
+                    <td>{POConsult.city}</td>
+                  </tr>
+                  <tr>
+                    <th>State </th>
+                    <td>{POConsult.state}</td>
+                  </tr>
+                  <tr>
+                    <th>Zip Code </th>
+                    <td>{POConsult.zip_code}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="col-12 col-lg-6">
+              <table className="table mt-3">
+                <tbody>
+                  <tr>
+                    <th>Address </th>
+                    <td>{POConsult.address}</td>
+                  </tr>
+                  <tr>
+                    <th>Creation Date </th>
+                    <td>{POConsult.creation_date}</td>
+                  </tr>
+                  <tr>
+                    <th>Tax ID number </th>
+                    <td>{POConsult.tax_ID_number}</td>
+                  </tr>
+                  <tr>
+                    <th>Phone number </th>
+                    <td>{POConsult.professional_phone_number}</td>
+                  </tr>
+                  <tr>
+                    <th>RNE number </th>
+                    <td>{POConsult.RNE_number}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="filesDisplay text-center">
+            <h2>Files</h2>
+            <img className="m-auto" src={POConsult.owner_ID_type} alt="" />
+            <img className="m-auto" src={POConsult.tax_ID_card} alt="" />
           </div>
         </Modal.Body>
         <Modal.Footer>
