@@ -13,3 +13,10 @@ body {
 body {
   background-color: #eee !important;
 }
+.btn:focus,
+input:focus {
+  box-shadow: none !important;
+}
+input:focus-visible {
+  outline: none;
+}
