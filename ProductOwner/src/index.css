@@ -20,3 +20,13 @@ input:focus {
 input:focus-visible {
   outline: none;
 }
+.btn-orange {
+  color: white !important;
+  background: #fb8500 !important;
+  font-weight: 500;
+  transition: 0.3s;
+}
+.btn-orange:hover {
+  color: white !important;
+  background: #023047 !important;
+}
