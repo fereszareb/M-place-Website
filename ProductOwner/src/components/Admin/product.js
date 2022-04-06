@@ -61,13 +61,7 @@ const Products = () => {
     shortDescripton: "",
     category: "",
     filters: [],
-    product_imgs: [
-      "https://picsum.photos/200/300",
-      "https://picsum.photos/200/300",
-      "https://picsum.photos/200/300",
-      "https://picsum.photos/200/300",
-      "https://picsum.photos/200/300",
-    ],
+    product_imgs: [],
     reduction_percentage: 0,
     visibility: false,
     price: 0,
@@ -113,7 +107,51 @@ const Products = () => {
       });
   };
 
-  const deletePicture = () => {};
+  const deletePicture = (position) => {
+    let newListeImages = [];
+    for (var i = 0; i < newProduct.product_imgs.length; i++) {
+      if (position !== i) {
+        newListeImages.push(newProduct.product_imgs[i]);
+      }
+    }
+    setNewProduct((prevState) => ({
+      ...prevState,
+      product_imgs: newListeImages,
+    }));
+  };
+
+  const uploadImage = () => {
+    if (!loadingpicture) {
+      let input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+      input.multiple = false;
+      input.onchange = (_) => {
+        setLoadingpicture(true);
+        var bodyFormData = new FormData();
+        bodyFormData.append("", input.files[0]);
+        api
+          .post("/img/upload", bodyFormData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((res) => {
+            let newListeImages = newProduct.product_imgs;
+            newListeImages.push(res.data.data.imageUrl);
+            setNewProduct((prevState) => ({
+              ...prevState,
+              product_imgs: newListeImages,
+            }));
+            setLoadingpicture(false);
+          })
+          .catch(() => {
+            setLoadingpicture(false);
+          });
+      };
+      input.click();
+    }
+  };
   return (
     <div>
       <nav aria-label="breadcrumb">
@@ -136,27 +174,29 @@ const Products = () => {
         <div className="content-cardTemplate">
           <table>
             <thead>
-              <th>
-                <div className="data picture"></div>
-              </th>
-              <th>
-                <div className="data">Name</div>
-              </th>
-              <th>
-                <div className="data">Price</div>
-              </th>
-              <th>
-                <div className="data">Orders</div>
-              </th>
-              <th>
-                <div className="data">Visibility</div>
-              </th>
-              <th>
-                <div className="data">Creation date</div>
-              </th>
-              <th>
-                <div className="data">Actions</div>
-              </th>
+              <tr>
+                <th>
+                  <div className="data picture"></div>
+                </th>
+                <th>
+                  <div className="data">Name</div>
+                </th>
+                <th>
+                  <div className="data">Price</div>
+                </th>
+                <th>
+                  <div className="data">Orders</div>
+                </th>
+                <th>
+                  <div className="data">Visibility</div>
+                </th>
+                <th>
+                  <div className="data">Creation date</div>
+                </th>
+                <th>
+                  <div className="data">Actions</div>
+                </th>
+              </tr>
             </thead>
             <tbody>
               <tr>
@@ -430,15 +470,28 @@ const Products = () => {
                         >
                           <AiFillCloseCircle
                             className="deleteImage"
-                            name={key}
-                            onClick={deletePicture}
+                            onClick={() => {
+                              deletePicture(key);
+                            }}
                           />
                         </div>
                       );
                     })}
                     {newProduct.product_imgs.length < 5 ? (
-                      <div className="imageUploadDisplay DivAddPicture">
-                        <AiFillFileAdd />
+                      <div
+                        className="imageUploadDisplay DivAddPicture"
+                        onClick={uploadImage}
+                      >
+                        {loadingpicture ? (
+                          <div
+                            class="spinner-border text-secondary loadingUploadPicture"
+                            role="status"
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        ) : (
+                          <AiFillFileAdd />
+                        )}
                       </div>
                     ) : (
                       ""
