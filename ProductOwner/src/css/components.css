@@ -1,0 +1,118 @@
+a {
+  color: #0da9ef;
+  text-decoration: none !important;
+}
+.avatar {
+  height: 10em;
+  background-size: cover;
+  background-position: center;
+  width: 10em;
+  border-radius: 50%;
+}
+.tableOfData table tr {
+  border-bottom: 1px solid grey !important;
+  /* margin: 0.4em; */
+}
+.validationPassword input[type="password"],
+.DataCategory input[type="text"] {
+  width: 100%;
+  border: 1px solid #8b8b8b61;
+  border-radius: 3px;
+  padding: 0.5em;
+}
+.messageError {
+  color: red;
+  text-transform: capitalize;
+  margin: 0.5em 0.3em;
+}
+.title-cardTemplate button.btn {
+  position: absolute;
+  top: 0;
+  right: 2%;
+  font-size: 1.25em;
+}
+.item-Category {
+  position: relative;
+  font-weight: bold !important;
+}
+.item-CategoryPLus:after {
+  content: "\2212";
+  width: 35px;
+  font-size: 25px;
+  text-align: center;
+  left: 10px;
+  top: 9px;
+  position: absolute;
+}
+.item-CategoryPLus.collapsed:after {
+  content: "\002B";
+}
+.titleCtagory {
+  text-align: center;
+  padding: 1em 3em;
+  margin: 0;
+  width: calc(100% - 80px);
+}
+.icon {
+  margin: 5px 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.blue {
+  background: #023047;
+  color: #fff;
+}
+.orange {
+  background: #f68511;
+  color: #000;
+}
+.btn-add {
+  border: none;
+  padding: 0.4em 2em;
+  transition: 0.1s;
+  font-weight: 500;
+}
+.btn-add:hover {
+  background: #f68511;
+  color: #000;
+  font-weight: 500;
+}
+.w-category {
+  width: 100%;
+  max-width: 600px;
+}
+.loadingIcon {
+  height: 1rem;
+  width: 1rem;
+}
+.w-100px {
+  width: 100px !important;
+}
+.empty {
+  text-align: center;
+  padding: 10%;
+}
+.btnNextTitle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+}
+.btn-blue {
+  height: 50px;
+  background: #033f5e;
+  width: 140px;
+  border-radius: 0 2px 0 0;
+  color: white;
+  font-size: 1em !important;
+  right: 0 !important;
+  transition: 0.2s;
+  outline: none !important;
+}
+.btn-blue:hover {
+  background: #fb8500;
+  color: white;
+}
+.btn-blue:focus {
+  box-shadow: none;
+}
