@@ -116,3 +116,34 @@ a {
 .btn-blue:focus {
   box-shadow: none;
 }
+
+/****************************************************/
+.imageUploadDisplay {
+  height: 80px;
+  background-position: center;
+  background-size: cover;
+  width: 80px;
+  margin: 0.2em;
+  position: relative;
+  transition: 0.5s;
+}
+.imageUploadDisplay:hover .deleteImage {
+  display: block;
+}
+.imageUploadDisplay .deleteImage {
+  position: absolute;
+  right: 5px;
+  font-size: 1.5em;
+  top: 5px;
+  color: white;
+  display: none;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.DivAddPicture {
+  border: 1px solid #5454544f;
+  font-size: 2em;
+  padding: 10px 23px;
+  margin: 0.1em;
+  cursor: pointer;
+}
