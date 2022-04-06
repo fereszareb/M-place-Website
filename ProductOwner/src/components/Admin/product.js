@@ -4,6 +4,7 @@ import ReactEditor from "./../reactEditor";
 import { useState, useEffect } from "react";
 import { BiTrashAlt, BiPlayCircle, BiEdit } from "react-icons/bi";
 import { AiFillCloseCircle, AiFillFileAdd } from "react-icons/ai";
+import { MdSubdirectoryArrowRight } from "react-icons/md";
 import { Modal, Button } from "react-bootstrap";
 import api from "./../../config.service";
 const Products = () => {
@@ -63,7 +64,7 @@ const Products = () => {
     filters: [],
     product_imgs: [],
     reduction_percentage: 0,
-    visibility: false,
+    visibility: "",
     price: 0,
   });
 
@@ -72,26 +73,6 @@ const Products = () => {
       ...prevState,
       [e.target.name]: e.target.value,
     }));
-  };
-
-  const [loadingpicture, setLoadingpicture] = useState(false);
-  const registerFileChangeHandler = (e) => {
-    setLoadingpicture(true);
-    var bodyFormData = new FormData();
-    bodyFormData.append("", e.target.files[0]);
-    api
-      .post("/img/upload", bodyFormData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => {
-        setNewProduct((prevState) => ({
-          ...prevState,
-          [e.target.name]: res.data.data.imageUrl,
-        }));
-        setLoadingpicture(false);
-      });
   };
 
   const [loadingSubmit, setLoadingSubmit] = useState(false);
@@ -119,6 +100,8 @@ const Products = () => {
       product_imgs: newListeImages,
     }));
   };
+
+  const [loadingpicture, setLoadingpicture] = useState(false);
 
   const uploadImage = () => {
     if (!loadingpicture) {
@@ -151,6 +134,23 @@ const Products = () => {
       };
       input.click();
     }
+  };
+
+  const [variableList, setVariableList] = useState([]);
+  const addVariable = (e) => {
+    let newListeVariable = variableList;
+    newListeVariable.push({ varia: "hbhb" });
+    setVariableList([...newListeVariable]);
+  };
+
+  const deleteVariable = (position) => {
+    let newListeVariables = [];
+    for (var i = 0; i < variableList.length; i++) {
+      if (position !== i) {
+        newListeVariables.push(variableList[i]);
+      }
+    }
+    setVariableList([...newListeVariables]);
   };
   return (
     <div>
@@ -503,7 +503,33 @@ const Products = () => {
                 <div className="title-cardTemplate">
                   <h1>Variants</h1>
                 </div>
-                <div className="content-cardTemplate"></div>
+                <div className="content-cardTemplate">
+                  <div className="d-flex">
+                    {variableList.map((variab, key) => {
+                      return (
+                        <div key={key} className="variableDisplay">
+                          {variab.varia}
+                          <AiFillCloseCircle
+                            className="deleteVariable"
+                            onClick={() => {
+                              deleteVariable(key);
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+                    {newProduct.product_imgs.length < 5 ? (
+                      <div
+                        className="variableDisplay DivAddVariable"
+                        onClick={addVariable}
+                      >
+                        Add new Variable
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
             <div className="col-12 col-sm-4">
@@ -516,10 +542,12 @@ const Products = () => {
                     <input
                       class="form-check-input"
                       type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault1"
+                      name="visibility"
+                      id="visibility1"
+                      value="Visible"
+                      onChange={AddChangeHandler}
                     />
-                    <label class="form-check-label" for="flexRadioDefault1">
+                    <label class="form-check-label" for="visibility1">
                       Visible
                     </label>
                   </div>
@@ -527,11 +555,12 @@ const Products = () => {
                     <input
                       class="form-check-input"
                       type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault2"
-                      checked
+                      name="visibility"
+                      id="visibility2"
+                      value="Hidden"
+                      onChange={AddChangeHandler}
                     />
-                    <label class="form-check-label" for="flexRadioDefault2">
+                    <label class="form-check-label" for="visibility2">
                       Hidden
                     </label>
                   </div>
@@ -542,7 +571,15 @@ const Products = () => {
                   <h1>Storage details</h1>
                 </div>
                 <div className="content-cardTemplate">
-                  <input className="itemInput" placeholder="SKU" type="text" />
+                  <input
+                    className="itemInput"
+                    placeholder="SKU"
+                    type="text"
+                    name="SKU"
+                    pattern="[0-9a-zA-Z]+"
+                    onChange={AddChangeHandler}
+                    defaultValue={newProduct.SKU}
+                  />
                 </div>
               </div>
               <div className="cardTemplate shadow-sm">
@@ -550,29 +587,45 @@ const Products = () => {
                   <h1>Category</h1>
                 </div>
                 <div className="content-cardTemplate">
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault1"
-                    />
-                    <label class="form-check-label" for="flexRadioDefault1">
-                      Default radio
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault2"
-                      checked
-                    />
-                    <label class="form-check-label" for="flexRadioDefault2">
-                      Default checked radio
-                    </label>
-                  </div>
+                  {categories.map((categ, key) => {
+                    return (
+                      <div class="form-check">
+                        <label class="form-check-label">
+                          {categ.category}{" "}
+                        </label>
+                        {categ.child.map((sousCateg, key) => {
+                          return (
+                            <div className="form-check px-3">
+                              <label class="form-check-label">
+                                <MdSubdirectoryArrowRight />
+                                {sousCateg.category}
+                              </label>
+                              {sousCateg.child.map((soussousCateg, key) => {
+                                return (
+                                  <div class="form-check px-5">
+                                    <input
+                                      class="form-check-input"
+                                      type="radio"
+                                      name="categories"
+                                      id={"product" + key}
+                                      value={soussousCateg.id}
+                                      onChange={AddChangeHandler}
+                                    />
+                                    <label
+                                      class="form-check-label"
+                                      for={"product" + key}
+                                    >
+                                      {soussousCateg.category}
+                                    </label>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
