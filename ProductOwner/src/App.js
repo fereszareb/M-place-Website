@@ -20,24 +20,6 @@ export default class Responsive extends Component {
           <Route exact path="/dashboard">
             <Template data="dashboard" />
           </Route>
-          <Route exact path="/users">
-            <Template data="users" />
-          </Route>
-          <Route exact path="/category">
-            <Template data="category" />
-          </Route>
-          <Route exact path="/productOwner">
-            <Template data="productOwner" />
-          </Route>
-          <Route exact path="/productOwnerNotVerified">
-            <Template data="productOwnerNotVerified" />
-          </Route>
-          <Route exact path="/productOwnerBlocked">
-            <Template data="productOwnerBlocked" />
-          </Route>
-          <Route exact path="/productOwnerDeleted">
-            <Template data="productOwnerDeleted" />
-          </Route>
           <Route exact path="/messages">
             <Template data="messages" />
           </Route>
@@ -47,8 +29,8 @@ export default class Responsive extends Component {
           <Route exact path="/events">
             <Template data="events" />
           </Route>
-          <Route exact path="/blogs">
-            <Template data="blogs" />
+          <Route exact path="/profile">
+            <Template data="profile" />
           </Route>
           <Route exact path="/">
             <Template data="dashboard" />
