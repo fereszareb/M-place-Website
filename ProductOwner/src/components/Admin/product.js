@@ -3,6 +3,7 @@ import pic from "./../../meeting.jpg";
 import ReactEditor from "./../reactEditor";
 import { useState, useEffect } from "react";
 import { BiTrashAlt, BiPlayCircle, BiEdit } from "react-icons/bi";
+import { AiFillCloseCircle, AiFillFileAdd } from "react-icons/ai";
 import { Modal, Button } from "react-bootstrap";
 import api from "./../../config.service";
 const Products = () => {
@@ -51,6 +52,68 @@ const Products = () => {
   }, []);
   //end api getAllMyproduct
 
+  //state for form data
+  const [newProduct, setNewProduct] = useState({
+    name: "",
+    SKU: "",
+    marque: "",
+    description: "",
+    shortDescripton: "",
+    category: "",
+    filters: [],
+    product_imgs: [
+      "https://picsum.photos/200/300",
+      "https://picsum.photos/200/300",
+      "https://picsum.photos/200/300",
+      "https://picsum.photos/200/300",
+      "https://picsum.photos/200/300",
+    ],
+    reduction_percentage: 0,
+    visibility: false,
+    price: 0,
+  });
+
+  const AddChangeHandler = (e) => {
+    setNewProduct((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const [loadingpicture, setLoadingpicture] = useState(false);
+  const registerFileChangeHandler = (e) => {
+    setLoadingpicture(true);
+    var bodyFormData = new FormData();
+    bodyFormData.append("", e.target.files[0]);
+    api
+      .post("/img/upload", bodyFormData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        setNewProduct((prevState) => ({
+          ...prevState,
+          [e.target.name]: res.data.data.imageUrl,
+        }));
+        setLoadingpicture(false);
+      });
+  };
+
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
+  const submitAdd = () => {
+    setLoadingSubmit(true);
+    api
+      .post("/addProduct", newProduct)
+      .then((res) => {
+        setLoadingSubmit(false);
+      })
+      .catch((err) => {
+        alert("Erreur");
+      });
+  };
+
+  const deletePicture = () => {};
   return (
     <div>
       <nav aria-label="breadcrumb">
@@ -336,6 +399,16 @@ const Products = () => {
                     className="itemInput"
                     placeholder="Name ( Ex: blue summer shirt.. )"
                     type="text"
+                    name="name"
+                    onChange={AddChangeHandler}
+                    defaultValue={newProduct.name}
+                  />
+                  <textarea
+                    className="itemInput"
+                    placeholder="Add a short description for your product ..."
+                    name="shortDescripton"
+                    onChange={AddChangeHandler}
+                    defaultValue={newProduct.shortDescripton}
                   />
                   <ReactEditor />
                 </div>
@@ -344,7 +417,34 @@ const Products = () => {
                 <div className="title-cardTemplate">
                   <h1>Images</h1>
                 </div>
-                <div className="content-cardTemplate"></div>
+                <div className="content-cardTemplate">
+                  <div className="d-flex">
+                    {newProduct.product_imgs.map((pic, key) => {
+                      return (
+                        <div
+                          key={key}
+                          className="imageUploadDisplay"
+                          style={{
+                            backgroundImage: "url(" + pic + ")",
+                          }}
+                        >
+                          <AiFillCloseCircle
+                            className="deleteImage"
+                            name={key}
+                            onClick={deletePicture}
+                          />
+                        </div>
+                      );
+                    })}
+                    {newProduct.product_imgs.length < 5 ? (
+                      <div className="imageUploadDisplay DivAddPicture">
+                        <AiFillFileAdd />
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
               </div>
               <div className="cardTemplate shadow-sm">
                 <div className="title-cardTemplate">
