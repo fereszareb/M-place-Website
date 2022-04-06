@@ -127,7 +127,8 @@ a {
   position: relative;
   transition: 0.5s;
 }
-.imageUploadDisplay:hover .deleteImage {
+.imageUploadDisplay:hover .deleteImage,
+.variableDisplay:hover .deleteVariable {
   display: block;
 }
 .imageUploadDisplay .deleteImage {
@@ -150,4 +151,15 @@ a {
 .loadingUploadPicture {
   font-size: 0.5em;
   margin-top: 0.8em;
+}
+.DivAddVariable {
+  border: 1px solid #5454544f;
+  padding: 2px 7px;
+  margin: 0.1em;
+  cursor: pointer;
+}
+.variableDisplay {
+  margin: 0.2em;
+  position: relative;
+  transition: 0.5s;
 }
