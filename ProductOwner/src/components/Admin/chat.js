@@ -201,14 +201,30 @@ const Chat = () => {
       setMessageList((list) => newConversation);
     });
   };
-
+  //begin api getAllConversationRooms
+  const [data, setData] = useState([]);
+  const retrieveData = async () => {
+    const response = await api.post("/room/disc", {
+      id: "6229e096223ecaaf508f186c",
+    });
+    console.log(response.data);
+    return response.data;
+  };
+  useEffect(() => {
+    const getAllRooms = async () => {
+      const newData = await retrieveData();
+      if (newData) setData(newData);
+    };
+    getAllRooms();
+  }, []);
+  //end api getAllConversationRooms
   return (
     <div className="container-lg mt-5 mb-5 max-width-1000 bg-white shadow">
       <div className="row">
         <div className="col-4 chatLeft">
           <div className="chatLeftTitle">Chat</div>
           <ul>
-            {FirstDay.map((item, key) => {
+            {data.map((item, key) => {
               return (
                 <li
                   className={
@@ -235,6 +251,11 @@ const Chat = () => {
               );
             })}
           </ul>
+          {data.length === 0 ? (
+            <p className="text-center">No Room to show</p>
+          ) : (
+            ""
+          )}
         </div>
         <div className="col-8 chatRight">
           {showCharge ? (
