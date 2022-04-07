@@ -15,11 +15,13 @@ export default class TextEditor extends Component {
     this.setState({
       editorState,
     });
+    this.props.setNewProduct((prevState) => ({
+      ...prevState,
+      description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+    }));
   };
-
   render() {
     const { editorState } = this.state;
-    console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
     return (
       <div className="editor">
         <Editor
@@ -29,10 +31,7 @@ export default class TextEditor extends Component {
           editorClassName="editorClassName"
           onEditorStateChange={this.onEditorStateChange}
         />
-        <textarea
-          disabled
-          value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
-        ></textarea>
+        here {this.props.data}
       </div>
     );
   }
