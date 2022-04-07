@@ -569,7 +569,7 @@ const Products = () => {
                     onChange={AddChangeHandler}
                     defaultValue={newProduct.short_description}
                   />
-                  <ReactEditor />
+                  <ReactEditor setNewProduct={setNewProduct} />
                 </div>
               </div>
               <div className="cardTemplate shadow-sm">
