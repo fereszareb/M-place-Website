@@ -52,7 +52,7 @@ const Products = () => {
   useEffect(() => {
     const getAllProducts = async () => {
       const allProducts = await retrieveproducts();
-      if (allProducts) setproducts(allProducts);
+      if (allProducts) setproducts(allProducts.products);
       console.log(allProducts);
     };
     getAllProducts();
@@ -84,9 +84,35 @@ const Products = () => {
   const submitAdd = () => {
     setLoadingSubmit(true);
     api
-      .post("/addProduct", newProduct)
+      .post("/addCustomProduct", {
+        data: {
+          name: newProduct.name,
+          SKU: newProduct.SKU,
+          marque: newProduct.marque,
+          description: newProduct.description,
+          short_description: newProduct.short_description,
+          category: newProduct.category,
+          filters: newProduct.filters,
+          product_imgs: newProduct.product_imgs,
+          reduction_percentage: parseInt(newProduct.reduction_percentage),
+          visibility: newProduct.visibility === "Visible",
+        },
+      })
       .then((res) => {
         setLoadingSubmit(false);
+        setNewProduct({
+          name: "",
+          SKU: "",
+          marque: "",
+          description: "",
+          short_description: "",
+          category: "",
+          filters: [],
+          product_imgs: [],
+          reduction_percentage: 0,
+          visibility: "",
+        });
+        AddClose();
       })
       .catch((err) => {
         alert("Erreur");
@@ -259,6 +285,10 @@ const Products = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  const openProduct = (sku) => {
+    //ouvrir la page de produit en fonction de sku
+  };
   return (
     <div>
       <nav aria-label="breadcrumb">
@@ -306,85 +336,56 @@ const Products = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <div className="data picture">
-                    <img src={pic} alt="" />
-                  </div>
-                </td>
-                <td className="name">
-                  <div className="data">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Nulla iure explicabo inventore consequatur, sint ex pariatur
-                    a, reiciendis laboriosam ab neque molestiae sequi magnam
-                    nostrum. Architecto exercitationem sunt ut consequatur?
-                  </div>
-                </td>
-                <td>
-                  <div className="data">10020.00 TND</div>
-                </td>
-                <td>
-                  <div className="data">25</div>
-                </td>
-                <td>
-                  <div className="data">
-                    <div className="visibility visible">Visible</div>
-                  </div>
-                </td>
-                <td>
-                  <div className="data">12-05-2021 17:33:15</div>
-                </td>
-                <td>
-                  <div className="actions">
-                    <div className="action">
-                      <BiPlayCircle />
-                    </div>
-                    <div className="action" onClick={DeleteShow}>
-                      <BiTrashAlt />
-                    </div>
-                    <div className="action" onClick={ModifyShow}>
-                      <BiEdit />
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div className="data picture">
-                    <img src={pic} alt="" />
-                  </div>
-                </td>
-                <td className="name">
-                  <div className="data">Lorem ipsum dolor sit</div>
-                </td>
-                <td>
-                  <div className="data">120.00 TND</div>
-                </td>
-                <td>
-                  <div className="data">99999</div>
-                </td>
-                <td>
-                  <div className="data">
-                    <div className="visibility hidden">Hidden</div>
-                  </div>
-                </td>
-                <td>
-                  <div className="data">12-05-2021 17:33:15</div>
-                </td>
-                <td>
-                  <div className="actions">
-                    <div className="action">
-                      <BiPlayCircle />
-                    </div>
-                    <div className="action" onClick={DeleteShow}>
-                      <BiTrashAlt />
-                    </div>
-                    <div className="action" onClick={ModifyShow}>
-                      <BiEdit />
-                    </div>
-                  </div>
-                </td>
-              </tr>
+              {products.map((product, key) => {
+                return (
+                  <tr>
+                    <td>
+                      <div className="data">
+                        <div
+                          className="picture rounded"
+                          style={{
+                            backgroundImage: "url(" + product.picture + ")",
+                          }}
+                        ></div>
+                      </div>
+                    </td>
+                    <td className="name">
+                      <div className="data">{product.name}</div>
+                    </td>
+                    <td>
+                      <div className="data">{product.price} TND</div>
+                    </td>
+                    <td>
+                      <div className="data">25</div>
+                    </td>
+                    <td>
+                      <div className="data">
+                        <div className="visibility visible">Visible</div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="data">12-05-2021 17:33:15</div>
+                    </td>
+                    <td>
+                      <div className="actions">
+                        <div className="action">
+                          <BiPlayCircle
+                            onClick={() => {
+                              openProduct(product);
+                            }}
+                          />
+                        </div>
+                        <div className="action" onClick={DeleteShow}>
+                          <BiTrashAlt />
+                        </div>
+                        <div className="action" onClick={ModifyShow}>
+                          <BiEdit />
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -858,10 +859,12 @@ const Products = () => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={ModifyClose}>
-            Close
+          <Button variant="secondary" onClick={AddClose}>
+            Annuler
           </Button>
-          <Button variant="primary">Save</Button>
+          <Button variant="primary" onClick={submitAdd}>
+            Ajouter
+          </Button>
         </Modal.Footer>
       </Modal>
       <Modal
