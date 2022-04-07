@@ -13,6 +13,12 @@ const Products = () => {
   const AddClose = () => setAddShow(false);
   const AddShow = () => setAddShow(true);
 
+  //addvariable var
+  // add var
+  const [AddVarShow, setAddVariableShow] = useState(false);
+  const AddVariableClose = () => setAddVariableShow(false);
+  const AddVariableShow = () => setAddVariableShow(true);
+
   const [show, setModifyShow] = useState(false);
   const [showDelete, setDeleteShow] = useState(false);
   const ModifyClose = () => setModifyShow(false);
@@ -59,13 +65,12 @@ const Products = () => {
     SKU: "",
     marque: "",
     description: "",
-    shortDescripton: "",
+    short_description: "",
     category: "",
     filters: [],
     product_imgs: [],
     reduction_percentage: 0,
     visibility: "",
-    price: 0,
   });
 
   const AddChangeHandler = (e) => {
@@ -137,10 +142,25 @@ const Products = () => {
   };
 
   const [variableList, setVariableList] = useState([]);
-  const addVariable = (e) => {
+  const addVariable = () => {
     let newListeVariable = variableList;
-    newListeVariable.push({ varia: "hbhb" });
+    const listofOption = inputVariable.options.split(",").map((element) => {
+      return element.trim();
+    });
+    newListeVariable.push({
+      name: inputVariable.variable,
+      option: listofOption,
+    });
     setVariableList([...newListeVariable]);
+    setinputVariable({
+      variable: "",
+      options: "",
+    });
+    let varData = [];
+    for (var i = 0; i < variableList.length; i++) {
+      varData.push(variableList[i].option);
+    }
+    setTableFiltre(cartesianProduct(varData));
   };
 
   const deleteVariable = (position) => {
@@ -151,6 +171,93 @@ const Products = () => {
       }
     }
     setVariableList([...newListeVariables]);
+  };
+
+  const [tableFiltre, setTableFiltre] = useState([]);
+  function cartesianProduct(arr) {
+    return arr.reduce(
+      function (a, b) {
+        return a
+          .map(function (x) {
+            return b.map(function (y) {
+              return x.concat([y]);
+            });
+          })
+          .reduce(function (a, b) {
+            return a.concat(b);
+          }, []);
+      },
+      [[]]
+    );
+  }
+
+  const compareObject = (arr1, arr2) => {
+    const res1 = arr2.filter(
+      (page1) =>
+        !arr1.find(
+          (page2) => page1.name === page2.name && page1.option === page2.option
+        )
+    );
+    if (res1.length === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  const [filters, setFilters] = useState([]);
+  const testInput = (e) => {
+    var newFilters = newProduct.filters;
+    var varr = e.target.getAttribute("data");
+    varr = varr.split(",");
+    var newjson = [];
+    for (var i = 0; i < varr.length; i++) {
+      newjson.push({ name: variableList[i].name, option: varr[i] });
+    }
+
+    const posCateg = newFilters.findIndex((filter) =>
+      compareObject(filter.Variable_list, newjson)
+    );
+
+    if (posCateg === -1) {
+      let newFilter;
+      if (e.target.name === "price") {
+        newFilter = {
+          name: newProduct.name,
+          quantity: "",
+          price: e.target.value,
+          Variable_list: newjson,
+        };
+      } else {
+        newFilter = {
+          name: newProduct.name,
+          quantity: e.target.value,
+          price: "",
+          Variable_list: newjson,
+        };
+      }
+      newFilters.push(newFilter);
+    } else {
+      if (e.target.name === "price") {
+        newFilters[posCateg].price = e.target.value;
+      } else {
+        newFilters[posCateg].quantity = e.target.value;
+      }
+    }
+    setNewProduct((prevState) => ({
+      ...prevState,
+      filters: newFilters,
+    }));
+  };
+
+  const [inputVariable, setinputVariable] = useState({
+    variable: "",
+    options: "",
+  });
+  const InputVariableHundle = (e) => {
+    setinputVariable({
+      ...inputVariable,
+      [e.target.name]: e.target.value,
+    });
   };
   return (
     <div>
@@ -327,26 +434,32 @@ const Products = () => {
                   <h1>Visibility</h1>
                 </div>
                 <div className="content-cardTemplate">
-                  <div class="form-check">
+                  <div className="form-check">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       type="radio"
                       name="flexRadioDefault"
                       id="flexRadioDefault1"
                     />
-                    <label class="form-check-label" for="flexRadioDefault1">
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexRadioDefault1"
+                    >
                       Visible
                     </label>
                   </div>
-                  <div class="form-check">
+                  <div className="form-check">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       type="radio"
                       name="flexRadioDefault"
                       id="flexRadioDefault2"
                       checked
                     />
-                    <label class="form-check-label" for="flexRadioDefault2">
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexRadioDefault2"
+                    >
                       Hidden
                     </label>
                   </div>
@@ -365,26 +478,32 @@ const Products = () => {
                   <h1>Category</h1>
                 </div>
                 <div className="content-cardTemplate">
-                  <div class="form-check">
+                  <div className="form-check">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       type="radio"
                       name="flexRadioDefault"
                       id="flexRadioDefault1"
                     />
-                    <label class="form-check-label" for="flexRadioDefault1">
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexRadioDefault1"
+                    >
                       Default radio
                     </label>
                   </div>
-                  <div class="form-check">
+                  <div className="form-check">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       type="radio"
                       name="flexRadioDefault"
                       id="flexRadioDefault2"
                       checked
                     />
-                    <label class="form-check-label" for="flexRadioDefault2">
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexRadioDefault2"
+                    >
                       Default checked radio
                     </label>
                   </div>
@@ -446,9 +565,9 @@ const Products = () => {
                   <textarea
                     className="itemInput"
                     placeholder="Add a short description for your product ..."
-                    name="shortDescripton"
+                    name="short_description"
                     onChange={AddChangeHandler}
-                    defaultValue={newProduct.shortDescripton}
+                    defaultValue={newProduct.short_description}
                   />
                   <ReactEditor />
                 </div>
@@ -484,10 +603,10 @@ const Products = () => {
                       >
                         {loadingpicture ? (
                           <div
-                            class="spinner-border text-secondary loadingUploadPicture"
+                            className="spinner-border text-secondary loadingUploadPicture"
                             role="status"
                           >
-                            <span class="visually-hidden">Loading...</span>
+                            <span className="visually-hidden">Loading...</span>
                           </div>
                         ) : (
                           <AiFillFileAdd />
@@ -504,11 +623,16 @@ const Products = () => {
                   <h1>Variants</h1>
                 </div>
                 <div className="content-cardTemplate">
-                  <div className="d-flex">
+                  <div className="webkitBox">
                     {variableList.map((variab, key) => {
                       return (
                         <div key={key} className="variableDisplay">
-                          {variab.varia}
+                          {variab.name + " ["}
+
+                          {variab.option.map((option) => {
+                            return <>{" " + option + " "}</>;
+                          })}
+                          {" ]"}
                           <AiFillCloseCircle
                             className="deleteVariable"
                             onClick={() => {
@@ -518,10 +642,10 @@ const Products = () => {
                         </div>
                       );
                     })}
-                    {newProduct.product_imgs.length < 5 ? (
+                    {variableList.length < 5 ? (
                       <div
                         className="variableDisplay DivAddVariable"
-                        onClick={addVariable}
+                        onClick={AddVariableShow}
                       >
                         Add new Variable
                       </div>
@@ -531,6 +655,75 @@ const Products = () => {
                   </div>
                 </div>
               </div>
+              <div className="cardTemplate shadow-sm">
+                <div className="title-cardTemplate">
+                  <h1>Filters</h1>
+                </div>
+                <div className="content-cardTemplate text-center">
+                  {variableList.length !== 0 ? (
+                    <table>
+                      <thead>
+                        <tr>
+                          {variableList.map((variable, key) => {
+                            return (
+                              <th key={key}>
+                                <div className="data">{variable.name}</div>
+                              </th>
+                            );
+                          })}
+                          <th>
+                            <div className="data">Stock</div>
+                          </th>
+                          <th>
+                            <div className="data">Price</div>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {tableFiltre.map((filter, key) => {
+                          return (
+                            <tr key={key}>
+                              {filter.map((optionFilter, key) => {
+                                return (
+                                  <td key={key}>
+                                    <div className="data">{optionFilter}</div>
+                                  </td>
+                                );
+                              })}
+                              <td>
+                                <div className="data">
+                                  <input
+                                    className="InputFilterMax"
+                                    type="number"
+                                    min="0"
+                                    name="quantity"
+                                    data={filter}
+                                    onChange={testInput}
+                                  />
+                                </div>
+                              </td>
+                              <td>
+                                <div className="data">
+                                  <input
+                                    className="InputFilterMax"
+                                    type="text"
+                                    pattern="\d+(\.\d{2})?"
+                                    data={filter}
+                                    name="price"
+                                    onChange={testInput}
+                                  />
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
             </div>
             <div className="col-12 col-sm-4">
               <div className="cardTemplate shadow-sm">
@@ -538,29 +731,29 @@ const Products = () => {
                   <h1>Visibility</h1>
                 </div>
                 <div className="content-cardTemplate">
-                  <div class="form-check">
+                  <div className="form-check">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       type="radio"
                       name="visibility"
                       id="visibility1"
                       value="Visible"
                       onChange={AddChangeHandler}
                     />
-                    <label class="form-check-label" for="visibility1">
+                    <label className="form-check-label" htmlFor="visibility1">
                       Visible
                     </label>
                   </div>
-                  <div class="form-check">
+                  <div className="form-check">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       type="radio"
                       name="visibility"
                       id="visibility2"
                       value="Hidden"
                       onChange={AddChangeHandler}
                     />
-                    <label class="form-check-label" for="visibility2">
+                    <label className="form-check-label" htmlFor="visibility2">
                       Hidden
                     </label>
                   </div>
@@ -584,36 +777,69 @@ const Products = () => {
               </div>
               <div className="cardTemplate shadow-sm">
                 <div className="title-cardTemplate">
+                  <h1>Marque</h1>
+                </div>
+                <div className="content-cardTemplate">
+                  <input
+                    className="itemInput"
+                    placeholder="Marque"
+                    type="text"
+                    name="marque"
+                    pattern="[0-9a-zA-Z]+"
+                    onChange={AddChangeHandler}
+                    defaultValue={newProduct.marque}
+                  />
+                </div>
+              </div>
+              <div className="cardTemplate shadow-sm">
+                <div className="title-cardTemplate">
+                  <h1>Reduction percentage</h1>
+                </div>
+                <div className="content-cardTemplate">
+                  <input
+                    className="itemInput"
+                    placeholder="Reduction percentage"
+                    type="number"
+                    name="reduction_percentage"
+                    max="100"
+                    min="0"
+                    onChange={AddChangeHandler}
+                    defaultValue={newProduct.reduction_percentage}
+                  />
+                </div>
+              </div>
+              <div className="cardTemplate shadow-sm">
+                <div className="title-cardTemplate">
                   <h1>Category</h1>
                 </div>
                 <div className="content-cardTemplate">
                   {categories.map((categ, key) => {
                     return (
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          {categ.category}{" "}
+                      <div className="form-check" key={key}>
+                        <label className="form-check-label">
+                          {categ.category}
                         </label>
                         {categ.child.map((sousCateg, key) => {
                           return (
-                            <div className="form-check px-3">
-                              <label class="form-check-label">
+                            <div className="form-check px-3" key={key}>
+                              <label className="form-check-label">
                                 <MdSubdirectoryArrowRight />
                                 {sousCateg.category}
                               </label>
                               {sousCateg.child.map((soussousCateg, key) => {
                                 return (
-                                  <div class="form-check px-5">
+                                  <div className="form-check px-5" key={key}>
                                     <input
-                                      class="form-check-input"
+                                      className="form-check-input"
                                       type="radio"
-                                      name="categories"
+                                      name="category"
                                       id={"product" + key}
                                       value={soussousCateg.id}
                                       onChange={AddChangeHandler}
                                     />
                                     <label
-                                      class="form-check-label"
-                                      for={"product" + key}
+                                      className="form-check-label"
+                                      htmlFor={"product" + key}
                                     >
                                       {soussousCateg.category}
                                     </label>
@@ -636,6 +862,50 @@ const Products = () => {
             Close
           </Button>
           <Button variant="primary">Save</Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal
+        show={AddVarShow}
+        onHide={AddVariableClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="mb-3">
+            <input
+              className="form-control"
+              type="text"
+              name="variable"
+              onChange={InputVariableHundle}
+              placeholder="options"
+            />
+          </div>
+          <div className="mb-3">
+            <input
+              className="form-control"
+              type="text"
+              name="options"
+              onChange={InputVariableHundle}
+              placeholder="options"
+            />
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={AddVariableClose}>
+            No
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              AddVariableClose();
+              addVariable();
+            }}
+          >
+            Yes
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>
