@@ -160,6 +160,29 @@ a {
 }
 .variableDisplay {
   margin: 0.2em;
+  border: 1px solid #5454544f;
   position: relative;
   transition: 0.5s;
+  padding: 2px 7px;
+}
+.variableDisplay .deleteVariable {
+  position: absolute;
+  right: 5px;
+  font-size: 1em;
+  top: 5px;
+  color: #000;
+  display: none;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.webkitBox {
+  display: -webkit-box;
+}
+.dataVarible {
+  min-height: 40px;
+  padding: 0.7em;
+  margin: 0;
+}
+.InputFilterMax {
+  max-width: 100px;
 }
