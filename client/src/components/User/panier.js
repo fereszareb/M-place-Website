@@ -1,6 +1,15 @@
 import "./../../css/panier.css";
-
+import { MdDelete } from "react-icons/md";
 const Panier = () => {
+  const deleteProduct = (e) => {
+    console.log(e.target.getAttribute("data"));
+  };
+  const productPlus = (e) => {
+    console.log(e.target.getAttribute("data"));
+  };
+  const productMinus = (e) => {
+    console.log(e.target.getAttribute("data"));
+  };
   const productFromLocalStorage = [
     {
       id: "1254",
@@ -75,6 +84,34 @@ const Panier = () => {
                                 </div>
                               </div>
                             )}
+                          </div>
+                          <div className="col-6">
+                            <button
+                              data={product.id}
+                              className="btn deleteBTN"
+                              onClick={deleteProduct}
+                            >
+                              <MdDelete /> <span>Delete</span>
+                            </button>
+                          </div>
+                          <div className="col-6 text-end">
+                            <div className="d-flex justify-content-end">
+                              <button
+                                data={product.id}
+                                className="btn add-minus"
+                                onClick={productPlus}
+                              >
+                                -
+                              </button>
+                              <p className="ms-3 me-3">1</p>
+                              <button
+                                data={product.id}
+                                className="btn add-minus"
+                                onClick={productMinus}
+                              >
+                                +
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
