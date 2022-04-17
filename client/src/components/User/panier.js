@@ -52,12 +52,28 @@ const Panier = () => {
                             <small>{"[" + product.sku + "]"}</small>
                           </div>
                           <div className="col-6 col-md-4 text-end">
-                            {product.reduction !== "0" ? (
-                              <div className="row">
+                            {product.reduction === "0" ? (
+                              <div className="row pt-3">
                                 <h5>{product.price} TND</h5>
                               </div>
                             ) : (
-                              <div></div>
+                              <div className="row">
+                                <h5>
+                                  {(product.price * (100 - product.reduction)) /
+                                    100 +
+                                    " "}
+                                  TND
+                                </h5>
+                                <div>
+                                  <del>
+                                    {product.price + " "}
+                                    TND
+                                  </del>
+                                  <span class="badge bg-warning m-0 ms-2">
+                                    {product.reduction}%
+                                  </span>
+                                </div>
+                              </div>
                             )}
                           </div>
                         </div>
