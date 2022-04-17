@@ -20,6 +20,7 @@ import LoginAdmin from "./components/loginAdmin";
 import Chat from "./components/User/chat";
 import Test from "./components/User/test";
 import LoginPO from "./components/loginPO";
+import Panier from "./components/User/panier";
 function App() {
   return (
     <Router>
@@ -56,6 +57,11 @@ function App() {
         <Route exact path="/chat">
           <Navbar />
           <Chat />
+          <Footer />
+        </Route>
+        <Route exact path="/panier">
+          <Navbar />
+          <Panier />
           <Footer />
         </Route>
         <Route exact path="/search">
