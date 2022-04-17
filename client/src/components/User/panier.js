@@ -46,7 +46,10 @@ const Panier = () => {
                 <div className="card-body">
                   {productFromLocalStorage.map((product, key) => {
                     return (
-                      <div className="Item-product-card m-2" key={key}>
+                      <div
+                        className="Item-product-card m-2 pt-2 pb-2 bb-1"
+                        key={key}
+                      >
                         <div className="row">
                           <div className="col-6 col-md-3">
                             <div
@@ -62,7 +65,7 @@ const Panier = () => {
                           </div>
                           <div className="col-6 col-md-4 text-end">
                             {product.reduction === "0" ? (
-                              <div className="row pt-3">
+                              <div className="row pt-4">
                                 <h5>{product.price} TND</h5>
                               </div>
                             ) : (
@@ -120,7 +123,12 @@ const Panier = () => {
                 </div>
               </div>
             </div>
-            <div className="col-12 col-lg-4"></div>
+            <div className="col-12 col-lg-4">
+              <div className="card m-3">
+                <div className="card-header">Checkout</div>
+                <div className="card-body"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
