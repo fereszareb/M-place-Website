@@ -3,7 +3,11 @@ import { MdDelete } from "react-icons/md";
 import { useEffect, useState } from "react";
 const Panier = () => {
   const deleteProduct = (e) => {
-    console.log(e.target.getAttribute("data"));
+    const newusersList = productFromLocalStorage.filter((product) => {
+      return product.id !== e.target.getAttribute("data");
+    });
+    console.log(newusersList);
+    setproductFromLocalStorage([...newusersList]);
   };
   const productPlus = (e) => {
     const indexProductToDelete = productFromLocalStorage.findIndex(
@@ -142,7 +146,7 @@ const Panier = () => {
                               className="btn deleteBTN"
                               onClick={deleteProduct}
                             >
-                              <MdDelete /> <span>Delete</span>
+                              <MdDelete /> Delete
                             </button>
                           </div>
                           <div className="col-6 text-end">
