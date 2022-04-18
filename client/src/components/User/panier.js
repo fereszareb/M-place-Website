@@ -16,7 +16,14 @@ const Panier = () => {
     }
   };
   const productMinus = (e) => {
-    console.log(e.target.getAttribute("data"));
+    const indexProductToDelete = productFromLocalStorage.findIndex(
+      (product) => product.id === e.target.getAttribute("data")
+    );
+    if (indexProductToDelete >= 0) {
+      let newListProduct = productFromLocalStorage;
+      newListProduct[indexProductToDelete].nbrProduct--;
+      setproductFromLocalStorage([...newListProduct]);
+    }
   };
   const [productFromLocalStorage, setproductFromLocalStorage] = useState([
     {
