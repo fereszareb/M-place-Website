@@ -6,7 +6,14 @@ const Panier = () => {
     console.log(e.target.getAttribute("data"));
   };
   const productPlus = (e) => {
-    console.log(e.target.getAttribute("data"));
+    const indexProductToDelete = productFromLocalStorage.findIndex(
+      (product) => product.id === e.target.getAttribute("data")
+    );
+    if (indexProductToDelete >= 0) {
+      let newListProduct = productFromLocalStorage;
+      newListProduct[indexProductToDelete].nbrProduct++;
+      setproductFromLocalStorage([...newListProduct]);
+    }
   };
   const productMinus = (e) => {
     console.log(e.target.getAttribute("data"));
@@ -103,15 +110,15 @@ const Panier = () => {
                               <button
                                 data={product.id}
                                 className="btn add-minus"
-                                onClick={productPlus}
+                                onClick={productMinus}
                               >
                                 -
                               </button>
-                              <p className="ms-3 me-3">1</p>
+                              <p className="ms-3 me-3">{product.nbrProduct} </p>
                               <button
                                 data={product.id}
                                 className="btn add-minus"
-                                onClick={productMinus}
+                                onClick={productPlus}
                               >
                                 +
                               </button>
