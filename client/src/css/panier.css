@@ -21,10 +21,25 @@
   height: 30px;
   width: 30px;
 }
-.add-minus:hover {
+.add-minus:hover,
+.btn-checkout:hover {
   background: #023047;
   color: white;
 }
 .bb-1 {
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+.btn-checkout {
+  background: #fb8500;
+  border: none;
+  border-radius: 2px;
+  padding: 11px;
+  box-shadow: none;
+  color: white;
+  margin-top: 26px;
+  width: 90%;
+  text-shadow: none;
+  transition: 0.3s;
+  outline: none !important;
+  margin-left: auto;
 }
