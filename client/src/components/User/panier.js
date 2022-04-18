@@ -70,7 +70,7 @@ const Panier = () => {
                                 <h5>{product.price} TND</h5>
                               </div>
                             ) : (
-                              <div className="row text-center mb-3">
+                              <div className="row mb-3">
                                 <h5>
                                   {(product.price * (100 - product.reduction)) /
                                     100 +
@@ -139,6 +139,13 @@ const Panier = () => {
                   <div className="d-flex justify-content-between">
                     <p>Coupon</p>
                     <p>0 TND</p>
+                  </div>
+                  <div className="d-flex justify-content-between fw-bold">
+                    <p>Total</p>
+                    <p>720 TND</p>
+                  </div>
+                  <div className="text-center">
+                    <button className="btn btn-checkout">Chechout</button>
                   </div>
                 </div>
               </div>
