@@ -1,6 +1,6 @@
 import "./../../css/panier.css";
 import { MdDelete } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const Panier = () => {
   const deleteProduct = (e) => {
     console.log(e.target.getAttribute("data"));
@@ -19,7 +19,10 @@ const Panier = () => {
     const indexProductToDelete = productFromLocalStorage.findIndex(
       (product) => product.id === e.target.getAttribute("data")
     );
-    if (indexProductToDelete >= 0) {
+    if (
+      indexProductToDelete >= 0 &&
+      productFromLocalStorage[indexProductToDelete].nbrProduct > 1
+    ) {
       let newListProduct = productFromLocalStorage;
       newListProduct[indexProductToDelete].nbrProduct--;
       setproductFromLocalStorage([...newListProduct]);
@@ -45,6 +48,36 @@ const Panier = () => {
       nbrProduct: 1,
     },
   ]);
+  const [payDetails, setPayDetails] = useState({
+    subtotal: 0,
+    discount: 0,
+    coupon: 0,
+    total: 0,
+  });
+  useEffect(() => {
+    if (productFromLocalStorage) {
+      let subtotal = 0;
+      let discount = 0;
+      let coupon = 0;
+
+      for (const index in productFromLocalStorage) {
+        subtotal +=
+          parseFloat(productFromLocalStorage[index].price) *
+          parseInt(productFromLocalStorage[index].nbrProduct);
+        discount +=
+          ((parseInt(productFromLocalStorage[index].reduction) *
+            parseFloat(productFromLocalStorage[index].price)) /
+            100) *
+          productFromLocalStorage[index].nbrProduct;
+      }
+      setPayDetails({
+        subtotal: subtotal,
+        discount: discount,
+        coupon: 0,
+        total: subtotal - discount,
+      });
+    }
+  }, [productFromLocalStorage]);
   return (
     <div className="row justify-content-center mb-5 w-100 mx-0">
       <div className="col-12 col-xl-10">
@@ -118,6 +151,7 @@ const Panier = () => {
                                 data={product.id}
                                 className="btn add-minus"
                                 onClick={productMinus}
+                                disabled={product.nbrProduct === 1}
                               >
                                 -
                               </button>
@@ -144,22 +178,22 @@ const Panier = () => {
                 <div className="card-body">
                   <div className="d-flex justify-content-between">
                     <p>Subtotal</p>
-                    <p>200 TND</p>
+                    <p>{payDetails.subtotal} TND</p>
                   </div>
                   <div className="d-flex justify-content-between">
                     <p>Discout</p>
-                    <p>12.5 TND</p>
+                    <p>{payDetails.discount} TND</p>
                   </div>
                   <div className="d-flex justify-content-between">
                     <p>Coupon</p>
-                    <p>0 TND</p>
+                    <p>{payDetails.coupon} TND</p>
                   </div>
                   <div className="d-flex justify-content-between fw-bold">
                     <p>Total</p>
-                    <p>720 TND</p>
+                    <p>{payDetails.total} TND</p>
                   </div>
                   <div className="text-center">
-                    <button className="btn btn-checkout">Chechout</button>
+                    <button className="btn btn-checkout">Checkout</button>
                   </div>
                 </div>
               </div>
