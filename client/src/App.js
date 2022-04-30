@@ -1,7 +1,6 @@
 import Navbar from "./components/Navbar";
 import Presentation from "./components/Presentation";
 import About from "./components/About";
-import Blogs from "./components/Blogs";
 import Contact from "./components/Contact";
 import Footer from "./components/footer";
 import Login from "./components/login";
@@ -76,11 +75,6 @@ function App() {
         <Route exact path="/about">
           <Navbar />
           <About />
-          <Footer />
-        </Route>
-        <Route exact path="/blogs">
-          <Navbar />
-          <Blogs />
           <Footer />
         </Route>
         <Route exact path="/contact">
