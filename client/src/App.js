@@ -3,7 +3,6 @@ import Presentation from "./components/Presentation";
 import About from "./components/About";
 import Blogs from "./components/Blogs";
 import Contact from "./components/Contact";
-import Events from "./components/Events";
 import Footer from "./components/footer";
 import Login from "./components/login";
 import Register from "./components/register";
@@ -72,11 +71,6 @@ function App() {
         <Route exact path="/">
           <Navbar />
           <Presentation />
-          <Footer />
-        </Route>
-        <Route exact path="/events">
-          <Navbar />
-          <Events />
           <Footer />
         </Route>
         <Route exact path="/about">
