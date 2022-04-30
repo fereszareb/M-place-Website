@@ -309,3 +309,9 @@ button:focus {
   border-radius: 1px;
   border-bottom: 4px solid #fb8500;
 }
+.col-auto-search {
+  padding: 0;
+  width: 75%;
+  max-width: calc(100% - 444px);
+  min-width: 350px;
+}
