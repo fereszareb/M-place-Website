@@ -279,7 +279,7 @@ const Navbar = () => {
       <header className="site-navbar">
         <div className="container">
           <div className="row align-items-center position-relative">
-            <div className="col-3">
+            <div className="col-12 col-md-3 text-md-center">
               <div className="site-logo">
                 <Link to="/" className="font-weight-bold">
                   <img src={logo} draggable="false" alt="logo" />
@@ -287,18 +287,9 @@ const Navbar = () => {
               </div>
             </div>
 
-            <div className="col-9  text-right">
-              <span className="d-inline-block d-lg-none">
-                <a
-                  href="/"
-                  className="text-primary site-menu-toggle js-menu-toggle py-5"
-                >
-                  <AiOutlineMenu />
-                </a>
-              </span>
-
+            <div className="col-md-9  text-right">
               <nav
-                className="site-navigation text-right ml-auto d-none d-lg-block"
+                className="site-navigation text-right ml-auto d-none d-md-block"
                 role="navigation"
               >
                 <ul className="site-menu main-menu js-clone-nav ml-auto ">
