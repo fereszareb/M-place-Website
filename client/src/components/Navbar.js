@@ -377,7 +377,7 @@ const Navbar = () => {
               </div>
             </div>
             {IsLoggin() ? (
-              <div className="col-200">
+              <div className="p-0 width-auto">
                 <div className="userNav">
                   <span
                     type="button"
@@ -387,7 +387,7 @@ const Navbar = () => {
                     aria-expanded="false"
                   >
                     <FaUserAlt className="iconUser" />
-                    <span className="username">
+                    <span className="username d-none d-sm-inline ">
                       {localStorage.getItem("user")}
                     </span>
                   </span>
