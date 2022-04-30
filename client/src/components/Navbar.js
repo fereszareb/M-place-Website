@@ -405,6 +405,11 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li>
+                      <Link to={"/chat"} class="dropdown-item " type="button">
+                        Messages
+                      </Link>
+                    </li>
+                    <li>
                       <button
                         class="dropdown-item"
                         type="button"
