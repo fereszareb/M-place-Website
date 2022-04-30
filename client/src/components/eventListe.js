@@ -16,7 +16,7 @@ const EventList = () => {
                       <p>250 TND</p>
                     </div>
                     <div className="col-3">
-                      <button className="btn btn-primary">Join</button>
+                      <button className="btn btn-primary">Add to Card</button>
                     </div>
                   </div>
                 </div>
