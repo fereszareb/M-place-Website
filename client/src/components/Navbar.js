@@ -317,17 +317,6 @@ const Navbar = () => {
                   </li>
                   <li
                     className={
-                      window.location.pathname.split("/")[1] === "events"
-                        ? "active"
-                        : ""
-                    }
-                  >
-                    <Link to="/events" className="nav-link">
-                      Events
-                    </Link>
-                  </li>
-                  <li
-                    className={
                       window.location.pathname.split("/")[1] === "about"
                         ? "active"
                         : ""
@@ -335,17 +324,6 @@ const Navbar = () => {
                   >
                     <Link to="/about" className="nav-link">
                       About
-                    </Link>
-                  </li>
-                  <li
-                    className={
-                      window.location.pathname.split("/")[1] === "blogs"
-                        ? "active"
-                        : ""
-                    }
-                  >
-                    <Link to="/blogs" className="nav-link">
-                      Blog
                     </Link>
                   </li>
                   <li
