@@ -72,6 +72,21 @@
 .margin-10p {
   margin: 0 10%;
 }
+.width-auto {
+  width: auto;
+}
+@media (max-width: 570px) {
+  .width-auto {
+    width: 41.66666667%;
+    text-align: end;
+  }
+}
+
+@media (max-width: 1200px) {
+  .margin-10p {
+    margin: 0;
+  }
+}
 
 .pl-0 {
   padding-left: 0 !important;
@@ -313,5 +328,4 @@ button:focus {
   padding: 0;
   width: 75%;
   max-width: calc(100% - 444px);
-  min-width: 350px;
 }
