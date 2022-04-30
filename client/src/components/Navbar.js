@@ -348,7 +348,7 @@ const Navbar = () => {
           <div className="row position-relative margin-10p">
             {loadNavbar()}
 
-            <div className="col p-0">
+            <div className="col-auto-search p-0">
               <div className="h-100">
                 <button
                   className="navbar-toggler d-lg-none"
