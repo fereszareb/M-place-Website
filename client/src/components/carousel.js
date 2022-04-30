@@ -80,8 +80,7 @@ export default class Responsive extends Component {
     return (
       <div>
         <h2 className="titleCarousel">
-          Featured <b>Products</b>
-          {console.log(this.props.data)}
+          {this.props.name} <b>Products</b>
         </h2>
         <Slider {...settings}>
           {this.props.data.map((item, key) => {
