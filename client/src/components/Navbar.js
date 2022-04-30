@@ -421,7 +421,18 @@ const Navbar = () => {
                   </ul>
                 </div>
                 |
-                <FaShoppingCart className="iconCart mx-2" />
+                <Link
+                  to="panier"
+                  type="button"
+                  className="SpanUserNav text-white"
+                >
+                  <p className="d-inline position-relative">
+                    <FaShoppingCart className="iconCart mx-2" />
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                      99+
+                    </span>
+                  </p>
+                </Link>
               </div>
             ) : (
               <div className="col-250 userDetailsNavbar">
