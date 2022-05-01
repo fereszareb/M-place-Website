@@ -5,140 +5,222 @@ import { Link } from "react-router-dom";
 import { Carousel } from "react-bootstrap";
 import Responsive from "./carousel.js";
 
-var categDisplay = [
-  {
-    id: 1,
-    title: "Categ 1",
-    minPrice: 120,
-    pictures: [
-      "https://picsum.photos/id/249/500/500",
-      "https://picsum.photos/id/299/500/500",
-      "https://picsum.photos/id/322/500/500",
-    ],
-  },
-  {
-    id: 2,
-    title: "Categ 2",
-    minPrice: 120,
-    pictures: [
-      "https://picsum.photos/id/252/500/500",
-      "https://picsum.photos/id/382/500/500",
-      "https://picsum.photos/id/256/500/500",
-    ],
-  },
-  {
-    id: 3,
-    title: "Categ 3",
-    minPrice: 1000,
-    pictures: [
-      "https://picsum.photos/id/282/500/500",
-      "https://picsum.photos/id/218/500/500",
-      "https://picsum.photos/id/221/500/500",
-    ],
-  },
-  {
-    id: 4,
-    title: "Categ 4",
-    minPrice: 80,
-    pictures: [
-      "https://picsum.photos/id/272/500/500",
-      "https://picsum.photos/id/252/500/500",
-      "https://picsum.photos/id/292/500/500",
-    ],
-  },
-];
-var featuredProduct = [
-  {
-    id: 1254,
-    name: "Iphone 13",
-    stars: 3.5,
-    lastPrise: 4300.0,
-    newPrise: 3980.0,
-    picture: "https://picsum.photos/id/365/500/500",
-    link: "/electronique/smartphone/smartphone/Iphone",
-  },
-  {
-    id: 1254,
-    name: "Iphone 13",
-    stars: 4,
-    lastPrise: 4300.0,
-    newPrise: 3980.0,
-    picture: "https://picsum.photos/id/365/500/500",
-    link: "/electronique/smartphone/smartphone/Iphone",
-  },
-  {
-    id: 1254,
-    name: "Iphone 13",
-    stars: 5,
-    lastPrise: 4300.0,
-    newPrise: 3980.0,
-    picture: "https://picsum.photos/id/365/500/500",
-    link: "/electronique/smartphone/smartphone/Iphone",
-  },
-  {
-    id: 1254,
-    name: "Iphone 13",
-    stars: 2.5,
-    lastPrise: 4300.0,
-    newPrise: 3980.0,
-    picture: "https://picsum.photos/id/365/500/500",
-    link: "/electronique/smartphone/smartphone/Iphone",
-  },
-  {
-    id: 1254,
-    name: "Iphone 13",
-    stars: 3,
-    lastPrise: 4300.0,
-    newPrise: 3980.0,
-    picture: "https://picsum.photos/id/365/500/500",
-    link: "/electronique/smartphone/smartphone/Iphone",
-  },
-  {
-    id: 1254,
-    name: "Iphone 13",
-    stars: 3,
-    lastPrise: 4300.0,
-    newPrise: 3980.0,
-    picture: "https://picsum.photos/id/365/500/500",
-    link: "/electronique/smartphone/smartphone/Iphone",
-  },
-  {
-    id: 1254,
-    name: "Iphone 13",
-    stars: 3,
-    lastPrise: 4300.0,
-    newPrise: 3980.0,
-    picture: "https://picsum.photos/id/365/500/500",
-    link: "/electronique/smartphone/smartphone/Iphone",
-  },
-  {
-    id: 1254,
-    name: "Iphone 13",
-    stars: 3,
-    lastPrise: 4300.0,
-    newPrise: 3980.0,
-    picture: "https://picsum.photos/id/365/500/500",
-    link: "/electronique/smartphone/smartphone/Iphone",
-  },
-];
+var presentationData = {
+  carousel: [
+    { link: "https://picsum.photos/id/222/2000/500" },
+    { link: "https://picsum.photos/id/232/2000/500" },
+    { link: "https://picsum.photos/id/228/2000/500" },
+  ],
+  categories: [
+    {
+      id: 1,
+      title: "Categ 1",
+      minPrice: 120,
+      pictures: [
+        "https://picsum.photos/id/249/500/500",
+        "https://picsum.photos/id/299/500/500",
+        "https://picsum.photos/id/322/500/500",
+      ],
+    },
+    {
+      id: 2,
+      title: "Categ 2",
+      minPrice: 120,
+      pictures: [
+        "https://picsum.photos/id/252/500/500",
+        "https://picsum.photos/id/382/500/500",
+        "https://picsum.photos/id/256/500/500",
+      ],
+    },
+    {
+      id: 3,
+      title: "Categ 3",
+      minPrice: 1000,
+      pictures: [
+        "https://picsum.photos/id/282/500/500",
+        "https://picsum.photos/id/218/500/500",
+        "https://picsum.photos/id/221/500/500",
+      ],
+    },
+    {
+      id: 4,
+      title: "Categ 4",
+      minPrice: 80,
+      pictures: [
+        "https://picsum.photos/id/272/500/500",
+        "https://picsum.photos/id/252/500/500",
+        "https://picsum.photos/id/292/500/500",
+      ],
+    },
+  ],
+  featuredProduct: [
+    {
+      id: 1254,
+      name: "Iphone 13",
+      stars: 3.5,
+      lastPrise: 4300.0,
+      newPrise: 3980.0,
+      picture: "https://picsum.photos/id/365/500/500",
+      link: "/electronique/smartphone/smartphone/Iphone",
+    },
+    {
+      id: 1254,
+      name: "Iphone 13",
+      stars: 4,
+      lastPrise: 4300.0,
+      newPrise: 3980.0,
+      picture: "https://picsum.photos/id/365/500/500",
+      link: "/electronique/smartphone/smartphone/Iphone",
+    },
+    {
+      id: 1254,
+      name: "Iphone 13",
+      stars: 5,
+      lastPrise: 4300.0,
+      newPrise: 3980.0,
+      picture: "https://picsum.photos/id/365/500/500",
+      link: "/electronique/smartphone/smartphone/Iphone",
+    },
+    {
+      id: 1254,
+      name: "Iphone 13",
+      stars: 2.5,
+      lastPrise: 4300.0,
+      newPrise: 3980.0,
+      picture: "https://picsum.photos/id/365/500/500",
+      link: "/electronique/smartphone/smartphone/Iphone",
+    },
+    {
+      id: 1254,
+      name: "Iphone 13",
+      stars: 3,
+      lastPrise: 4300.0,
+      newPrise: 3980.0,
+      picture: "https://picsum.photos/id/365/500/500",
+      link: "/electronique/smartphone/smartphone/Iphone",
+    },
+    {
+      id: 1254,
+      name: "Iphone 13",
+      stars: 3,
+      lastPrise: 4300.0,
+      newPrise: 3980.0,
+      picture: "https://picsum.photos/id/365/500/500",
+      link: "/electronique/smartphone/smartphone/Iphone",
+    },
+    {
+      id: 1254,
+      name: "Iphone 13",
+      stars: 3,
+      lastPrise: 4300.0,
+      newPrise: 3980.0,
+      picture: "https://picsum.photos/id/365/500/500",
+      link: "/electronique/smartphone/smartphone/Iphone",
+    },
+    {
+      id: 1254,
+      name: "Iphone 13",
+      stars: 3,
+      lastPrise: 4300.0,
+      newPrise: 3980.0,
+      picture: "https://picsum.photos/id/365/500/500",
+      link: "/electronique/smartphone/smartphone/Iphone",
+    },
+  ],
+  recommendedProduct: [
+    {
+      id: 1254,
+      name: "Iphone 13",
+      stars: 3.5,
+      lastPrise: 4300.0,
+      newPrise: 3980.0,
+      picture: "https://picsum.photos/id/365/500/500",
+      link: "/electronique/smartphone/smartphone/Iphone",
+    },
+    {
+      id: 1254,
+      name: "Iphone 13",
+      stars: 4,
+      lastPrise: 4300.0,
+      newPrise: 3980.0,
+      picture: "https://picsum.photos/id/365/500/500",
+      link: "/electronique/smartphone/smartphone/Iphone",
+    },
+    {
+      id: 1254,
+      name: "Iphone 13",
+      stars: 5,
+      lastPrise: 4300.0,
+      newPrise: 3980.0,
+      picture: "https://picsum.photos/id/365/500/500",
+      link: "/electronique/smartphone/smartphone/Iphone",
+    },
+    {
+      id: 1254,
+      name: "Iphone 13",
+      stars: 2.5,
+      lastPrise: 4300.0,
+      newPrise: 3980.0,
+      picture: "https://picsum.photos/id/365/500/500",
+      link: "/electronique/smartphone/smartphone/Iphone",
+    },
+    {
+      id: 1254,
+      name: "Iphone 13",
+      stars: 3,
+      lastPrise: 4300.0,
+      newPrise: 3980.0,
+      picture: "https://picsum.photos/id/365/500/500",
+      link: "/electronique/smartphone/smartphone/Iphone",
+    },
+    {
+      id: 1254,
+      name: "Iphone 13",
+      stars: 3,
+      lastPrise: 4300.0,
+      newPrise: 3980.0,
+      picture: "https://picsum.photos/id/365/500/500",
+      link: "/electronique/smartphone/smartphone/Iphone",
+    },
+    {
+      id: 1254,
+      name: "Iphone 13",
+      stars: 3,
+      lastPrise: 4300.0,
+      newPrise: 3980.0,
+      picture: "https://picsum.photos/id/365/500/500",
+      link: "/electronique/smartphone/smartphone/Iphone",
+    },
+    {
+      id: 1254,
+      name: "Iphone 13",
+      stars: 3,
+      lastPrise: 4300.0,
+      newPrise: 3980.0,
+      picture: "https://picsum.photos/id/365/500/500",
+      link: "/electronique/smartphone/smartphone/Iphone",
+    },
+  ],
+  partner: [
+    { img: "//logo.clearbit.com/google.com?greyscale=true", name: "Google" },
+    { img: "//logo.clearbit.com/shopify.com?greyscale=true", name: "Shopify" },
+    {
+      img: "//logo.clearbit.com/ethereum.org?greyscale=true",
+      name: "Ethereum",
+    },
+    {
+      img: "//logo.clearbit.com/tunisair.com?greyscale=true",
+      name: "Tunisair",
+    },
+    { img: "//logo.clearbit.com/topnet.tn?greyscale=true", name: "Topnet" },
+  ],
+};
 
-const carousel = [
-  { link: "https://picsum.photos/id/222/2000/500" },
-  { link: "https://picsum.photos/id/232/2000/500" },
-  { link: "https://picsum.photos/id/228/2000/500" },
-];
-const partner = [
-  { img: "//logo.clearbit.com/google.com?greyscale=true", name: "Google" },
-  { img: "//logo.clearbit.com/shopify.com?greyscale=true", name: "Shopify" },
-  { img: "//logo.clearbit.com/ethereum.org?greyscale=true", name: "Ethereum" },
-  { img: "//logo.clearbit.com/tunisair.com?greyscale=true", name: "Tunisair" },
-  { img: "//logo.clearbit.com/topnet.tn?greyscale=true", name: "Topnet" },
-];
 const Presentation = () => {
   return (
     <div className="container-fluid presentation">
       <Carousel fade={true} controls={false} indicators={false}>
-        {carousel.map((item, key) => {
+        {presentationData.carousel.map((item, key) => {
           return (
             <Carousel.Item key={key}>
               <img
@@ -153,7 +235,7 @@ const Presentation = () => {
 
       <div className="container mt-50">
         <div className="row">
-          {categDisplay.map((item, key) => {
+          {presentationData.categories.map((item, key) => {
             return (
               <div className="col-md-3 col-sm-6" key={key}>
                 <div className="card mb-30">
@@ -193,14 +275,17 @@ const Presentation = () => {
       </div>
 
       <div className="container">
-        <Responsive data={featuredProduct} name="Featured" />
+        <Responsive data={presentationData.featuredProduct} name="Featured" />
       </div>
       <div className="container">
-        <Responsive data={featuredProduct} name="Recommended" />
+        <Responsive
+          data={presentationData.recommendedProduct}
+          name="Recommended"
+        />
       </div>
       <div className="brands">
         <a href="/">
-          {partner.map((item, key) => {
+          {presentationData.partner.map((item, key) => {
             return <img key={key} alt={item.name} src={item.img} />;
           })}
         </a>
