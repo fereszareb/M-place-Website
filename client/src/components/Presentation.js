@@ -223,9 +223,11 @@ const Presentation = () => {
         {presentationData.carousel.map((item, key) => {
           return (
             <Carousel.Item key={key}>
-              <img
-                className="d-block w-100 h-50vh"
-                src={item.link}
+              <div
+                className="d-block carouselItems"
+                style={{
+                  backgroundImage: "url(" + item.link + ")",
+                }}
                 alt="First slide"
               />
             </Carousel.Item>
