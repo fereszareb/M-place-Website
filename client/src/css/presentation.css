@@ -1,5 +1,4 @@
 .container-fluid {
-  margin-top: 1em;
   padding: 0;
 }
 .h-50vh {
@@ -252,4 +251,16 @@ a {
   margin: 10px 20px;
   vertical-align: middle;
   height: 35px;
+}
+
+.carouselItems {
+  height: 55vh;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+}
+@media (max-width: 767px) {
+  .carouselItems {
+    height: 30vh;
+  }
 }
