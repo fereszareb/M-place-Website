@@ -58,6 +58,18 @@ const Panier = () => {
     coupon: 0,
     total: 0,
   });
+  const [numberOfProduct, setNumberOfProduct] = useState(0);
+  useEffect(() => {
+    const getNumberOfItem = () => {
+      let nbrOfItem = 0;
+      for (var i = 0; i < productFromLocalStorage.length; i++) {
+        nbrOfItem += parseInt(productFromLocalStorage[i].nbrProduct);
+      }
+      return nbrOfItem;
+    };
+    setNumberOfProduct(getNumberOfItem());
+  }, [productFromLocalStorage]);
+
   useEffect(() => {
     if (productFromLocalStorage) {
       let subtotal = 0;
@@ -89,12 +101,12 @@ const Panier = () => {
           <b>Checkout</b>
         </div>
         <div className="card mt-5">
-          {productFromLocalStorage.length > 0 ? (
+          {numberOfProduct > 0 ? (
             <div className="row">
               <div className="col-12 col-lg-8">
                 <div className="card m-3 me-lg-0">
                   <div className="card-header">
-                    {"Panier ( " + productFromLocalStorage.length + " )"}
+                    {"Panier ( " + numberOfProduct + " )"}
                   </div>
                   <div className="card-body">
                     {productFromLocalStorage.map((product, key) => {
