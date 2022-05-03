@@ -32,26 +32,9 @@ const Panier = () => {
       setproductFromLocalStorage([...newListProduct]);
     }
   };
-  const [productFromLocalStorage, setproductFromLocalStorage] = useState([
-    {
-      id: "1254",
-      name: "productName number one ",
-      img: "https://picsum.photos/200",
-      sku: "prod-25AB",
-      price: "125",
-      reduction: "10",
-      nbrProduct: 4,
-    },
-    {
-      id: "1222",
-      name: "productName number two ",
-      img: "https://picsum.photos/202",
-      sku: "prod-97ZB",
-      price: "2785.26",
-      reduction: "0",
-      nbrProduct: 1,
-    },
-  ]);
+  const [productFromLocalStorage, setproductFromLocalStorage] = useState(
+    JSON.parse(localStorage.getItem("products")) || []
+  );
   const [payDetails, setPayDetails] = useState({
     subtotal: 0,
     discount: 0,
@@ -68,6 +51,7 @@ const Panier = () => {
       return nbrOfItem;
     };
     setNumberOfProduct(getNumberOfItem());
+    localStorage.setItem("products", JSON.stringify(productFromLocalStorage));
   }, [productFromLocalStorage]);
 
   useEffect(() => {
