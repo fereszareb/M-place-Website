@@ -14,6 +14,7 @@ const Myaccount = () => {
     country: "",
     phone: "",
   });
+  const [ErreurDisplay, setErreurDisplay] = useState("");
   const [UpdateInfo, setUpdateInfo] = useState({
     firstname: "",
     lastname: "",
@@ -94,7 +95,14 @@ const Myaccount = () => {
       )
     ) {
       //api update user
-      console.log("update");
+      api
+        .post("/Client/update", UpdateInfo)
+        .then((res) => {})
+        .catch(function (error) {
+          if (error.response) {
+            setErreurDisplay(error.response.data.msg);
+          }
+        });
     }
   }
   //end function save
@@ -251,6 +259,9 @@ const Myaccount = () => {
               onChange={myaccountChangeHandler}
             />
             <div className="form-text">{erreur.newPassword}</div>
+          </div>
+          <div>
+            <small className="text-danger">{ErreurDisplay} </small>
           </div>
           <div className="text-end">
             <button className="btn btn-orange m-auto" onClick={Save}>
