@@ -196,6 +196,10 @@ const Panier = () => {
                       <p>Total</p>
                       <p>{payDetails.total} TND</p>
                     </div>
+                    <div className="text-center d-flex couponGroupe">
+                      <input type="text" placeholder="Coupon" />
+                      <button className="btn btn-orange">Verify</button>
+                    </div>
                     <div className="text-center">
                       <button className="btn btn-checkout">Checkout</button>
                     </div>
