@@ -314,7 +314,7 @@ const Navbar = () => {
                     }
                   >
                     <Link to="/about" className="nav-link">
-                      About
+                      About Us
                     </Link>
                   </li>
                   <li
@@ -325,7 +325,7 @@ const Navbar = () => {
                     }
                   >
                     <Link to="/contact" className="nav-link">
-                      Contact
+                      Contact Us
                     </Link>
                   </li>
                 </ul>
