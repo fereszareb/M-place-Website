@@ -239,7 +239,7 @@ const Presentation = ({ CalcnumberOfProduct }) => {
         <div className="row">
           {presentationData.categories.map((item, key) => {
             return (
-              <div className="col-md-3 col-sm-6" key={key}>
+              <div className="col-lg-3 col-sm-6" key={key}>
                 <div className="card mb-30">
                   <Link
                     className="card-img-tiles"
@@ -257,7 +257,7 @@ const Presentation = ({ CalcnumberOfProduct }) => {
                     </div>
                   </Link>
                   <div className="card-body text-center">
-                    <h4 className="card-title">{item.title}</h4>
+                    <h5 className="card-title">{item.title}</h5>
                     <p className="text-muted">
                       Starting from {item.minPrice} TND
                     </p>
