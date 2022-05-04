@@ -43,31 +43,33 @@ function showStars(stars) {
   }
   return rows;
 }
-function addToLocalStorage(item) {
-  let listProduct = JSON.parse(localStorage.getItem("products")) || [];
-  const indexProduct = listProduct.findIndex(
-    (product) => product.id === item.id
-  );
-  if (indexProduct === -1) {
-    let newProduct = {
-      id: item.id,
-      img: item.picture,
-      name: item.name,
-      nbrProduct: 1,
-      price: item.price,
-      reduction: item.reduction,
-      sku: item.SKU,
-    };
-    listProduct.push(newProduct);
-    localStorage.setItem("products", JSON.stringify(listProduct));
-    notify();
-  } else {
-    listProduct[indexProduct].nbrProduct += 1;
-    localStorage.setItem("products", JSON.stringify(listProduct));
-    notify();
-  }
-}
+
 export default class Responsive extends Component {
+  addToLocalStorage(item) {
+    let listProduct = JSON.parse(localStorage.getItem("products")) || [];
+    const indexProduct = listProduct.findIndex(
+      (product) => product.id === item.id
+    );
+    if (indexProduct === -1) {
+      let newProduct = {
+        id: item.id,
+        img: item.picture,
+        name: item.name,
+        nbrProduct: 1,
+        price: item.price,
+        reduction: item.reduction,
+        sku: item.SKU,
+      };
+      listProduct.push(newProduct);
+      localStorage.setItem("products", JSON.stringify(listProduct));
+      notify();
+    } else {
+      listProduct[indexProduct].nbrProduct += 1;
+      localStorage.setItem("products", JSON.stringify(listProduct));
+      notify();
+    }
+    this.props.CalcnumberOfProduct();
+  }
   render() {
     var settings = {
       dots: false,
@@ -145,7 +147,7 @@ export default class Responsive extends Component {
                     <button
                       className="btn btn-orange btn-sm"
                       onClick={() => {
-                        addToLocalStorage(item);
+                        this.addToLocalStorage(item);
                       }}
                       data-abc="true"
                     >
