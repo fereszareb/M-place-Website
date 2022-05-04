@@ -1,4 +1,5 @@
 import "./../../css/panier.css";
+import api from "./../../config.service";
 import { MdDelete } from "react-icons/md";
 import { useEffect, useState } from "react";
 const Panier = () => {
@@ -41,6 +42,39 @@ const Panier = () => {
     coupon: 0,
     total: 0,
   });
+
+  const [coupon, setCoupon] = useState("");
+  const [couponValue, setcouponValue] = useState(0);
+  const [couponErreur, setCouponErreur] = useState("");
+  const [loadingCoupon, setloadingCoupon] = useState(false);
+  const couponChangeHandler = (e) => {
+    setCoupon(e.target.value);
+  };
+  const verifyCoupon = () => {
+    if (coupon) {
+      setCouponErreur("");
+      setloadingCoupon(true);
+      let data = {
+        coupon: coupon,
+        products: productFromLocalStorage,
+      };
+      setcouponValue(12);
+      api
+        .post("/coupon/verify", data)
+        .then((res) => {
+          //receive the value of coupon by the product
+          setcouponValue(res.data.value);
+          setloadingCoupon(false);
+        })
+        .catch((error) => {
+          if (error.response) {
+            setCouponErreur(error.response.data.msg);
+          }
+          setloadingCoupon(false);
+        });
+    }
+  };
+
   const [numberOfProduct, setNumberOfProduct] = useState(0);
   useEffect(() => {
     const getNumberOfItem = () => {
@@ -58,7 +92,6 @@ const Panier = () => {
     if (productFromLocalStorage) {
       let subtotal = 0;
       let discount = 0;
-      let coupon = 0;
 
       for (const index in productFromLocalStorage) {
         subtotal +=
@@ -73,11 +106,11 @@ const Panier = () => {
       setPayDetails({
         subtotal: subtotal,
         discount: discount,
-        coupon: 0,
-        total: subtotal - discount,
+        coupon: couponValue,
+        total: subtotal - discount - couponValue,
       });
     }
-  }, [productFromLocalStorage]);
+  }, [couponValue, productFromLocalStorage]);
   return (
     <div className="row justify-content-center mb-5 w-100 mx-0">
       <div className="col-12 col-xl-10">
@@ -197,9 +230,32 @@ const Panier = () => {
                       <p>{payDetails.total} TND</p>
                     </div>
                     <div className="text-center d-flex couponGroupe">
-                      <input type="text" placeholder="Coupon" />
-                      <button className="btn btn-orange">Verify</button>
+                      <input
+                        type="text"
+                        placeholder="Coupon"
+                        onChange={couponChangeHandler}
+                      />
+                      <button
+                        className="btn btn-orange"
+                        onClick={verifyCoupon}
+                        disabled={loadingCoupon}
+                      >
+                        {loadingCoupon ? (
+                          <div
+                            class="spinner-border text-secondary spinner-small m-auto"
+                            role="status"
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        ) : (
+                          "Verify"
+                        )}
+                      </button>
                     </div>
+                    <div className="text-canter">
+                      <small className="text-danger">{couponErreur}</small>
+                    </div>
+
                     <div className="text-center">
                       <button className="btn btn-checkout">Checkout</button>
                     </div>
