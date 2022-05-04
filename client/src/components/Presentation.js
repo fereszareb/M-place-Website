@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Carousel } from "react-bootstrap";
 import Responsive from "./carousel.js";
 
+import "react-toastify/dist/ReactToastify.css";
 var presentationData = {
   carousel: [
     { link: "https://picsum.photos/id/222/2000/500" },
@@ -55,7 +56,7 @@ var presentationData = {
   ],
   featuredProduct: [
     {
-      id: 1254,
+      id: "95",
       name: "Iphone 13",
       stars: 3.5,
       price: "1265",
@@ -64,7 +65,7 @@ var presentationData = {
       SKU: "sam-04AB",
     },
     {
-      id: 1254,
+      id: "5556",
       name: "Iphone 13",
       stars: 4,
       price: "1265",
@@ -73,7 +74,7 @@ var presentationData = {
       SKU: "sam-04AB",
     },
     {
-      id: 1254,
+      id: "8278",
       name: "Iphone 13",
       stars: 5,
       price: "1265",
@@ -82,7 +83,7 @@ var presentationData = {
       SKU: "sam-04AB",
     },
     {
-      id: 1254,
+      id: "2548458",
       name: "Iphone 13",
       stars: 2.5,
       price: "1265",
@@ -91,7 +92,7 @@ var presentationData = {
       SKU: "sam-04AB",
     },
     {
-      id: 1254,
+      id: "2595",
       name: "Iphone 13",
       stars: 3,
       price: "1265",
@@ -100,7 +101,7 @@ var presentationData = {
       SKU: "sam-04AB",
     },
     {
-      id: 1254,
+      id: "89966",
       name: "Iphone 13",
       stars: 3,
       price: "1265",
@@ -109,7 +110,7 @@ var presentationData = {
       SKU: "sam-04AB",
     },
     {
-      id: 1254,
+      id: "2448",
       name: "Iphone 13",
       stars: 3,
       price: "1265",
@@ -118,7 +119,7 @@ var presentationData = {
       SKU: "sam-04AB",
     },
     {
-      id: 1254,
+      id: "94598",
       name: "Iphone 13",
       stars: 3,
       price: "1265",
@@ -129,7 +130,7 @@ var presentationData = {
   ],
   recommendedProduct: [
     {
-      id: 1254,
+      id: "1259",
       name: "Iphone 13",
       stars: 3.5,
       price: "1265",
@@ -138,7 +139,7 @@ var presentationData = {
       SKU: "sam-04AB",
     },
     {
-      id: 1254,
+      id: "12554",
       name: "Iphone 13",
       stars: 4,
       price: "1265",
@@ -147,7 +148,7 @@ var presentationData = {
       SKU: "sam-04AB",
     },
     {
-      id: 1254,
+      id: "1565",
       name: "Iphone 13",
       stars: 5,
       price: "1265",
@@ -156,7 +157,7 @@ var presentationData = {
       SKU: "sam-04AB",
     },
     {
-      id: 1254,
+      id: "248",
       name: "Iphone 13",
       stars: 2.5,
       price: "1265",
@@ -165,7 +166,7 @@ var presentationData = {
       SKU: "sam-04AB",
     },
     {
-      id: 1254,
+      id: "24865",
       name: "Iphone 13",
       stars: 3,
       price: "1265",
@@ -174,7 +175,7 @@ var presentationData = {
       SKU: "sam-04AB",
     },
     {
-      id: 1254,
+      id: "335935",
       name: "Iphone 13",
       stars: 3,
       price: "1265",
@@ -183,7 +184,7 @@ var presentationData = {
       SKU: "sam-04AB",
     },
     {
-      id: 1254,
+      id: "9539",
       name: "Iphone 13",
       stars: 3,
       price: "1265",
@@ -192,7 +193,7 @@ var presentationData = {
       SKU: "sam-04AB",
     },
     {
-      id: 1254,
+      id: "295",
       name: "Iphone 13",
       stars: 3,
       price: "1265",
@@ -215,7 +216,6 @@ var presentationData = {
     { img: "//logo.clearbit.com/topnet.tn?greyscale=true", name: "Topnet" },
   ],
 };
-
 const Presentation = () => {
   return (
     <div className="container-fluid presentation">
