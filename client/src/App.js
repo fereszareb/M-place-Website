@@ -19,6 +19,8 @@ import Chat from "./components/User/chat";
 import Test from "./components/User/test";
 import LoginPO from "./components/loginPO";
 import Panier from "./components/User/panier";
+import PrivacyPolicy from "./components/privacy-policy";
+import TermsAndConditions from "./components/terms-and-conditions";
 function App() {
   return (
     <Router>
@@ -80,6 +82,16 @@ function App() {
         <Route exact path="/contact">
           <Navbar />
           <Contact />
+          <Footer />
+        </Route>
+        <Route exact path="/PrivacyPolicy">
+          <Navbar />
+          <PrivacyPolicy />
+          <Footer />
+        </Route>
+        <Route exact path="/TermsAndConditions">
+          <Navbar />
+          <TermsAndConditions />
           <Footer />
         </Route>
         <Route exact path="/Product/:product">
