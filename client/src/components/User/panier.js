@@ -14,6 +14,7 @@ const Panier = () => {
     const indexProductToDelete = productFromLocalStorage.findIndex(
       (product) => product.id === e.target.getAttribute("data")
     );
+    console.log(e.target.getAttribute("data"));
     if (indexProductToDelete >= 0) {
       let newListProduct = productFromLocalStorage;
       newListProduct[indexProductToDelete].nbrProduct++;
@@ -155,8 +156,7 @@ const Panier = () => {
                                   <h5>
                                     {(product.price *
                                       (100 - product.reduction)) /
-                                      100 +
-                                      " "}
+                                      100}
                                     TND
                                   </h5>
                                   <div>
@@ -164,7 +164,7 @@ const Panier = () => {
                                       {product.price + " "}
                                       TND
                                     </del>
-                                    <span class="badge bg-warning m-0 ms-2">
+                                    <span className="badge bg-warning m-0 ms-2">
                                       {product.reduction}%
                                     </span>
                                   </div>
@@ -242,10 +242,10 @@ const Panier = () => {
                       >
                         {loadingCoupon ? (
                           <div
-                            class="spinner-border text-secondary spinner-small m-auto"
+                            className="spinner-border text-secondary spinner-small m-auto"
                             role="status"
                           >
-                            <span class="visually-hidden">Loading...</span>
+                            <span className="visually-hidden">Loading...</span>
                           </div>
                         ) : (
                           "Verify"
