@@ -9,7 +9,7 @@ import { AiOutlineMenu, AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
 import { FaShoppingCart, FaUserAlt } from "react-icons/fa";
 import api from "./../config.service";
 
-const Navbar = () => {
+const Navbar = ({ numberOfProduct }) => {
   //begin api getAll
   const [Categories, setCategories] = useState([]);
   const retrieveCategories = async () => {
@@ -420,7 +420,7 @@ const Navbar = () => {
                   <p className="d-inline position-relative">
                     <FaShoppingCart className="iconCart mx-2" />
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                      99+
+                      {numberOfProduct}
                     </span>
                   </p>
                 </Link>
