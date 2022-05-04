@@ -2,19 +2,17 @@ import "./../../css/panier.css";
 import api from "./../../config.service";
 import { MdDelete } from "react-icons/md";
 import { useEffect, useState } from "react";
-const Panier = () => {
+const Panier = ({ CalcnumberOfProduct }) => {
   const deleteProduct = (e) => {
     const newusersList = productFromLocalStorage.filter((product) => {
       return product.id !== e.target.getAttribute("data");
     });
-    console.log(newusersList);
     setproductFromLocalStorage([...newusersList]);
   };
   const productPlus = (e) => {
     const indexProductToDelete = productFromLocalStorage.findIndex(
       (product) => product.id === e.target.getAttribute("data")
     );
-    console.log(e.target.getAttribute("data"));
     if (indexProductToDelete >= 0) {
       let newListProduct = productFromLocalStorage;
       newListProduct[indexProductToDelete].nbrProduct++;
@@ -86,6 +84,7 @@ const Panier = () => {
       return nbrOfItem;
     };
     setNumberOfProduct(getNumberOfItem());
+    CalcnumberOfProduct(getNumberOfItem());
     localStorage.setItem("products", JSON.stringify(productFromLocalStorage));
   }, [productFromLocalStorage]);
 
