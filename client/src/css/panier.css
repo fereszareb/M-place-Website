@@ -45,3 +45,15 @@
   outline: none !important;
   margin-left: auto;
 }
+
+.couponGroupe input {
+  width: 70%;
+  outline: none;
+  border: 0.5px solid #fb8500;
+  padding-left: 1em;
+  border-radius: 2px 0 0 2px !important;
+}
+.couponGroupe .btn-orange {
+  border-radius: 0 2px 2px 0 !important;
+  width: 30%;
+}
