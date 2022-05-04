@@ -40,7 +40,17 @@ function showStars(stars) {
   }
   return rows;
 }
-
+function addToLocalStorage(item) {
+  let newProduct = {
+    id: item.id,
+    img: item.picture,
+    name: item.name,
+    nbrProduct: 3,
+    price: item.price,
+    reduction: item.reduction,
+    sku: item.SKU,
+  };
+}
 export default class Responsive extends Component {
   render() {
     var settings = {
@@ -88,29 +98,43 @@ export default class Responsive extends Component {
               <div className="itemCarousel" key={key}>
                 <div className="thumb-wrapper">
                   <div className="img-box">
-                    <img
-                      src={item.picture}
-                      className="img-fluid"
-                      alt="Play Station"
-                      draggable="false"
-                    />
+                    <Link to={"Product/" + item.SKU}>
+                      <img
+                        src={item.picture}
+                        className="img-fluid"
+                        alt="Play Station"
+                        draggable="false"
+                      />
+                    </Link>
                   </div>
                   <div className="thumb-content">
-                    <h4>{item.name}</h4>
+                    <Link className="item-name" to={"Product/" + item.SKU}>
+                      <p className="text-dark">{item.name}</p>
+                    </Link>
                     <p className="item-price">
-                      <strike>{item.lastPrise} TND</strike>{" "}
-                      <b>{item.newPrise} TND</b>
+                      {item.reduction == 0 ? (
+                        <b>{item.price} TND</b>
+                      ) : (
+                        <>
+                          <strike>{item.price} TND</strike>
+                          <b>
+                            {(item.price * (100 - item.reduction)) / 100} TND
+                          </b>
+                        </>
+                      )}
                     </p>
                     <div className="star-rating">
                       <ul className="list-inline">{showStars(item.stars)}</ul>
                     </div>
-                    <Link
+                    <button
                       className="btn btn-orange btn-sm"
-                      to={item.link}
+                      onClick={() => {
+                        addToLocalStorage(item);
+                      }}
                       data-abc="true"
                     >
                       Add to Cart
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>
