@@ -216,7 +216,7 @@ var presentationData = {
     { img: "//logo.clearbit.com/topnet.tn?greyscale=true", name: "Topnet" },
   ],
 };
-const Presentation = () => {
+const Presentation = ({ CalcnumberOfProduct }) => {
   return (
     <div className="container-fluid presentation">
       <Carousel fade={true} controls={false} indicators={false}>
@@ -277,11 +277,16 @@ const Presentation = () => {
       </div>
 
       <div className="container">
-        <Responsive data={presentationData.featuredProduct} name="Featured" />
+        <Responsive
+          data={presentationData.featuredProduct}
+          CalcnumberOfProduct={CalcnumberOfProduct}
+          name="Featured"
+        />
       </div>
       <div className="container">
         <Responsive
           data={presentationData.recommendedProduct}
+          CalcnumberOfProduct={CalcnumberOfProduct}
           name="Recommended"
         />
       </div>
