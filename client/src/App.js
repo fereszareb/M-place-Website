@@ -21,7 +21,26 @@ import LoginPO from "./components/loginPO";
 import Panier from "./components/User/panier";
 import PrivacyPolicy from "./components/privacy-policy";
 import TermsAndConditions from "./components/terms-and-conditions";
+import { useEffect, useState } from "react";
 function App() {
+  const [numberOfProduct, setnumberOfProduct] = useState(0);
+  const CalcnumberOfProduct = (number) => {
+    if (!number) {
+      let productFromLocalStorage =
+        JSON.parse(localStorage.getItem("products")) || [];
+      let nbrOfItem = 0;
+      for (var i = 0; i < productFromLocalStorage.length; i++) {
+        nbrOfItem += parseInt(productFromLocalStorage[i].nbrProduct);
+      }
+      setnumberOfProduct(nbrOfItem);
+    } else {
+      setnumberOfProduct(number);
+    }
+  };
+
+  useEffect(() => {
+    CalcnumberOfProduct();
+  }, []);
   return (
     <Router>
       <Switch>
@@ -50,68 +69,68 @@ function App() {
           <ResetPassword />
         </Route>
         <Route exact path="/myaccount">
-          <Navbar />
+          <Navbar numberOfProduct={numberOfProduct} />
           <Myaccount />
           <Footer />
         </Route>
         <Route exact path="/chat">
-          <Navbar />
+          <Navbar numberOfProduct={numberOfProduct} />
           <Chat />
           <Footer />
         </Route>
         <Route exact path="/panier">
-          <Navbar />
-          <Panier />
+          <Navbar numberOfProduct={numberOfProduct} />
+          <Panier CalcnumberOfProduct={CalcnumberOfProduct} />
           <Footer />
         </Route>
         <Route exact path="/search">
-          <Navbar />
-          <Search />
+          <Navbar numberOfProduct={numberOfProduct} />
+          <Search CalcnumberOfProduct={CalcnumberOfProduct} />
           <Footer />
         </Route>
         <Route exact path="/">
-          <Navbar />
-          <Presentation />
+          <Navbar numberOfProduct={numberOfProduct} />
+          <Presentation CalcnumberOfProduct={CalcnumberOfProduct} />
           <Footer />
         </Route>
         <Route exact path="/about">
-          <Navbar />
+          <Navbar numberOfProduct={numberOfProduct} />
           <About />
           <Footer />
         </Route>
         <Route exact path="/contact">
-          <Navbar />
+          <Navbar numberOfProduct={numberOfProduct} />
           <Contact />
           <Footer />
         </Route>
         <Route exact path="/PrivacyPolicy">
-          <Navbar />
+          <Navbar numberOfProduct={numberOfProduct} />
           <PrivacyPolicy />
           <Footer />
         </Route>
         <Route exact path="/TermsAndConditions">
-          <Navbar />
+          <Navbar numberOfProduct={numberOfProduct} />
           <TermsAndConditions />
           <Footer />
         </Route>
         <Route exact path="/Product/:product">
-          <Navbar />
-          <Product />
+          <Navbar numberOfProduct={numberOfProduct} />
+          <Product CalcnumberOfProduct={CalcnumberOfProduct} />
           <Footer />
         </Route>
         <Route exact path="/:categ">
-          <Navbar />
-          <Category />
+          <Navbar numberOfProduct={numberOfProduct} />
+          <Category CalcnumberOfProduct={CalcnumberOfProduct} />
           <Footer />
         </Route>
         <Route exact path="/:categ/:sousCateg">
-          <Navbar />
-          <Category />
+          <Navbar numberOfProduct={numberOfProduct} />
+          <Category CalcnumberOfProduct={CalcnumberOfProduct} />
           <Footer />
         </Route>
         <Route exact path="/:categ/:sousCateg/:sousSousCateg">
-          <Navbar />
-          <Category />
+          <Navbar numberOfProduct={numberOfProduct} />
+          <Category CalcnumberOfProduct={CalcnumberOfProduct} />
           <Footer />
         </Route>
 
