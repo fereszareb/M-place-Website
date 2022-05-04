@@ -5,7 +5,10 @@ import "slick-carousel/slick/slick-theme.css";
 import "./../css/carousel.css";
 import { Link } from "react-router-dom";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
+import { ToastContainer, toast } from "react-toastify";
 
+import "react-toastify/dist/ReactToastify.css";
+const notify = () => toast.success("Product added");
 function showStars(stars) {
   const nbr = Math.trunc(stars);
   var rows = [];
@@ -41,15 +44,28 @@ function showStars(stars) {
   return rows;
 }
 function addToLocalStorage(item) {
-  let newProduct = {
-    id: item.id,
-    img: item.picture,
-    name: item.name,
-    nbrProduct: 3,
-    price: item.price,
-    reduction: item.reduction,
-    sku: item.SKU,
-  };
+  let listProduct = JSON.parse(localStorage.getItem("products")) || [];
+  const indexProduct = listProduct.findIndex(
+    (product) => product.id === item.id
+  );
+  if (indexProduct === -1) {
+    let newProduct = {
+      id: item.id,
+      img: item.picture,
+      name: item.name,
+      nbrProduct: 1,
+      price: item.price,
+      reduction: item.reduction,
+      sku: item.SKU,
+    };
+    listProduct.push(newProduct);
+    localStorage.setItem("products", JSON.stringify(listProduct));
+    notify();
+  } else {
+    listProduct[indexProduct].nbrProduct += 1;
+    localStorage.setItem("products", JSON.stringify(listProduct));
+    notify();
+  }
 }
 export default class Responsive extends Component {
   render() {
@@ -141,6 +157,17 @@ export default class Responsive extends Component {
             );
           })}
         </Slider>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </div>
     );
   }
