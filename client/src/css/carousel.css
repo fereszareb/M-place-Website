@@ -65,6 +65,10 @@
 .itemCarousel .item-price {
   font-size: 13px;
   padding: 2px 0;
+  margin: 0;
+}
+.itemCarousel .thumb-content {
+  padding-top: 7px;
 }
 .itemCarousel .item-price strike {
   opacity: 0.7;
