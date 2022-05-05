@@ -68,12 +68,19 @@ const Product = () => {
     id: "",
     name: "",
     SKU: "",
+    marque: "",
+    categoryName: "",
     stars: 0,
     description: "",
     price: 0,
     reduction_percentage: 0,
     product_imgs: [],
+    short_description: "",
     variables: [],
+    PostedBy: {
+      name: "",
+      logo: "",
+    },
   });
   const retrieveUsers = async () => {
     const response = await api.get("products/SKU/" + product);
