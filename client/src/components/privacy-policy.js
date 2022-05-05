@@ -4,14 +4,13 @@ const PrivacyPolicy = () => {
   //begin api getAll
   const [data, setData] = useState("");
   const retrievePrivacyPolicy = async () => {
-    const response = await api.get("/abousUs");
-    return response.data;
+    const response = await api.get("/Settings");
+    return response.data.Privacy_Policy;
   };
   useEffect(() => {
     const getPrivacyPolicy = async () => {
       const PrivacyPolicy = await retrievePrivacyPolicy();
       if (PrivacyPolicy) setData(PrivacyPolicy);
-      console.log(PrivacyPolicy);
     };
     getPrivacyPolicy();
   }, []);
