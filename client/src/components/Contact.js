@@ -5,9 +5,9 @@ const Contact = () => {
   const [data, setData] = useState({
     firstname: "",
     lastname: "",
-    phonenumber: "",
+    phone: "",
     email: "",
-    messages: "",
+    message: "",
   });
   const ContactChangeHandler = (e) => {
     setData({
@@ -20,7 +20,7 @@ const Contact = () => {
   const send = (e) => {
     e.preventDefault();
     api
-      .post("contact/send", data, {
+      .post("/Client/contactUs", data, {
         withCredentials: true,
       })
       .then((res) => {
@@ -101,14 +101,14 @@ const Contact = () => {
                 />
               </div>
               <div className="form-group mb-3">
-                <label className="form-label visually-hidden" for="phonenumber">
+                <label className="form-label visually-hidden" for="phone">
                   Phone Number
                 </label>
                 <input
-                  id="phonenumber"
+                  id="phone"
                   className="form-control"
                   type="tel"
-                  name="phonenumber"
+                  name="phone"
                   required
                   placeholder="Phone"
                   onChange={ContactChangeHandler}
@@ -129,12 +129,12 @@ const Contact = () => {
                 />
               </div>
               <div className="form-group mb-3">
-                <label className="form-label visually-hidden" for="messages">
+                <label className="form-label visually-hidden" for="message">
                   Last Name
                 </label>
                 <textarea
                   className="form-control"
-                  name="messages"
+                  name="message"
                   required
                   placeholder="Message"
                   rows="8"
