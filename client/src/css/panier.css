@@ -57,3 +57,24 @@
   border-radius: 0 2px 2px 0 !important;
   width: 30%;
 }
+.card-checkout-methode {
+  height: 250px;
+  width: 250px;
+  color: white;
+  text-align: center;
+  padding-top: 105px;
+  font-size: 1.25em;
+  font-weight: 300;
+  margin: 2em auto 2em auto !important;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.card-checkout-methode:hover {
+  opacity: 0.8;
+}
+.stripeColor {
+  background-color: #675aff;
+}
+.metamaskColor {
+  background-color: #f7841b;
+}
