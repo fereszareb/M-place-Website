@@ -61,23 +61,21 @@ const Category = ({ CalcnumberOfProduct }) => {
     number_of_products: 0,
   });
   const retrieveUsers = async () => {
-    const response = await api.get(
-      "/categoriess/" + categorie.replaceAll("_", " ")
+    const response = await api.post(
+      "/categoryProducts/" + categorie.replaceAll("_", " ")
     );
     return response.data;
   };
   const [idCategorie, setIdCategorie] = useState("");
   useEffect(() => {
-    api
-      .post("verificationCategory", categorie.replaceAll("_", " "))
-      .then((res) => {
-        if (res.data.id) {
-          setIdCategorie(res.data.id);
-          //add here getAllUsers();
-        } else {
-          history.push("/404");
-        }
-      });
+    api.get("/categoryId/" + categorie).then((res) => {
+      if (res.data) {
+        setIdCategorie(res.data.id);
+        //add here getAllUsers();
+      } else {
+        history.push("/404");
+      }
+    });
     const getAllUsers = async () => {
       const allUsers = await retrieveUsers();
       if (allUsers) setdata(allUsers);
