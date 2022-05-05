@@ -4,14 +4,13 @@ const TermsAndConditions = () => {
   //begin api getAll
   const [data, setData] = useState("");
   const retrieveTermeAndCondition = async () => {
-    const response = await api.get("/termsandconditions");
-    return response.data;
+    const response = await api.get("/Settings");
+    return response.data.terms_conditions;
   };
   useEffect(() => {
     const getTermeAndCondition = async () => {
       const TermeAndCondition = await retrieveTermeAndCondition();
       if (TermeAndCondition) setData(TermeAndCondition);
-      console.log(TermeAndCondition);
     };
     getTermeAndCondition();
   }, []);
