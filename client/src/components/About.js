@@ -4,14 +4,13 @@ const About = () => {
   //begin api getAll
   const [data, setData] = useState("");
   const retrieveAboutUs = async () => {
-    const response = await api.get("/abousUs");
-    return response.data;
+    const response = await api.get("/Settings");
+    return response.data.AboutUs;
   };
   useEffect(() => {
     const getAboutUs = async () => {
       const aboutUs = await retrieveAboutUs();
       if (aboutUs) setData(aboutUs);
-      console.log(aboutUs);
     };
     getAboutUs();
   }, []);
