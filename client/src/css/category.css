@@ -84,3 +84,12 @@
 .navigation {
   margin: 1em;
 }
+.thumb-content {
+  padding-top: 7px;
+  color: #212925;
+}
+.thumb-content .item-price {
+  font-size: 13px;
+  padding: 2px 0;
+  margin: 0;
+}
