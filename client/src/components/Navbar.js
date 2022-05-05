@@ -413,7 +413,7 @@ const Navbar = ({ numberOfProduct }) => {
                 </div>
                 |
                 <Link
-                  to="panier"
+                  to="/panier"
                   type="button"
                   className="SpanUserNav text-white"
                 >
