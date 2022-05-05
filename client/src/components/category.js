@@ -49,7 +49,8 @@ function showStars(stars) {
 const urlParams = new URLSearchParams(window.location.search);
 
 const Category = () => {
-  const { categ, sousCateg, sousSousCateg } = useParams();
+  const history = useHistory();
+  const { categorie } = useParams();
   //begin api getAllByCateg
   const [data, setdata] = useState({
     filter: [],
@@ -58,11 +59,22 @@ const Category = () => {
   });
   const retrieveUsers = async () => {
     const response = await api.get(
-      "/categoriess/" + (sousSousCateg || sousCateg || categ)
+      "/categoriess/" + categorie.replaceAll("_", " ")
     );
     return response.data;
   };
+  const [idCategorie, setIdCategorie] = useState("");
   useEffect(() => {
+    api
+      .post("verificationCategory", categorie.replaceAll("_", " "))
+      .then((res) => {
+        if (res.data.id) {
+          setIdCategorie(res.data.id);
+          //add here getAllUsers();
+        } else {
+          history.push("/404");
+        }
+      });
     const getAllUsers = async () => {
       const allUsers = await retrieveUsers();
       if (allUsers) setdata(allUsers);
@@ -70,8 +82,6 @@ const Category = () => {
     getAllUsers();
   }, []);
   //end api getAllByCateg
-
-  const history = useHistory();
   //nombre of pagination
   let numberItems = parseInt(data.nbrOfProduct / 48);
   if (data.nbrOfProduct > numberItems) {
@@ -104,7 +114,7 @@ const Category = () => {
         ],
       ]);
       var filter = {};
-      api.get("/categoriess/" + (sousSousCateg || sousCateg || categ));
+      api.get("/categoriess/" + categorie);
     } else {
       setSearchData((data) => [...newSearch]);
     }
@@ -119,51 +129,55 @@ const Category = () => {
   // useParam
 
   return (
-    <div className="container-lg">
+    <div className="container-lg mb-5">
       <div className="navigation">
         {"MarketPlace > "}
-        {categ ? categ : ""}
-        {sousCateg ? " > " + sousCateg : ""}
-        {sousSousCateg ? " > " + sousSousCateg : ""}
+        {categorie ? categorie : ""}
       </div>
       <div className="row">
         <div className="d-none d-md-block col-3">
           <div className="Filter  bg-white rounded p-3">
             <div className="titleFilter">Filter by</div>
-            {data.filter.map((variable, key) => {
-              return (
-                <>
-                  <div className="titleVariable">{variable.name}</div>
-                  <div className="p-3">
-                    {variable.option.map((opt) => {
-                      return (
-                        <div>
-                          <input
-                            type="checkbox"
-                            id={opt.name}
-                            name={opt.name}
-                            variable={variable.name}
-                            onChange={FilterChange}
-                          />
-                          <label for={opt.name}>
-                            {opt.name}
-                            <span class="badge rounded-pill">
-                              {opt.nombreProduct}
-                            </span>
-                          </label>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </>
-              );
-            })}
+            {data.products.length === 0 ? (
+              <div className="Empty"></div>
+            ) : (
+              <>
+                {data.filter.map((variable, key) => {
+                  return (
+                    <>
+                      <div className="titleVariable">{variable.name}</div>
+                      <div className="p-3">
+                        {variable.option.map((opt) => {
+                          return (
+                            <div>
+                              <input
+                                type="checkbox"
+                                id={opt.name}
+                                name={opt.name}
+                                variable={variable.name}
+                                onChange={FilterChange}
+                              />
+                              <label for={opt.name}>
+                                {opt.name}
+                                <span class="badge rounded-pill">
+                                  {opt.nombreProduct}
+                                </span>
+                              </label>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </>
+                  );
+                })}
+              </>
+            )}
           </div>
         </div>
         <div className="col-12 col-md-9">
           <div className="Products bg-white rounded">
             <div className="titleProducts">
-              {categ}
+              {categorie}
               <div className="trie">
                 <select name="trie" id="trie">
                   <option value="0">Trie number one</option>
@@ -172,60 +186,64 @@ const Category = () => {
                 </select>
               </div>
             </div>
-            <div className="row">
-              {data.products.map((item, key) => {
-                return (
-                  <div className="col-6 col-sm-4 col-md-4 col-lg-3 mb-3">
-                    <Link to={"/Product/" + item.name}>
-                      <div className="itemProduct m-1" key={key}>
-                        <div className="thumb-wrapper">
-                          <div className="position-relative img-box">
-                            <div
-                              className="position-absolute imgProduct"
-                              style={{
-                                backgroundImage: "url(" + item.picture + ")",
-                              }}
-                            ></div>
-                          </div>
-                          <div className="thumb-content">
-                            <h4>{item.name}</h4>
-                            <p className="item-price">
-                              {item.reduction_percentage === 0 ? (
-                                <b>{item.price} TND</b>
-                              ) : (
-                                <>
-                                  <strike className="me-2">
-                                    {item.price} TND
-                                  </strike>
-                                  <b>
-                                    {(item.price *
-                                      (100 - item.reduction_percentage)) /
-                                      100}
-                                    TND
-                                  </b>
-                                </>
-                              )}
-                            </p>
-                            <div className="star-rating">
-                              <ul className="list-inline">
-                                {showStars(item.stars)}
-                              </ul>
+            {data.products.length === 0 ? (
+              <div className="Empty mb-3">This category is empty</div>
+            ) : (
+              <div className="row">
+                {data.products.map((item, key) => {
+                  return (
+                    <div className="col-6 col-sm-4 col-md-4 col-lg-3 mb-3">
+                      <Link to={"/Product/" + item.name}>
+                        <div className="itemProduct m-1" key={key}>
+                          <div className="thumb-wrapper">
+                            <div className="position-relative img-box">
+                              <div
+                                className="position-absolute imgProduct"
+                                style={{
+                                  backgroundImage: "url(" + item.picture + ")",
+                                }}
+                              ></div>
                             </div>
-                            <Link
-                              className="btn btn-orange btn-sm"
-                              to={item.link}
-                              data-abc="true"
-                            >
-                              Add to Cart
-                            </Link>
+                            <div className="thumb-content">
+                              <h4>{item.name}</h4>
+                              <p className="item-price">
+                                {item.reduction_percentage === 0 ? (
+                                  <b>{item.price} TND</b>
+                                ) : (
+                                  <>
+                                    <strike className="me-2">
+                                      {item.price} TND
+                                    </strike>
+                                    <b>
+                                      {(item.price *
+                                        (100 - item.reduction_percentage)) /
+                                        100}
+                                      TND
+                                    </b>
+                                  </>
+                                )}
+                              </p>
+                              <div className="star-rating">
+                                <ul className="list-inline">
+                                  {showStars(item.stars)}
+                                </ul>
+                              </div>
+                              <Link
+                                className="btn btn-orange btn-sm"
+                                to={item.link}
+                                data-abc="true"
+                              >
+                                Add to Cart
+                              </Link>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </Link>
-                  </div>
-                );
-              })}
-            </div>
+                      </Link>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
           <Pagination>
             {items.map((item, key) => {
