@@ -7,7 +7,10 @@ import { useEffect } from "react";
 import { Pagination } from "react-bootstrap";
 import { useState } from "react";
 import api from "./../config.service";
+import { ToastContainer, toast } from "react-toastify";
 
+import "react-toastify/dist/ReactToastify.css";
+const notify = () => toast.success("Product added");
 // function return the stars of every product
 function showStars(stars) {
   const nbr = Math.trunc(stars);
@@ -48,7 +51,7 @@ function showStars(stars) {
 // urlParams return the searchParams from the URL
 const urlParams = new URLSearchParams(window.location.search);
 
-const Category = () => {
+const Category = ({ CalcnumberOfProduct }) => {
   const history = useHistory();
   const { categorie } = useParams();
   //begin api getAllByCateg
@@ -94,6 +97,32 @@ const Category = () => {
     );
     setActive(parseInt(e.target.getAttribute("page")));
   }
+  //add product to card
+  function addToLocalStorage(item) {
+    let listProduct = JSON.parse(localStorage.getItem("products")) || [];
+    const indexProduct = listProduct.findIndex(
+      (product) => product.id === item.id
+    );
+    if (indexProduct === -1) {
+      let newProduct = {
+        id: item.id,
+        img: item.picture,
+        name: item.name,
+        nbrProduct: 1,
+        price: item.price,
+        reduction: item.reduction,
+        sku: item.SKU,
+      };
+      listProduct.push(newProduct);
+      localStorage.setItem("products", JSON.stringify(listProduct));
+      notify();
+    } else {
+      listProduct[indexProduct].nbrProduct += 1;
+      localStorage.setItem("products", JSON.stringify(listProduct));
+      notify();
+    }
+    CalcnumberOfProduct();
+  }
   // change filter of search
   const [SearchData, setSearchData] = useState([]);
   function FilterChange(e) {
@@ -114,7 +143,7 @@ const Category = () => {
         ],
       ]);
       var filter = {};
-      api.get("/categoriess/" + categorie);
+      api.get("/categoriess/" + categorie).then((res) => {});
     } else {
       setSearchData((data) => [...newSearch]);
     }
@@ -189,56 +218,60 @@ const Category = () => {
             {data.products.length === 0 ? (
               <div className="Empty mb-3">This category is empty</div>
             ) : (
-              <div className="row">
+              <div className="row pe-3 px-3">
                 {data.products.map((item, key) => {
                   return (
-                    <div className="col-6 col-sm-4 col-md-4 col-lg-3 mb-3">
-                      <Link to={"/Product/" + item.name}>
-                        <div className="itemProduct m-1" key={key}>
-                          <div className="thumb-wrapper">
-                            <div className="position-relative img-box">
+                    <div className="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-2 mb-3 p-0">
+                      <div className="itemProduct m-1" key={key}>
+                        <div className="thumb-wrapper">
+                          <div className="position-relative img-box">
+                            <Link to={"/Product/" + item.sku}>
                               <div
                                 className="position-absolute imgProduct"
                                 style={{
                                   backgroundImage: "url(" + item.picture + ")",
                                 }}
                               ></div>
+                            </Link>
+                          </div>
+                          <div className="thumb-content">
+                            <Link to={"/Product/" + item.sku}>
+                              <p className="text-dark">{item.name}</p>
+                            </Link>
+                            <p className="item-price">
+                              {item.reduction_percentage === 0 ? (
+                                <b>{item.price} TND</b>
+                              ) : (
+                                <>
+                                  <strike className="me-2">
+                                    {item.price} TND
+                                  </strike>
+                                  <b>
+                                    {(item.price *
+                                      (100 - item.reduction_percentage)) /
+                                      100}
+                                    TND
+                                  </b>
+                                </>
+                              )}
+                            </p>
+                            <div className="star-rating">
+                              <ul className="list-inline">
+                                {showStars(item.stars)}
+                              </ul>
                             </div>
-                            <div className="thumb-content">
-                              <h4>{item.name}</h4>
-                              <p className="item-price">
-                                {item.reduction_percentage === 0 ? (
-                                  <b>{item.price} TND</b>
-                                ) : (
-                                  <>
-                                    <strike className="me-2">
-                                      {item.price} TND
-                                    </strike>
-                                    <b>
-                                      {(item.price *
-                                        (100 - item.reduction_percentage)) /
-                                        100}
-                                      TND
-                                    </b>
-                                  </>
-                                )}
-                              </p>
-                              <div className="star-rating">
-                                <ul className="list-inline">
-                                  {showStars(item.stars)}
-                                </ul>
-                              </div>
-                              <Link
-                                className="btn btn-orange btn-sm"
-                                to={item.link}
-                                data-abc="true"
-                              >
-                                Add to Cart
-                              </Link>
-                            </div>
+                            <button
+                              className="btn btn-orange btn-sm"
+                              onClick={() => {
+                                addToLocalStorage(item);
+                              }}
+                              data-abc="true"
+                            >
+                              Add to Cart
+                            </button>
                           </div>
                         </div>
-                      </Link>
+                      </div>
                     </div>
                   );
                 })}
@@ -259,6 +292,17 @@ const Category = () => {
               );
             })}
           </Pagination>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
         </div>
       </div>
     </div>
