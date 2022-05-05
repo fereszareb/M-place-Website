@@ -50,7 +50,6 @@ function showStars(stars) {
 
 // urlParams return the searchParams from the URL
 const urlParams = new URLSearchParams(window.location.search);
-
 const Category = ({ CalcnumberOfProduct }) => {
   const history = useHistory();
   const { categorie } = useParams();
@@ -140,12 +139,36 @@ const Category = ({ CalcnumberOfProduct }) => {
           },
         ],
       ]);
-      var filter = {};
-      api.get("/categoriess/" + categorie).then((res) => {});
     } else {
       setSearchData((data) => [...newSearch]);
     }
   }
+  useEffect(() => {
+    var filter = {
+      filters: SearchData,
+      filterBy: "pc",
+      page: active,
+    };
+    console.log(filter);
+    api
+      .post("/categoryProducts/" + categorie.replaceAll("_", " "), filter)
+      .then((res) => {
+        console.log(res.data);
+        setdata(res.data);
+      });
+  }, [SearchData]);
+
+  const checkValidation = (value, variable) => {
+    const indexSearchData = SearchData.findIndex(
+      (product) => product.value === value && product.variable === variable
+    );
+    console.log(indexSearchData);
+    if (indexSearchData === -1) {
+      return false;
+    } else {
+      return true;
+    }
+  };
   // pagination active
   const [active, setActive] = useState(parseInt(urlParams.get("page")) || 1);
   let items = [];
@@ -183,6 +206,10 @@ const Category = ({ CalcnumberOfProduct }) => {
                                 name={opt.name}
                                 variable={variable.name}
                                 onChange={FilterChange}
+                                checked={checkValidation(
+                                  opt.name,
+                                  variable.name
+                                )}
                               />
                               <label for={opt.name}>
                                 {opt.name}
@@ -204,7 +231,10 @@ const Category = ({ CalcnumberOfProduct }) => {
         <div className="col-12 col-md-9">
           <div className="Products bg-white rounded">
             <div className="titleProducts">
-              {categorie}
+              {categorie}{" "}
+              {data.number_of_products
+                ? " ( " + data.number_of_products + " )"
+                : ""}
               <div className="trie">
                 <select name="trie" id="trie">
                   <option value="0">Trie number one</option>
