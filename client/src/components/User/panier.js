@@ -2,7 +2,16 @@ import "./../../css/panier.css";
 import api from "./../../config.service";
 import { MdDelete } from "react-icons/md";
 import { useEffect, useState } from "react";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import CheckoutForm from "./checkoutForm";
+
+const stripePromise = loadStripe("pk_test_oKhSR5nslBRnBZpjO6KuzZeX");
 const Panier = ({ CalcnumberOfProduct }) => {
+  const options = {
+    // passing the client secret obtained from the server
+    clientSecret: "{{CLIENT_SECRET}}",
+  };
   const deleteProduct = (e) => {
     const newusersList = productFromLocalStorage.filter((product) => {
       return product.id !== e.target.getAttribute("data");
@@ -111,6 +120,8 @@ const Panier = ({ CalcnumberOfProduct }) => {
       });
     }
   }, [couponValue, productFromLocalStorage]);
+
+  const [step, setStep] = useState(0);
   return (
     <div className="row justify-content-center mb-5 w-100 mx-0">
       <div className="col-12 col-xl-10">
@@ -118,156 +129,198 @@ const Panier = ({ CalcnumberOfProduct }) => {
           <b>Checkout</b>
         </div>
         <div className="card mt-5">
-          {numberOfProduct > 0 ? (
-            <div className="row">
-              <div className="col-12 col-lg-8">
-                <div className="card m-3 me-lg-0">
-                  <div className="card-header">
-                    {"Panier ( " + numberOfProduct + " )"}
-                  </div>
-                  <div className="card-body">
-                    {productFromLocalStorage.map((product, key) => {
-                      return (
-                        <div
-                          className="Item-product-card m-2 pt-2 pb-2 bb-1"
-                          key={key}
-                        >
-                          <div className="row">
-                            <div className="col-12 col-sm-6 col-md-3 text-center">
-                              <div
-                                className="product-img m-auto ms-md-0"
-                                style={{
-                                  backgroundImage: "url(" + product.img + ")",
-                                }}
-                              ></div>
-                            </div>
-                            <div className="col-12 col-sm-6 col-md-5 pt-3 size0-5em text-center">
-                              <h6>{product.name}</h6>
-                              <small>{"[" + product.sku + "]"}</small>
-                            </div>
-                            <div className="col-12 col-6 col-md-4 text-center text-md-end">
-                              {product.reduction === "0" ? (
-                                <div className="row pt-4 mb-3">
-                                  <h5>{product.price} TND</h5>
-                                </div>
-                              ) : (
-                                <div className="row mb-3">
-                                  <h5>
-                                    {(product.price *
-                                      (100 - product.reduction)) /
-                                      100}
-                                    TND
-                                  </h5>
-                                  <div>
-                                    <del>
-                                      {product.price + " "}
-                                      TND
-                                    </del>
-                                    <span className="badge bg-warning m-0 ms-2">
-                                      {product.reduction}%
-                                    </span>
+          {step === 0 ? (
+            numberOfProduct > 0 ? (
+              <div className="row">
+                <div className="col-12 col-lg-8">
+                  <div className="card m-3 me-lg-0">
+                    <div className="card-header">
+                      {"Panier ( " + numberOfProduct + " )"}
+                    </div>
+                    <div className="card-body">
+                      {productFromLocalStorage.map((product, key) => {
+                        return (
+                          <div
+                            className="Item-product-card m-2 pt-2 pb-2 bb-1"
+                            key={key}
+                          >
+                            <div className="row">
+                              <div className="col-12 col-sm-6 col-md-3 text-center">
+                                <div
+                                  className="product-img m-auto ms-md-0"
+                                  style={{
+                                    backgroundImage: "url(" + product.img + ")",
+                                  }}
+                                ></div>
+                              </div>
+                              <div className="col-12 col-sm-6 col-md-5 pt-3 size0-5em text-center">
+                                <h6>{product.name}</h6>
+                                <small>{"[" + product.sku + "]"}</small>
+                              </div>
+                              <div className="col-12 col-6 col-md-4 text-center text-md-end">
+                                {product.reduction === "0" ? (
+                                  <div className="row pt-4 mb-3">
+                                    <h5>{product.price} TND</h5>
                                   </div>
+                                ) : (
+                                  <div className="row mb-3">
+                                    <h5>
+                                      {(product.price *
+                                        (100 - product.reduction)) /
+                                        100}
+                                      TND
+                                    </h5>
+                                    <div>
+                                      <del>
+                                        {product.price + " "}
+                                        TND
+                                      </del>
+                                      <span className="badge bg-warning m-0 ms-2">
+                                        {product.reduction}%
+                                      </span>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                              <div className="col-6">
+                                <button
+                                  data={product.id}
+                                  className="btn deleteBTN"
+                                  onClick={deleteProduct}
+                                >
+                                  <MdDelete /> Delete
+                                </button>
+                              </div>
+                              <div className="col-6 text-end">
+                                <div className="d-flex justify-content-end">
+                                  <button
+                                    data={product.id}
+                                    className="btn add-minus"
+                                    onClick={productMinus}
+                                    disabled={product.nbrProduct === 1}
+                                  >
+                                    -
+                                  </button>
+                                  <p className="ms-3 me-3">
+                                    {product.nbrProduct}{" "}
+                                  </p>
+                                  <button
+                                    data={product.id}
+                                    className="btn add-minus"
+                                    onClick={productPlus}
+                                  >
+                                    +
+                                  </button>
                                 </div>
-                              )}
-                            </div>
-                            <div className="col-6">
-                              <button
-                                data={product.id}
-                                className="btn deleteBTN"
-                                onClick={deleteProduct}
-                              >
-                                <MdDelete /> Delete
-                              </button>
-                            </div>
-                            <div className="col-6 text-end">
-                              <div className="d-flex justify-content-end">
-                                <button
-                                  data={product.id}
-                                  className="btn add-minus"
-                                  onClick={productMinus}
-                                  disabled={product.nbrProduct === 1}
-                                >
-                                  -
-                                </button>
-                                <p className="ms-3 me-3">
-                                  {product.nbrProduct}{" "}
-                                </p>
-                                <button
-                                  data={product.id}
-                                  className="btn add-minus"
-                                  onClick={productPlus}
-                                >
-                                  +
-                                </button>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-12 col-lg-4">
-                <div className="card m-3 ms-lg-0">
-                  <div className="card-header">Total</div>
-                  <div className="card-body">
-                    <div className="d-flex justify-content-between">
-                      <p>Subtotal</p>
-                      <p>{payDetails.subtotal} TND</p>
-                    </div>
-                    <div className="d-flex justify-content-between">
-                      <p>Discout</p>
-                      <p>{payDetails.discount} TND</p>
-                    </div>
-                    <div className="d-flex justify-content-between">
-                      <p>Coupon</p>
-                      <p>{payDetails.coupon} TND</p>
-                    </div>
-                    <div className="d-flex justify-content-between fw-bold">
-                      <p>Total</p>
-                      <p>{payDetails.total} TND</p>
-                    </div>
-                    <div className="text-center d-flex couponGroupe">
-                      <input
-                        type="text"
-                        placeholder="Coupon"
-                        onChange={couponChangeHandler}
-                      />
-                      <button
-                        className="btn btn-orange"
-                        onClick={verifyCoupon}
-                        disabled={loadingCoupon}
-                      >
-                        {loadingCoupon ? (
-                          <div
-                            className="spinner-border text-secondary spinner-small m-auto"
-                            role="status"
-                          >
-                            <span className="visually-hidden">Loading...</span>
-                          </div>
-                        ) : (
-                          "Verify"
-                        )}
-                      </button>
-                    </div>
-                    <div className="text-canter">
-                      <small className="text-danger">{couponErreur}</small>
-                    </div>
+                <div className="col-12 col-lg-4">
+                  <div className="card m-3 ms-lg-0">
+                    <div className="card-header">Total</div>
+                    <div className="card-body">
+                      <div className="d-flex justify-content-between">
+                        <p>Subtotal</p>
+                        <p>{payDetails.subtotal} TND</p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <p>Discout</p>
+                        <p>{payDetails.discount} TND</p>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <p>Coupon</p>
+                        <p>{payDetails.coupon} TND</p>
+                      </div>
+                      <div className="d-flex justify-content-between fw-bold">
+                        <p>Total</p>
+                        <p>{payDetails.total} TND</p>
+                      </div>
+                      <div className="text-center d-flex couponGroupe">
+                        <input
+                          type="text"
+                          placeholder="Coupon"
+                          onChange={couponChangeHandler}
+                        />
+                        <button
+                          className="btn btn-orange"
+                          onClick={verifyCoupon}
+                          disabled={loadingCoupon}
+                        >
+                          {loadingCoupon ? (
+                            <div
+                              className="spinner-border text-secondary spinner-small m-auto"
+                              role="status"
+                            >
+                              <span className="visually-hidden">
+                                Loading...
+                              </span>
+                            </div>
+                          ) : (
+                            "Verify"
+                          )}
+                        </button>
+                      </div>
+                      <div className="text-canter">
+                        <small className="text-danger">{couponErreur}</small>
+                      </div>
 
-                    <div className="text-center">
-                      <button className="btn btn-checkout">Checkout</button>
+                      <div className="text-center">
+                        <button
+                          className="btn btn-checkout"
+                          onClick={() => {
+                            setStep(1);
+                          }}
+                        >
+                          Checkout
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+            ) : (
+              <div className="row">
+                <p className="text-center p-5 fs-4 color-grey">
+                  Liste of Product is Empty
+                </p>
+              </div>
+            )
+          ) : step === 1 ? (
+            <div className="row justify-content-center">
+              <div className="col-12 col-md-6 col-lg-4">
+                <div
+                  className="card-checkout-methode stripeColor m-3"
+                  onClick={() => {
+                    setStep(2);
+                  }}
+                >
+                  Stripe
+                </div>
+              </div>
+              <div className="col-12 col-md-6 col-lg-4">
+                <div
+                  className="card-checkout-methode metamaskColor m-3"
+                  onClick={() => {
+                    setStep(3);
+                  }}
+                >
+                  MetaMask
+                </div>
+              </div>
+            </div>
+          ) : step === 2 ? (
+            <div>
+              <Elements stripe={stripePromise} options={options}>
+                <CheckoutForm />
+              </Elements>
             </div>
           ) : (
-            <div className="row">
-              <p className="text-center p-5 fs-4 color-grey">
-                Liste of Product is Empty
-              </p>
-            </div>
+            <div>success</div>
           )}
         </div>
       </div>
