@@ -33,3 +33,12 @@ body {
 .color-grey {
   color: #3f3e3e;
 }
+.Empty {
+  text-align: center;
+  padding-top: 5em;
+  padding-bottom: 3em;
+  min-height: 300px;
+  font-weight: 300;
+  font-size: 20px;
+  color: #212529;
+}
