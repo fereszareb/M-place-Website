@@ -22,6 +22,9 @@ import Panier from "./components/User/panier";
 import PrivacyPolicy from "./components/privacy-policy";
 import TermsAndConditions from "./components/terms-and-conditions";
 import { useEffect, useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe("pk_test_oKhSR5nslBRnBZpjO6KuzZeX");
 function App() {
   const [numberOfProduct, setnumberOfProduct] = useState(0);
   const CalcnumberOfProduct = (number) => {
