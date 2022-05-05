@@ -118,7 +118,10 @@ function App() {
           <Product CalcnumberOfProduct={CalcnumberOfProduct} />
           <Footer />
         </Route>
-        <Route exact path="/:categ">
+        <Route exact path="/404">
+          <Erreur404 />
+        </Route>
+        <Route exact path="/:categorie">
           <Navbar numberOfProduct={numberOfProduct} />
           <Category CalcnumberOfProduct={CalcnumberOfProduct} />
           <Footer />
@@ -133,7 +136,6 @@ function App() {
           <Category CalcnumberOfProduct={CalcnumberOfProduct} />
           <Footer />
         </Route>
-
         <Route exact path="*">
           <Erreur404 />
         </Route>
