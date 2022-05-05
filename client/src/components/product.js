@@ -83,6 +83,7 @@ const Product = () => {
     const getData = async () => {
       const dataOfProduct = await retrieveUsers();
       if (dataOfProduct) setData(dataOfProduct);
+      console.log(dataOfProduct);
     };
     getData();
   }, []);
@@ -117,21 +118,23 @@ const Product = () => {
                   {data.price} <span className="orange">TND</span>
                 </div>
                 <div className="selection mt-3">
-                  {data.variables.map((variable, key) => {
-                    return (
-                      <div className="row itemSelection pb-3">
-                        <div className="col-4 itemTitle">Color</div>
-                        <div className="col-8 itemChoise">
-                          <select name="" id="">
-                            <option value="red">red</option>
-                            <option value="green">green</option>
-                            <option value="blue">blue</option>
-                            <option value="black">black</option>
-                          </select>
-                        </div>
-                      </div>
-                    );
-                  })}
+                  {data.variables
+                    ? data.variables.map((variable, key) => {
+                        return (
+                          <div className="row itemSelection pb-3">
+                            <div className="col-4 itemTitle">Color</div>
+                            <div className="col-8 itemChoise">
+                              <select name="" id="">
+                                <option value="red">red</option>
+                                <option value="green">green</option>
+                                <option value="blue">blue</option>
+                                <option value="black">black</option>
+                              </select>
+                            </div>
+                          </div>
+                        );
+                      })
+                    : ""}
                 </div>
               </div>
             </div>
