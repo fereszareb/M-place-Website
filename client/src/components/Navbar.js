@@ -91,8 +91,6 @@ const Navbar = ({ numberOfProduct }) => {
         for (var j = 0; j < Categories[i]["child"].length; j++) {
           sous_categ +=
             '<div class="sous-categorie-bloc"> <a href="/' +
-            Categories[i]["category"].replaceAll(" ", "_") +
-            "/" +
             Categories[i]["child"][j]["category"].replaceAll(" ", "_") +
             '" class="title-sous-categ">' +
             Categories[i]["child"][j]["category"] +
@@ -100,10 +98,6 @@ const Navbar = ({ numberOfProduct }) => {
           for (var k = 0; k < Categories[i]["child"][j]["child"].length; k++) {
             sous_categ +=
               '<a href="/' +
-              Categories[i]["category"].replaceAll(" ", "_") +
-              "/" +
-              Categories[i]["child"][j]["category"].replaceAll(" ", "_") +
-              "/" +
               Categories[i]["child"][j]["child"][k]["category"].replaceAll(
                 " ",
                 "_"
@@ -178,12 +172,7 @@ const Navbar = ({ numberOfProduct }) => {
                           <li key={sous_item.id} data-id={sous_item.id}>
                             <Link
                               onClick={closeSideBar}
-                              to={
-                                "/" +
-                                item.category.replaceAll(" ", "_") +
-                                "/" +
-                                sous_item.category.replaceAll(" ", "_")
-                              }
+                              to={"/" + sous_item.category.replaceAll(" ", "_")}
                             >
                               <div className="bg-orange-categ">
                                 {sous_item.category}
@@ -198,13 +187,6 @@ const Navbar = ({ numberOfProduct }) => {
                                       <Link
                                         onClick={closeSideBar}
                                         to={
-                                          "/" +
-                                          item.category.replaceAll(" ", "_") +
-                                          "/" +
-                                          sous_item.category.replaceAll(
-                                            " ",
-                                            "_"
-                                          ) +
                                           "/" +
                                           sous_sous_categ.category.replaceAll(
                                             " ",
