@@ -96,6 +96,7 @@ const Category = ({ CalcnumberOfProduct }) => {
   }
   //add product to card
   function addToLocalStorage(item) {
+    console.log(item);
     let listProduct = JSON.parse(localStorage.getItem("products")) || [];
     const indexProduct = listProduct.findIndex(
       (product) => product.id === item.id
@@ -107,7 +108,7 @@ const Category = ({ CalcnumberOfProduct }) => {
         name: item.name,
         nbrProduct: 1,
         price: item.price,
-        reduction: item.reduction,
+        reduction: item.reduction_percentage.toString(),
         sku: item.SKU,
       };
       listProduct.push(newProduct);
@@ -143,26 +144,27 @@ const Category = ({ CalcnumberOfProduct }) => {
       setSearchData((data) => [...newSearch]);
     }
   }
+  const [trie, setTrie] = useState("");
+  function trieChange(e) {
+    setTrie(e.target.value);
+  }
   useEffect(() => {
     var filter = {
       filters: SearchData,
-      filterBy: "pc",
+      filterBy: trie,
       page: active,
     };
-    console.log(filter);
     api
       .post("/categoryProducts/" + categorie.replaceAll("_", " "), filter)
       .then((res) => {
-        console.log(res.data);
         setdata(res.data);
       });
-  }, [SearchData]);
+  }, [SearchData, trie]);
 
   const checkValidation = (value, variable) => {
     const indexSearchData = SearchData.findIndex(
       (product) => product.value === value && product.variable === variable
     );
-    console.log(indexSearchData);
     if (indexSearchData === -1) {
       return false;
     } else {
@@ -236,10 +238,11 @@ const Category = ({ CalcnumberOfProduct }) => {
                 ? " ( " + data.number_of_products + " )"
                 : ""}
               <div className="trie">
-                <select name="trie" id="trie">
-                  <option value="0">Trie number one</option>
-                  <option value="1">Trie number two</option>
-                  <option value="2">Trie number three</option>
+                <select name="trie" id="trie" onChange={trieChange}>
+                  <option value="">Date</option>
+                  <option value="pc">Ascending price</option>
+                  <option value="pd">Decreasing price</option>
+                  <option value="r">Rating</option>
                 </select>
               </div>
             </div>
@@ -253,7 +256,7 @@ const Category = ({ CalcnumberOfProduct }) => {
                       <div className="itemProduct m-1" key={key}>
                         <div className="thumb-wrapper">
                           <div className="position-relative img-box">
-                            <Link to={"/Product/" + item.sku}>
+                            <Link to={"/Product/" + item.SKU}>
                               <div
                                 className="position-absolute imgProduct"
                                 style={{
