@@ -3,9 +3,14 @@ import { Link } from "react-router-dom";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 import "./../css/category.css";
 import { useHistory } from "react-router-dom";
+import { useEffect } from "react";
 import { Pagination } from "react-bootstrap";
 import { useState } from "react";
+import api from "./../config.service";
+import { ToastContainer, toast } from "react-toastify";
 
+import "react-toastify/dist/ReactToastify.css";
+const notify = () => toast.success("Product added");
 // function return the stars of every product
 function showStars(stars) {
   const nbr = Math.trunc(stars);
@@ -42,143 +47,33 @@ function showStars(stars) {
   return rows;
 }
 //data of this page ( its just a test)
-var data = {
-  filter: [
-    {
-      name: "Size",
-      option: [
-        { name: "S", nombreProduct: 12 },
-        { name: "M", nombreProduct: 8 },
-        { name: "L", nombreProduct: 19 },
-        { name: "XL", nombreProduct: 24 },
-        { name: "XXL", nombreProduct: 6 },
-        { name: "XXXL", nombreProduct: 0 },
-      ],
-    },
-    {
-      name: "Colors",
-      option: [
-        { name: "White", nombreProduct: 12 },
-        { name: "Blue", nombreProduct: 8 },
-        { name: "Red", nombreProduct: 19 },
-        { name: "Green", nombreProduct: 24 },
-        { name: "Pink", nombreProduct: 6 },
-        { name: "Balck", nombreProduct: 0 },
-      ],
-    },
 
-    {
-      name: "Size",
-      option: [
-        { name: "S", nombreProduct: 12 },
-        { name: "M", nombreProduct: 8 },
-        { name: "L", nombreProduct: 19 },
-        { name: "XL", nombreProduct: 24 },
-        { name: "XXL", nombreProduct: 6 },
-        { name: "XXXL", nombreProduct: 0 },
-      ],
-    },
-  ],
-  products: [
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-    {
-      id: 1254,
-      name: "Iphone 13",
-      stars: 3.5,
-      lastPrise: 4300.0,
-      newPrise: 3980.0,
-      picture: "https://picsum.photos/id/365/500/500",
-      link: "/electronique/smartphone/smartphone/Iphone",
-    },
-  ],
-  nbrOfProduct: 527,
-};
 // urlParams return the searchParams from the URL
 const urlParams = new URLSearchParams(window.location.search);
 
-const Search = () => {
+const Search = ({ CalcnumberOfProduct }) => {
   const history = useHistory();
+  const { categorie } = useParams();
+  //begin api getAllByCateg
+  const [data, setdata] = useState({
+    filter: [],
+    products: [],
+    number_of_products: 0,
+  });
+  const retrieveUsers = async () => {
+    const response = await api.post("/products/", {
+      string: urlParams.get("q"),
+    });
+    return response.data;
+  };
+  useEffect(() => {
+    const getAllUsers = async () => {
+      const allUsers = await retrieveUsers();
+      if (allUsers) setdata(allUsers);
+    };
+    getAllUsers();
+  }, []);
+  //end api getAllByCateg
   //nombre of pagination
   let numberItems = parseInt(data.nbrOfProduct / 48);
   if (data.nbrOfProduct > numberItems) {
@@ -191,18 +86,42 @@ const Search = () => {
     );
     setActive(parseInt(e.target.getAttribute("page")));
   }
+  //add product to card
+  function addToLocalStorage(item) {
+    console.log(item);
+    let listProduct = JSON.parse(localStorage.getItem("products")) || [];
+    const indexProduct = listProduct.findIndex(
+      (product) => product.id === item.id
+    );
+    if (indexProduct === -1) {
+      let newProduct = {
+        id: item.id,
+        img: item.picture,
+        name: item.name,
+        nbrProduct: 1,
+        price: item.price,
+        reduction: item.reduction_percentage.toString(),
+        sku: item.SKU,
+      };
+      listProduct.push(newProduct);
+      localStorage.setItem("products", JSON.stringify(listProduct));
+      notify();
+    } else {
+      listProduct[indexProduct].nbrProduct += 1;
+      localStorage.setItem("products", JSON.stringify(listProduct));
+      notify();
+    }
+    CalcnumberOfProduct();
+  }
   // change filter of search
   const [SearchData, setSearchData] = useState([]);
   function FilterChange(e) {
-    console.log(e.target.getAttribute("variable"));
-
     const newSearch = SearchData.filter((variable) => {
       return (
         variable.variable !== e.target.getAttribute("variable") ||
         variable.value !== e.target.getAttribute("name")
       );
     });
-    console.log(newSearch.length === SearchData.length);
     if (newSearch.length === SearchData.length) {
       setSearchData((data) => [
         ...data,
@@ -217,6 +136,32 @@ const Search = () => {
       setSearchData((data) => [...newSearch]);
     }
   }
+  const [trie, setTrie] = useState("");
+  function trieChange(e) {
+    setTrie(e.target.value);
+  }
+  useEffect(() => {
+    var filter = {
+      string: urlParams.get("q") || "",
+      filters: SearchData,
+      filterBy: trie,
+      page: active,
+    };
+    api.post("/products", filter).then((res) => {
+      setdata(res.data);
+    });
+  }, [SearchData, trie]);
+
+  const checkValidation = (value, variable) => {
+    const indexSearchData = SearchData.findIndex(
+      (product) => product.value === value && product.variable === variable
+    );
+    if (indexSearchData === -1) {
+      return false;
+    } else {
+      return true;
+    }
+  };
   // pagination active
   const [active, setActive] = useState(parseInt(urlParams.get("page")) || 1);
   let items = [];
@@ -224,97 +169,136 @@ const Search = () => {
   for (var i = 0; i < numberItems; i++) {
     items.push({ nbr: i + 1 });
   }
+  // useParam
 
   return (
-    <div className="container-lg">
-      <div className="navigation">{"MarketPlace > Search"}</div>
+    <div className="container-lg mb-5">
+      <div className="navigation">
+        {"MarketPlace > "}
+        {urlParams.get("q") || "All"}
+      </div>
       <div className="row">
         <div className="d-none d-md-block col-3">
           <div className="Filter  bg-white rounded p-3">
             <div className="titleFilter">Filter by</div>
-            {data.filter.map((variable, key) => {
-              return (
-                <>
-                  <div className="titleVariable">{variable.name}</div>
-                  <div className="p-3">
-                    {variable.option.map((opt) => {
-                      return (
-                        <div>
-                          <input
-                            type="checkbox"
-                            id={opt.name}
-                            name={opt.name}
-                            variable={variable.name}
-                            onChange={FilterChange}
-                          />
-                          <label for={opt.name}>
-                            {opt.name}
-                            <span class="badge rounded-pill">
-                              {opt.nombreProduct}
-                            </span>
-                          </label>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </>
-              );
-            })}
+            {data.products.length === 0 ? (
+              <div className="Empty"></div>
+            ) : (
+              <>
+                {data.filter.map((variable, key) => {
+                  return (
+                    <>
+                      <div className="titleVariable">{variable.name}</div>
+                      <div className="p-3">
+                        {variable.option.map((opt) => {
+                          return (
+                            <div>
+                              <input
+                                type="checkbox"
+                                id={opt.name}
+                                name={opt.name}
+                                variable={variable.name}
+                                onChange={FilterChange}
+                                checked={checkValidation(
+                                  opt.name,
+                                  variable.name
+                                )}
+                              />
+                              <label for={opt.name}>
+                                {opt.name}
+                                <span class="badge rounded-pill">
+                                  {opt.nombreProduct}
+                                </span>
+                              </label>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </>
+                  );
+                })}
+              </>
+            )}
           </div>
         </div>
         <div className="col-12 col-md-9">
           <div className="Products bg-white rounded">
             <div className="titleProducts">
-              {urlParams.get("q") || "All"}
+              {urlParams.get("q") || "All"}{" "}
+              {data.number_of_products
+                ? " ( " + data.number_of_products + " )"
+                : ""}
               <div className="trie">
-                <select name="trie" id="trie">
-                  <option value="0">Trie number one</option>
-                  <option value="1">Trie number two</option>
-                  <option value="2">Trie number three</option>
+                <select name="trie" id="trie" onChange={trieChange}>
+                  <option value="">Date</option>
+                  <option value="pc">Ascending price</option>
+                  <option value="pd">Decreasing price</option>
+                  <option value="r">Rating</option>
                 </select>
               </div>
             </div>
-            <div className="row">
-              {data.products.map((item, key) => {
-                return (
-                  <div className="col-6 col-sm-4 col-md-4 col-lg-3 mb-3">
-                    <Link to={"/Product/" + item.name}>
+            {data.products.length === 0 ? (
+              <div className="Empty mb-3">This category is empty</div>
+            ) : (
+              <div className="row pe-3 px-3">
+                {data.products.map((item, key) => {
+                  return (
+                    <div className="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-2 mb-3 p-0">
                       <div className="itemProduct m-1" key={key}>
                         <div className="thumb-wrapper">
                           <div className="position-relative img-box">
-                            <div
-                              className="position-absolute imgProduct"
-                              style={{
-                                backgroundImage: "url(" + item.picture + ")",
-                              }}
-                            ></div>
+                            <Link to={"/Product/" + item.SKU}>
+                              <div
+                                className="position-absolute imgProduct"
+                                style={{
+                                  backgroundImage: "url(" + item.picture + ")",
+                                }}
+                              ></div>
+                            </Link>
                           </div>
                           <div className="thumb-content">
-                            <h4>{item.name}</h4>
+                            <Link to={"/Product/" + item.sku}>
+                              <p className="text-dark">{item.name}</p>
+                            </Link>
                             <p className="item-price">
-                              <strike>{item.lastPrise} TND</strike>{" "}
-                              <b>{item.newPrise} TND</b>
+                              {item.reduction_percentage === 0 ? (
+                                <b>{item.price} TND</b>
+                              ) : (
+                                <>
+                                  <strike className="me-2">
+                                    {item.price} TND
+                                  </strike>
+                                  <b>
+                                    {(item.price *
+                                      (100 - item.reduction_percentage)) /
+                                      100}
+                                    TND
+                                  </b>
+                                </>
+                              )}
                             </p>
                             <div className="star-rating">
                               <ul className="list-inline">
                                 {showStars(item.stars)}
                               </ul>
                             </div>
-                            <Link
+                            <button
                               className="btn btn-orange btn-sm"
-                              to={item.link}
+                              onClick={() => {
+                                addToLocalStorage(item);
+                              }}
                               data-abc="true"
                             >
                               Add to Cart
-                            </Link>
+                            </button>
                           </div>
                         </div>
                       </div>
-                    </Link>
-                  </div>
-                );
-              })}
-            </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
           <Pagination>
             {items.map((item, key) => {
@@ -330,6 +314,17 @@ const Search = () => {
               );
             })}
           </Pagination>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
         </div>
       </div>
     </div>
