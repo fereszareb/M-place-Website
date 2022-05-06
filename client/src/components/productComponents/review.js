@@ -35,7 +35,7 @@ function showStars(stars) {
   return rows;
 }
 var data = JSON.parse("[{},{},{}]");
-const Review = () => {
+const Review = ({ data }) => {
   return (
     <div>
       {data.map((item, key) => {
