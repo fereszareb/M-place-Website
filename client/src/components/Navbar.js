@@ -365,26 +365,30 @@ const Navbar = ({ numberOfProduct }) => {
                     </span>
                   </span>
                   <ul
-                    class="dropdown-menu dropdown-menu-end"
+                    className="dropdown-menu dropdown-menu-end"
                     aria-labelledby="dropdownClient"
                   >
                     <li>
                       <Link
                         to={"/myaccount"}
-                        class="dropdown-item "
+                        className="dropdown-item "
                         type="button"
                       >
                         My account
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/chat"} class="dropdown-item " type="button">
+                      <Link
+                        to={"/chat"}
+                        className="dropdown-item "
+                        type="button"
+                      >
                         Messages
                       </Link>
                     </li>
                     <li>
                       <button
-                        class="dropdown-item"
+                        className="dropdown-item"
                         type="button"
                         onClick={logout}
                       >
@@ -401,7 +405,7 @@ const Navbar = ({ numberOfProduct }) => {
                 >
                   <p className="d-inline position-relative">
                     <FaShoppingCart className="iconCart mx-2" />
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                       {numberOfProduct}
                     </span>
                   </p>
