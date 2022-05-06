@@ -55,6 +55,7 @@ const Panier = ({ CalcnumberOfProduct }) => {
   const [couponValue, setcouponValue] = useState(0);
   const [couponErreur, setCouponErreur] = useState("");
   const [loadingCoupon, setloadingCoupon] = useState(false);
+  const [loadingCheckout, setloadingCheckout] = useState(false);
   const couponChangeHandler = (e) => {
     setCoupon(e.target.value);
   };
@@ -120,7 +121,50 @@ const Panier = ({ CalcnumberOfProduct }) => {
       });
     }
   }, [couponValue, productFromLocalStorage]);
+  async function getAccount() {
+    let accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    return accounts;
+  }
+  const checkoutMetamask = () => {
+    if (typeof window.ethereum === "undefined") {
+      console.log("MetaMask not installed!");
+    } else {
+      window.ethereum.request({ method: "eth_requestAccounts" });
+      let accounts = getAccount();
+      window.ethereum
+        .request({
+          method: "eth_sendTransaction",
+          params: [
+            {
+              from: "0xC4aAe8A0819B7281A261f43C16c2C75C6E37B3E0",
+              to: "0x2f318C334780961FB129D2a6c30D0763d9a5C970",
+              value: "0x29a2241af62c0000",
+              gasPrice: "0x09184e72a000",
+              gas: "0x2710",
+            },
+          ],
+        })
+        .then((txHash) => console.log(txHash))
+        .catch((error) => console.error);
+    }
+  };
 
+  const checkoutStripe = () => {
+    setloadingCheckout(true);
+    let productToSend = [];
+    for (const prod in productFromLocalStorage) {
+      productToSend.push({
+        id: productFromLocalStorage[prod].id,
+        quantity: productFromLocalStorage[prod].nbrProduct,
+      });
+    }
+    api.post("/linktoadd", { items: productToSend }).then((res) => {
+      setloadingCheckout(false);
+      window.location.href = res.data;
+    });
+  };
   const [step, setStep] = useState(0);
   return (
     <div className="row justify-content-center mb-5 w-100 mx-0">
@@ -295,19 +339,24 @@ const Panier = ({ CalcnumberOfProduct }) => {
               <div className="col-12 col-md-6 col-lg-4">
                 <div
                   className="card-checkout-methode stripeColor m-3"
-                  onClick={() => {
-                    setStep(2);
-                  }}
+                  onClick={checkoutStripe}
                 >
-                  Stripe
+                  {loadingCheckout ? (
+                    <div
+                      className="spinner-border text-secondary spinner-small m-auto"
+                      role="status"
+                    >
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  ) : (
+                    "Stripe"
+                  )}
                 </div>
               </div>
               <div className="col-12 col-md-6 col-lg-4">
                 <div
                   className="card-checkout-methode metamaskColor m-3"
-                  onClick={() => {
-                    setStep(3);
-                  }}
+                  onClick={checkoutMetamask}
                 >
                   MetaMask
                 </div>
