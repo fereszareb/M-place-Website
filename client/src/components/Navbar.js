@@ -224,9 +224,8 @@ const Navbar = ({ numberOfProduct }) => {
     sb.className = "side-bar-categorie shadow-lg";
   }
   function IsLoggin() {
-    if (localStorage.getItem("token") !== null) {
+    if (localStorage.getItem("access_token") !== null) {
       return true;
-      console.log(localStorage.getItem("token"));
     } else {
       return false;
     }
