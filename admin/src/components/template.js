@@ -180,6 +180,22 @@ export default class Template extends Component {
                   <p>Orders</p>
                 </Link>
               </li>
+              <li
+                className={
+                  window.location.pathname.split("/")[1] === "settings"
+                    ? "item active"
+                    : "item"
+                }
+              >
+                <Link to="/settings">
+                  <p>Settings</p>
+                </Link>
+              </li>
+              <li>
+                <Link>
+                  <p>Logout</p>
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
