@@ -55,16 +55,16 @@ const ResetPassword = () => {
     <section className="login">
       {Submited ? (
         <div className="form-container">
-          <div className="messageEmailConfiramation">
+          <div className="messageEmailConfiramation shadow-sm">
             <h2>Thanks for resetting password</h2>
             <p className="mt-2">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam,
-              inventore aliquam est sunt voluptatem quod
+              We changed your password, you can login now with your new
+              password. Welcome in E-MarketPlace
             </p>
             <div className="text-center">
               <Link
                 className="btn btn-primary d-block m-auto pe-5 px-5 mt-5 w-200px"
-                to="./login"
+                to="/login"
               >
                 Log in
               </Link>
