@@ -412,7 +412,7 @@ const Navbar = ({ numberOfProduct }) => {
                 </Link>
               </div>
             ) : (
-              <div className="col-250 userDetailsNavbar">
+              <div className="col-230 userDetailsNavbar">
                 <FaUserAlt className="iconUser" />
                 <Link to="/login" className="navFromNavbar">
                   Sign In
