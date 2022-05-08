@@ -42,7 +42,8 @@ const Login = () => {
         .then((res) => {
           console.log("LOGGGIN IN RESPONSE", res);
 
-          localStorage.setItem("token", res.data.access_token);
+          localStorage.setItem("access_token", res.data.access_token);
+          localStorage.setItem("refresh_token", res.data.refresh_token);
           localStorage.setItem("user", res.data.name);
           history.push("/");
         })
