@@ -80,7 +80,7 @@ function RegisterPO() {
       .then((res) => {
         setFormData((prevState) => ({
           ...prevState,
-          [e.target.name]: res.data.data.imageUrl,
+          [e.target.name]: res.data.Url,
         }));
         displayLoading(e.target.name, false);
       });
@@ -89,8 +89,8 @@ function RegisterPO() {
   const submitSignUP = () => {
     setLoadingSubmit(true);
     const dataSend = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
+      owner_firstname: formData.firstName,
+      owner_lastname: formData.lastName,
       company_name: formData.nameEntreprise,
       company_email: formData.email,
       password: formData.password,
