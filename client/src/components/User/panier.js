@@ -160,9 +160,9 @@ const Panier = ({ CalcnumberOfProduct }) => {
         quantity: productFromLocalStorage[prod].nbrProduct,
       });
     }
-    api.post("/linktoadd", { items: productToSend }).then((res) => {
+    api.post("/Pay", { items: productToSend }).then((res) => {
       setloadingCheckout(false);
-      window.location.href = res.data;
+      window.location.href = res.data.url;
     });
   };
   const [step, setStep] = useState(0);
