@@ -47,7 +47,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="col-md-6 item text">
-            <h3>M - Place</h3>
+            <h3>E-MarketPlace</h3>
             <p>
               Praesent sed lobortis mi. Suspendisse vel placerat ligula. Vivamus
               ac sem lacus. Ut vehicula rhoncus elementum. Etiam quis tristique
