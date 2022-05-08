@@ -134,13 +134,18 @@ const Product = () => {
                     ? data.filters.map((variable, key) => {
                         return (
                           <div className="row itemSelection pb-3">
-                            <div className="col-4 itemTitle">Color</div>
+                            <div className="col-4 itemTitle">
+                              {variable.name}
+                            </div>
                             <div className="col-8 itemChoise">
-                              <select name="" id="">
-                                <option value="red">red</option>
-                                <option value="green">green</option>
-                                <option value="blue">blue</option>
-                                <option value="black">black</option>
+                              <select name={variable.name} id={variable.name}>
+                                {variable.option.map((opt, key) => {
+                                  return (
+                                    <option value={opt.name}>
+                                      {opt.name}{" "}
+                                    </option>
+                                  );
+                                })}
                               </select>
                             </div>
                           </div>
