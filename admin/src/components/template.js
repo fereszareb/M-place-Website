@@ -4,15 +4,13 @@ import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import Users from "./Admin/users";
 import Products from "./Admin/product";
-import Events from "./Admin/events";
 import DashboardAdmin from "./Admin/dashboard";
 import ProductOwnerNotVerified from "./Admin/productOwner/ProductOwnerNotVerified";
 import ProductOwnerBlocked from "./Admin/productOwner/ProductOwnerBlocked";
 import ProductOwnerDeleted from "./Admin/productOwner/ProductOwnerDeleted";
 import Messages from "./Admin/message";
+import Order from "./Admin/order";
 import Category from "./Admin/category";
-import Reports from "./Admin/report";
-import Blogs from "./Admin/blogs";
 import ProductOwner from "./Admin/productOwner/ProductOwner";
 import { BiSubdirectoryRight } from "react-icons/bi";
 import "bootstrap/dist/js/bootstrap.js";
@@ -49,12 +47,8 @@ export default class Template extends Component {
           return <ProductOwnerDeleted />;
         case "messages":
           return <Messages />;
-        case "reports":
-          return <Reports />;
-        case "events":
-          return <Events />;
-        case "blogs":
-          return <Blogs />;
+        case "order":
+          return <Order />;
 
         default:
           return <h1>No project match</h1>;
@@ -177,37 +171,13 @@ export default class Template extends Component {
 
               <li
                 className={
-                  window.location.pathname.split("/")[1] === "reports"
+                  window.location.pathname.split("/")[1] === "order"
                     ? "item active"
                     : "item"
                 }
               >
-                <Link to="/reports">
-                  <p>Reports</p>
-                </Link>
-              </li>
-
-              <li
-                className={
-                  window.location.pathname.split("/")[1] === "events"
-                    ? "item active"
-                    : "item"
-                }
-              >
-                <Link to="/events">
-                  <p>Events</p>
-                </Link>
-              </li>
-
-              <li
-                className={
-                  window.location.pathname.split("/")[1] === "blogs"
-                    ? "item active"
-                    : "item"
-                }
-              >
-                <Link to="/blogs">
-                  <p>Blogs</p>
+                <Link to="/order">
+                  <p>Orders</p>
                 </Link>
               </li>
             </ul>
