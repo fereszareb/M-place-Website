@@ -44,23 +44,18 @@ const Review = ({ data }) => {
             <div className="row">
               <div className="w-120">
                 <div className="vectorUser">
-                  <img src="https://picsum.photos/id/247/500/500" alt="" />
+                  <img src={item.pictture} alt="" />
                 </div>
               </div>
               <div className="col">
-                <div className="UserName">Salah ben Salah</div>
+                <div className="UserName">{item.client} </div>
                 <div className="star-rating px-3">
                   <ul className="list-inline">
-                    {showStars(5)}
+                    {showStars(item.stars)}
                     <li className="list-inline-item review"> 12 April 2021</li>
                   </ul>
                 </div>
-                <div className="commante">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Officiis deserunt dignissimos rerum, ipsam mollitia aperiam
-                  dolores dicta beatae alias, eum, labore ducimus necessitatibus
-                  atque libero quam possimus. Optio, placeat quaerat.
-                </div>
+                <div className="commante">{item.comment}</div>
               </div>
             </div>
           </div>
