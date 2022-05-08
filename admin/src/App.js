@@ -41,14 +41,8 @@ export default class Responsive extends Component {
           <Route exact path="/messages">
             <Template data="messages" />
           </Route>
-          <Route exact path="/reports">
-            <Template data="reports" />
-          </Route>
-          <Route exact path="/events">
-            <Template data="events" />
-          </Route>
-          <Route exact path="/blogs">
-            <Template data="blogs" />
+          <Route exact path="/order">
+            <Template data="order" />
           </Route>
           <Route exact path="/">
             <Template data="dashboard" />
