@@ -193,7 +193,8 @@ const Panier = ({ CalcnumberOfProduct }) => {
                                 <div
                                   className="product-img m-auto ms-md-0"
                                   style={{
-                                    backgroundImage: "url(" + product.img + ")",
+                                    backgroundImage:
+                                      "url(" + product.img[0] + ")",
                                   }}
                                 ></div>
                               </div>
