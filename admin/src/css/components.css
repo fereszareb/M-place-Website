@@ -116,3 +116,16 @@ a {
 .btn-blue:focus {
   box-shadow: none;
 }
+.sizeX125 .content-cardTemplate {
+  font-size: 1.5em;
+  text-align: center;
+  font-weight: 700;
+}
+.text-orange {
+  color: #f68511;
+  font-size: 1.7em;
+}
+.text-end-number {
+  text-align: right !important;
+  padding-top: 0.7em;
+}
