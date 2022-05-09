@@ -47,14 +47,17 @@ const Products = () => {
   const [products, setproducts] = useState([]);
   const retrieveproducts = async () => {
     const response = await api.get("/myProducts");
+    console.log(response.data);
     return response.data;
   };
   useEffect(() => {
     const getAllProducts = async () => {
       const allProducts = await retrieveproducts();
-      if (allProducts) setproducts(allProducts.products);
+      if (allProducts) setproducts(allProducts);
+      console.log("here");
       console.log(allProducts);
     };
+    console.log("start");
     getAllProducts();
   }, []);
   //end api getAllMyproduct
@@ -115,6 +118,20 @@ const Products = () => {
         AddClose();
       })
       .catch((err) => {
+        console.log({
+          data: {
+            name: newProduct.name,
+            SKU: newProduct.SKU,
+            marque: newProduct.marque,
+            description: newProduct.description,
+            short_description: newProduct.short_description,
+            category: newProduct.category,
+            filters: newProduct.filters,
+            product_imgs: newProduct.product_imgs,
+            reduction_percentage: parseInt(newProduct.reduction_percentage),
+            visibility: newProduct.visibility === "Visible",
+          },
+        });
         alert("Erreur");
       });
   };
@@ -152,7 +169,7 @@ const Products = () => {
           })
           .then((res) => {
             let newListeImages = newProduct.product_imgs;
-            newListeImages.push(res.data.data.imageUrl);
+            newListeImages.push(res.data.Url);
             setNewProduct((prevState) => ({
               ...prevState,
               product_imgs: newListeImages,
@@ -248,14 +265,14 @@ const Products = () => {
       let newFilter;
       if (e.target.name === "price") {
         newFilter = {
-          name: newProduct.name,
+          name: "XYZ",
           quantity: "",
           price: e.target.value,
           Variable_list: newjson,
         };
       } else {
         newFilter = {
-          name: newProduct.name,
+          name: "XYZ",
           quantity: e.target.value,
           price: "",
           Variable_list: newjson,
@@ -336,56 +353,59 @@ const Products = () => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product, key) => {
-                return (
-                  <tr>
-                    <td>
-                      <div className="data">
-                        <div
-                          className="picture rounded"
-                          style={{
-                            backgroundImage: "url(" + product.picture + ")",
-                          }}
-                        ></div>
-                      </div>
-                    </td>
-                    <td className="name">
-                      <div className="data">{product.name}</div>
-                    </td>
-                    <td>
-                      <div className="data">{product.price} TND</div>
-                    </td>
-                    <td>
-                      <div className="data">25</div>
-                    </td>
-                    <td>
-                      <div className="data">
-                        <div className="visibility visible">Visible</div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="data">12-05-2021 17:33:15</div>
-                    </td>
-                    <td>
-                      <div className="actions">
-                        <div className="action">
-                          <BiPlayCircle
-                            onClick={() => {
-                              openProduct(product);
-                            }}
-                          />
-                        </div>
-                        <div className="action" onClick={DeleteShow}>
-                          <BiTrashAlt />
-                        </div>
-                        <div className="action" onClick={ModifyShow}>
-                          <BiEdit />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+              {products.length > 0
+                ? products.map((product, key) => {
+                    return (
+                      <tr>
+                        <td>
+                          <div className="data">
+                            <div
+                              className="picture rounded"
+                              style={{
+                                backgroundImage:
+                                  "url(" + product.picture[0] + ")",
+                              }}
+                            ></div>
+                          </div>
+                        </td>
+                        <td className="name">
+                          <div className="data">{product.name}</div>
+                        </td>
+                        <td>
+                          <div className="data">{product.price} TND</div>
+                        </td>
+                        <td>
+                          <div className="data">25</div>
+                        </td>
+                        <td>
+                          <div className="data">
+                            <div className="visibility visible">Visible</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="data">12-05-2021 17:33:15</div>
+                        </td>
+                        <td>
+                          <div className="actions">
+                            <div className="action">
+                              <BiPlayCircle
+                                onClick={() => {
+                                  openProduct(product);
+                                }}
+                              />
+                            </div>
+                            <div className="action" onClick={DeleteShow}>
+                              <BiTrashAlt />
+                            </div>
+                            <div className="action" onClick={ModifyShow}>
+                              <BiEdit />
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                : ""}
             </tbody>
           </table>
         </div>
