@@ -146,7 +146,7 @@ const Chat = () => {
     if (currentMessage !== "") {
       const messageData = {
         room: room,
-        author: "client",
+        author: localStorage.getItem("access_token"),
         message: currentMessage,
         time: convertDate(new Date().toISOString()),
       };
@@ -161,28 +161,33 @@ const Chat = () => {
   );
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      console.log(data);
-      setMessageList((list) => [...list, data]);
+      setMessageList((list) => [
+        ...list,
+        {
+          isUser: true,
+          message: data.message,
+          time: data.time,
+        },
+      ]);
       sound.play();
     });
   }, [socket]);
 
   const [UserToChat, setUserToChat] = useState({});
   const changeUser = (item) => {
-    if (item.message[0].roomId !== room) {
+    if (item.id !== room) {
       setshowCharge(true);
       socket.emit("leave_room", room);
-      setRoom(item.message[0].roomId);
+      setRoom(item.id);
       if (item.user.TypeUser === 1) {
         setUserToChat(item.user.user);
       }
       if (item.user.TypeUser === 0) {
-        setUserToChat(item.otherUser.user);
+        setUserToChat(item.user.user);
       }
-      console.log(UserToChat);
-      getChatConversation(item.message[0].roomId);
+      getChatConversation(item.id);
 
-      socket.emit("join_room", item.message[0].roomId);
+      socket.emit("join_room", item.id);
       setshowCharge(false);
     }
   };
@@ -191,22 +196,18 @@ const Chat = () => {
       let newConversation = [];
       for (var i = 0; i < res.data.length; i++) {
         newConversation.push({
-          author: res.data[i].fromId,
+          isUser: res.data[i].isUser1,
           message: res.data[i].content,
           time: convertDate(res.data[i].createdAt),
         });
       }
-      console.log(res.data);
-      console.log(newConversation);
       setMessageList((list) => newConversation);
     });
   };
   //begin api getAllConversationRooms
   const [data, setData] = useState([]);
   const retrieveData = async () => {
-    const response = await api.post("/room/disc", {
-      id: "6229e096223ecaaf508f186c",
-    });
+    const response = await api.get("/room/disc");
     console.log(response.data);
     return response.data;
   };
@@ -227,11 +228,7 @@ const Chat = () => {
             {data.map((item, key) => {
               return (
                 <li
-                  className={
-                    item.message[0].roomId === room
-                      ? "d-flex bg-grey"
-                      : "d-flex"
-                  }
+                  className={item.id === room ? "d-flex bg-grey" : "d-flex"}
                   key={key}
                   name="djdj"
                   onClick={() => {
@@ -241,11 +238,11 @@ const Chat = () => {
                   <div
                     className="chatLeftPicture d-felx"
                     style={{
-                      backgroundImage: "url(" + item.user.user.logo_url + ")",
+                      backgroundImage: "url(" + item.user.user.img + ")",
                     }}
                   ></div>
                   <div className="chatLeftNameUser d-flex">
-                    {item.user.user.company_name}
+                    {item.user.user.name}
                   </div>
                 </li>
               );
@@ -271,23 +268,23 @@ const Chat = () => {
                   <div
                     className="chatRightPicture d-felx"
                     style={{
-                      backgroundImage: "url(" + UserToChat.logo_url + ")",
+                      backgroundImage: "url(" + UserToChat.img + ")",
                     }}
                   ></div>
                   <div className="chatRightNameUser d-flex">
-                    {UserToChat.company_name}
+                    {UserToChat.name}
                   </div>
                 </div>
               </div>
               <ScrollToBottom className="chatBox">
                 {messageList.map((messageContent) => {
-                  return messageContent.author === UserToChat._id ? (
+                  return messageContent.isUser === true ? (
                     <div className="receiveMessage mb-3">
                       <div className="d-flex">
                         <div
                           className="chatboxPicture d-felx"
                           style={{
-                            backgroundImage: "url(" + UserToChat.logo_url + ")",
+                            backgroundImage: "url(" + UserToChat.img + ")",
                           }}
                         ></div>
                         <div className="d-flex MessageDisplay">
