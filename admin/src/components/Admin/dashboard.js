@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import { FaUserAlt, FaBox, FaShoppingCart } from "react-icons/fa";
 import {
   PieChart,
   Pie,
@@ -31,6 +31,68 @@ const DashboardAdmin = () => {
           </li>
         </ol>
       </nav>
+      <div className="row sizeX125">
+        <div className="col-12 col-md-6 col-lg-3">
+          <div className="cardTemplate shadow-sm">
+            <div className="title-cardTemplate">
+              <h1 className="text-center">Nombre of ProductOwners</h1>
+            </div>
+            <div className="content-cardTemplate">
+              <div className="row">
+                <div className="col-6 text-orange">
+                  <FaUserAlt />
+                </div>
+                <div className="col-6 text-end-number">3</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-12 col-md-6 col-lg-3">
+          <div className="cardTemplate shadow-sm">
+            <div className="title-cardTemplate">
+              <h1 className="text-center">Nombre of Clients</h1>
+            </div>
+            <div className="content-cardTemplate">
+              <div className="row">
+                <div className="col-6 text-orange">
+                  <FaUserAlt />
+                </div>
+                <div className="col-6 text-end-number">6</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-12 col-md-6 col-lg-3">
+          <div className="cardTemplate shadow-sm">
+            <div className="title-cardTemplate">
+              <h1 className="text-center">Products available</h1>
+            </div>
+            <div className="content-cardTemplate">
+              <div className="row">
+                <div className="col-6 text-orange">
+                  <FaShoppingCart />
+                </div>
+                <div className="col-6 text-end-number">4</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-12 col-md-6 col-lg-3">
+          <div className="cardTemplate shadow-sm">
+            <div className="title-cardTemplate">
+              <h1 className="text-center">Ordars Today</h1>
+            </div>
+            <div className="content-cardTemplate">
+              <div className="row">
+                <div className="col-6 text-orange">
+                  <FaBox />
+                </div>
+                <div className="col-6 text-end-number">2</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="row">
         <div className="col-12 col-md-6">
           <div className="cardTemplate shadow-sm">
