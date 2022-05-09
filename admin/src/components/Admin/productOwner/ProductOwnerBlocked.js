@@ -167,9 +167,6 @@ const ProductOwnerBlocked = () => {
                   <div className="data">Email</div>
                 </th>
                 <th>
-                  <div className="data">Pack</div>
-                </th>
-                <th>
                   <div className="data">Creation date</div>
                 </th>
                 <th>
@@ -197,7 +194,7 @@ const ProductOwnerBlocked = () => {
                     <td>
                       <div className="data">{PO.company_email}</div>
                     </td>
-                    {findPack(PO.pack)}
+
                     <td>
                       <div className="data">{convertDate(PO.createdAt)}</div>
                     </td>
@@ -263,11 +260,11 @@ const ProductOwnerBlocked = () => {
                 <tbody>
                   <tr>
                     <th>First Name </th>
-                    <td>{POConsult.firstName}</td>
+                    <td>{POConsult.owner_firstname}</td>
                   </tr>
                   <tr>
                     <th>Last Name </th>
-                    <td>{POConsult.lastName}</td>
+                    <td>{POConsult.owner_lastname}</td>
                   </tr>
                   <tr>
                     <th>Email </th>
@@ -340,8 +337,13 @@ const ProductOwnerBlocked = () => {
             </div>
           </div>
           <div className="filesDisplay text-center">
-            <h2>Files</h2>
+            <div className="m-2">
+              <b>Owner Id Card</b>
+            </div>
             <img className="m-auto" src={POConsult.owner_ID_type} alt="" />
+            <div className="m-2">
+              <b>Owner Tax Id Card</b>
+            </div>
             <img className="m-auto" src={POConsult.tax_ID_card} alt="" />
           </div>
         </Modal.Body>
