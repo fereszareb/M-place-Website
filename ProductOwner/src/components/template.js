@@ -99,13 +99,13 @@ export default class Template extends Component {
 
               <li
                 className={
-                  window.location.pathname.split("/")[1] === "events"
+                  window.location.pathname.split("/")[1] === "orders"
                     ? "item active"
                     : "item"
                 }
               >
-                <Link to="/events">
-                  <p>Events</p>
+                <Link to="/orders">
+                  <p>Orders</p>
                 </Link>
               </li>
 
