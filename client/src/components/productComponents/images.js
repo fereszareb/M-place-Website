@@ -18,7 +18,7 @@ const ImagesProduct = ({ listeImage }) => {
           {listeImage.map((image, key) => {
             return (
               <div key={key}>
-                <img alt="" src={image} />
+                <img className="w-100" alt="" src={image} />
               </div>
             );
           })}
