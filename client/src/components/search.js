@@ -251,13 +251,14 @@ const Search = ({ CalcnumberOfProduct }) => {
                               <div
                                 className="position-absolute imgProduct"
                                 style={{
-                                  backgroundImage: "url(" + item.picture + ")",
+                                  backgroundImage:
+                                    "url(" + item.picture[0] + ")",
                                 }}
                               ></div>
                             </Link>
                           </div>
                           <div className="thumb-content">
-                            <Link to={"/Product/" + item.sku}>
+                            <Link to={"/Product/" + item.SKU}>
                               <p className="text-dark">{item.name}</p>
                             </Link>
                             <p className="item-price">
