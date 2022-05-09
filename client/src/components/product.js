@@ -5,6 +5,7 @@ import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 import { Tab, ListGroup } from "react-bootstrap";
 import ImagesProduct from "./productComponents/images";
 import Review from "./productComponents/review";
+import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "./../config.service";
 function showStars(stars) {
@@ -62,6 +63,7 @@ var jsonRating = [
 ];
 
 const Product = () => {
+  const history = useHistory();
   const { product } = useParams();
   const [ratings, setRatings] = useState([]);
   const [data, setData] = useState({
@@ -90,10 +92,14 @@ const Product = () => {
     const response = await api.get("/ratings/SKU/" + product);
     return response.data;
   };
+  const [IDPublisher, setIDPublisher] = useState("");
   useEffect(() => {
     const getData = async () => {
       const dataOfProduct = await retrieveProduct();
-      if (dataOfProduct) setData(dataOfProduct);
+      if (dataOfProduct) {
+        setData(dataOfProduct);
+        setIDPublisher(dataOfProduct.PostedBy.id);
+      }
     };
     const getRating = async () => {
       const dataOfRating = await retrieveRating();
@@ -104,11 +110,36 @@ const Product = () => {
   }, []);
   //end api getAllByCateg
 
+  const createRoom = () => {
+    api.post("/room", { user: IDPublisher }).then((res) => {
+      history.push("/chat");
+    });
+  };
   return (
-    <div className="container mt-5">
-      <div className="cart-product">
-        <div className="row">
-          <div className="col-12 col-lg-5">
+    <div className="container mt-5 mb-5">
+      <div className="cart-product p-0 p-md-5 pt-md-0">
+        <div className="text-end pt-2 pb-2">
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-primary mt-0">
+              Report
+            </button>
+            <button type="button" class="btn btn-primary mt-0 me-1 mx-1">
+              {data.PostedBy.name}
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary mt-0 me-1"
+              onClick={createRoom}
+            >
+              Message
+            </button>
+            <button type="button" class="btn btn-primary mt-0">
+              Add to panier
+            </button>
+          </div>
+        </div>
+        <div className="row mt-2">
+          <div className="col-12 col-lg-5 pe-4 px-4 p-sm-0">
             <ImagesProduct listeImage={data.picture} />
           </div>
           <div className="col-12 col-lg-7">
@@ -126,9 +157,23 @@ const Product = () => {
                     <div className="col">SKU : {data.SKU}</div>
                   </div>
                 </div>
-                <div className="priceProduct">
-                  {data.price} <span className="orange">TND</span>
-                </div>
+                {data.reduction_percentage > 0 ? (
+                  <div className="priceProduct">
+                    {(data.price * (100 - data.reduction_percentage)) / 100}{" "}
+                    <span className="orange">TND</span>
+                    <span>
+                      {" "}
+                      <small className="text-muted mx-2">
+                        <strike>{data.price} TND</strike>
+                      </small>
+                    </span>
+                  </div>
+                ) : (
+                  <div className="priceProduct">
+                    {data.price} <span className="orange">TND</span>
+                  </div>
+                )}
+
                 <div className="selection mt-3">
                   {data.filters
                     ? data.filters.map((variable, key) => {
