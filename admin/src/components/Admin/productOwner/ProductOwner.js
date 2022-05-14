@@ -416,7 +416,7 @@ const ProductOwner = () => {
         <Modal.Header closeButton>
           <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>You wanna really Delete this ProductOwner?</Modal.Body>
+        <Modal.Body>Do you want to Delete this ProductOwner?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={DeleteClose}>
             No
@@ -443,7 +443,7 @@ const ProductOwner = () => {
         <Modal.Header closeButton>
           <Modal.Title>Block</Modal.Title>
         </Modal.Header>
-        <Modal.Body>You wanna really block this ProductOwner ?</Modal.Body>
+        <Modal.Body>Do you want to block this ProductOwner ?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={BlockClose}>
             No
