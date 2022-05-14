@@ -405,7 +405,7 @@ const ProductOwnerNotVerified = () => {
         <Modal.Header closeButton>
           <Modal.Title>Refuse</Modal.Title>
         </Modal.Header>
-        <Modal.Body>You wanna really refuse ?</Modal.Body>
+        <Modal.Body>Do you want to refuse this ProductOwner ?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={RefuseClose}>
             No
@@ -432,7 +432,7 @@ const ProductOwnerNotVerified = () => {
         <Modal.Header closeButton>
           <Modal.Title>Send appointment</Modal.Title>
         </Modal.Header>
-        <Modal.Body>You wanna really send appointment ?</Modal.Body>
+        <Modal.Body>Do you want to send appointment ?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={RDVClose}>
             No
@@ -457,7 +457,7 @@ const ProductOwnerNotVerified = () => {
         <Modal.Header closeButton>
           <Modal.Title>Accept</Modal.Title>
         </Modal.Header>
-        <Modal.Body>You wanna really accpet ?</Modal.Body>
+        <Modal.Body>Do you want to accpet this ProductOwner ?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={AcceptClose}>
             No
