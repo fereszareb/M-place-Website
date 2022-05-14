@@ -261,7 +261,7 @@ const Users = () => {
         <Modal.Header closeButton>
           <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>You wanna really delete ?</Modal.Body>
+        <Modal.Body>Do you want to delete this user ?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={DeleteClose}>
             No
