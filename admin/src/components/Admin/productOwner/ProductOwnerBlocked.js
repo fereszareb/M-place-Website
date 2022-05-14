@@ -363,7 +363,7 @@ const ProductOwnerBlocked = () => {
         <Modal.Header closeButton>
           <Modal.Title>Unblock</Modal.Title>
         </Modal.Header>
-        <Modal.Body>You wanna really unblock ?</Modal.Body>
+        <Modal.Body>Do you want to unblock this ProductOwner ?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={DeblockClose}>
             No
