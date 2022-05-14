@@ -161,3 +161,8 @@
     left: -11px;
   }
 }
+.item-name {
+  display: flex;
+  height: 100px;
+  padding: inherit;
+}
