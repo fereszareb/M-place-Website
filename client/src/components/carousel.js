@@ -105,17 +105,18 @@ export default class Responsive extends Component {
         },
       ],
     };
+    const data = this.props.data;
     return (
       <div>
         <h2 className="titleCarousel">
           {this.props.name} <b>Products</b>
         </h2>
         <Slider {...settings}>
-          {this.props.data.map((item, key) => {
+          {data.map((item, key) => {
             return (
               <div className="itemCarousel" key={key}>
                 <div className="thumb-wrapper">
-                  <div className="img-box">
+                  <div className="img-box h-auto">
                     <Link to={"Product/" + item.SKU}>
                       <img
                         src={item.picture}
@@ -127,7 +128,7 @@ export default class Responsive extends Component {
                   </div>
                   <div className="thumb-content">
                     <Link className="item-name" to={"Product/" + item.SKU}>
-                      <p className="text-dark">{item.name}</p>
+                      <p className="text-dark w-100">{item.name}</p>
                     </Link>
                     <p className="item-price">
                       {item.reduction == 0 ? (
